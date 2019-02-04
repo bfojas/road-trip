@@ -3,7 +3,9 @@ create table users (
     name text,
     email text,
     profile_image text,
-    bio text
+    bio text,
+    username varchar,
+    hash_pw varchar
 )
 
 create table trips (
@@ -13,8 +15,6 @@ create table trips (
     name text,
     images text[]
 )
-
-
 
 create table stops (
     id serial primary key,
