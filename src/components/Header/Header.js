@@ -26,7 +26,7 @@ class Header extends Component {
                 toggle: !prevState.toggle
             }
         })
-
+    }
     getUserFromServer() {
         axios.get("/auth/user-data").then(response => {
             const { updateUserData } = this.props;
@@ -40,7 +40,6 @@ class Header extends Component {
             const { updateUserData } = this.props;
             if (!response.data) { updateUserData(null); }
         });
->>>>>>> 26dfdccec53b212e730f1029e55e990090f0f80a
     }
 
     render(){
