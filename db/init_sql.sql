@@ -4,8 +4,7 @@ create table users (
     email text,
     profile_image text,
     bio text,
-    username varchar,
-    hash_pw varchar
+    password varchar
 )
 
 create table trips (
