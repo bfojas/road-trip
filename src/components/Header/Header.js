@@ -60,7 +60,7 @@ class Header extends Component {
                 <div className="header-nav"
                 style={{display: navHide}}>
                     <ul>
-                        <li>Plan a Trip</li>
+                        <li onClick={()=>this.props.history.push('/map')}>Plan a Trip</li>
                         <li>Explore</li>
                         <li>Sign Up</li>
                     </ul>
