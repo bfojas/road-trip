@@ -4,7 +4,21 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
 class Header extends Component {
+    constructor(props){
+        super(props)
+        this.state={
+            toggle: "hide"
+        }
+    }    
 
+    toggleMenu = () =>{
+        console.log('toggle')
+        this.setState((prevState) => {
+            return {
+                toggle: !prevState.toggle
+            }
+        })
+    }
 
     render(){
         let navHide = "block"
@@ -34,11 +48,16 @@ class Header extends Component {
                         e.target.src="images/unavailable.jpg"}}
                     />
                 </div>
-                <div className="header-menu">
+                <div className="header-menu" onClick={()=>this.toggleMenu()}>
                     <div className="header-burger"></div>
                     <div className="header-burger"></div>
                     <div className="header-burger"></div>
                 </div>
+                <ul className={this.state.toggle?"hide-menu": "show-menu"}>
+                        <li>Plan a Trip</li>
+                        <li>Explore</li>
+                        <li>Sign Up</li>
+                </ul>
             </div>
         )
     }
@@ -47,6 +66,7 @@ class Header extends Component {
 const mapStateToProps = (state) =>{
     return{
         user: state.user
+
     }
 }
 

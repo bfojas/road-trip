@@ -59,4 +59,19 @@
         }
     }
 
+    .hide-menu {
+        display: none;
+    }
+
+    .show-menu {
+        position: absolute;
+        right: 0px;
+        top: 75px;
+        background-color: yellow;
+        margin: 0;
+        height: calc(100vh-75px);
+        width: 200px;
+        
+    }
+
 }
