@@ -52,7 +52,8 @@ class Header extends Component {
 
         return (
             <div className="header-container" 
-            style={{backgroundColor: headerColor}}>
+            style={{backgroundColor: headerColor}}
+            >
                 <div className="header-icon">
                 Header
                 </div>
@@ -75,11 +76,13 @@ class Header extends Component {
                     <div className="header-burger"></div>
                     <div className="header-burger"></div>
                 </div>
-                <ul className={this.state.toggle?"hide-menu": "show-menu"}>
+                <div className={this.state.toggle?"hide-menu": "show-menu"}>
+                    <ul>
                         <li>Plan a Trip</li>
                         <li>Explore</li>
                         <li>Sign Up</li>
-                </ul>
+                    </ul>
+                </div>
             </div>
         );
     }
