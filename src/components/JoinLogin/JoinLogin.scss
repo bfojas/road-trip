@@ -1,3 +1,77 @@
+@import "../../base";
+
 .login-container {
+    display: flex;
     width: 100%;
+    height: calc(100vh - 75px);
+    font-family: $heading-font;
+    font-size: 17px;
+    line-height: 25px;
+
+    section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 50%;
+    }
+
+    .login-form-wrapper {
+        background-image: linear-gradient(rgba(41, 85, 217, 0.85), rgba(41, 85, 217, 0.85)), url("../../images/mountain-road.jpg");
+        background-size: cover;
+        background-position: bottom;
+    }
+
+    .login-title {
+        width: 70%;
+
+        h1 {
+            font-size: 35px;
+        }
+
+        p {
+            text-align: left;
+        }
+    }
+
+    .login-form {
+        width: 50%;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+
+            input {
+                font-family: $heading-font;
+                font-size: 14px;
+                padding: 13px 18px;
+                margin-bottom: 22px;
+                border-radius: 50px;
+                border: none;
+            }
+
+            input:focus {
+                outline:none;
+            }
+
+            button {
+                padding: 17px;
+                width: 70%;
+                margin: 0 auto;
+                color: #fff;
+                background-color: $light-blue;
+                font-family: $heading-font;
+                font-size: 16px;
+                font-weight: 700;
+                border: none;
+            }
+        }
+
+    }
 }

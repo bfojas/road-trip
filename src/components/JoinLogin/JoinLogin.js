@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import alertify from "alertifyjs";
+import "./JoinLogin.scss";
 
 class JoinLogin extends Component {
 
@@ -58,22 +59,30 @@ class JoinLogin extends Component {
 
         return (
             <div className="login-container">
-                <h1>{title}</h1>
-                {
-                    title === "REGISTER" ?
-                    <p>Create an account to start planning your next great adventure on the open road.</p> :
-                    <p>Welcome back. Login below to plan your next great adventure on the open road.</p>
-                }
-                <form onSubmit={title === "REGISTER" ? this.registerUser : this.loginUser}>
-                    { 
-                        title === "REGISTER" ?
-                        <input onChange={this.handleChange} name="name" value={name} placeholder="Full Name" required/>
-                        : null
-                    }
-                    <input onChange={this.handleChange} name="email" value={email} placeholder="Email Address" required/>
-                    <input type="password" onChange={this.handleChange} name="password" value={password} placeholder="Password" required/>
-                    <button type="submit">{title}</button>
-                </form>
+                <section>
+                    <div className="login-title">
+                        <h1>{title}</h1>
+                        {
+                            title === "REGISTER" ?
+                            <p>Create an account to start planning your next great adventure on the open road!</p> :
+                            <p>Welcome back! Login here to plan your next great adventure on the open road.</p>
+                        }
+                    </div>
+                </section>
+                <section className="login-form-wrapper">
+                    <div className="login-form">
+                        <form onSubmit={title === "REGISTER" ? this.registerUser : this.loginUser}>
+                            { 
+                                title === "REGISTER" ?
+                                <input onChange={this.handleChange} name="name" value={name} placeholder="Full Name" required/>
+                                : null
+                            }
+                            <input onChange={this.handleChange} name="email" value={email} placeholder="Email Address" required/>
+                            <input type="password" onChange={this.handleChange} name="password" value={password} placeholder="Password" required/>
+                            <button type="submit">{title === "REGISTER" ? "CREATE ACCOUNT" : "LOG ME IN"} <i className="fas fa-long-arrow-alt-right"></i></button>
+                        </form>
+                    </div>
+                </section>
             </div>
         );
     }

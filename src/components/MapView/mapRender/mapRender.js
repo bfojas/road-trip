@@ -23,7 +23,7 @@ class MapRender extends Component{
               googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_KEY}`,
               loadingElement: <div style={{ height: `400px` }} />,
               containerElement: <div style={{ width: `100%` }} />,
-              mapElement: <div style={{height: `600px`, width: `600px` }}  />,
+              mapElement: <div style={{height: `calc(100vh - 75px)`, width: `100vw` }}  />,
             }),
             withScriptjs,
             withGoogleMap,
@@ -52,10 +52,13 @@ class MapRender extends Component{
           )(props =>
             <GoogleMap
               defaultZoom={3}
+              // controlPosition={google.maps.ControlPosition.TOP_LEFT}
             //   defaultOptions={{styles : mapStyle}}
             >
               {props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers}/>}
+              
             </GoogleMap>
+            
           );
       return (
               <DirectionsComponent

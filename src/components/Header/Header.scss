@@ -1,8 +1,13 @@
+$menuWidth: 200px;
+$backgroundColor: #2955D9;
+
+
 .header-container{
+    background-color: $backgroundColor;
     display: flex;
+    overflow: hidden;
     justify-content: space-between;
     align-items: center;
-    // background-color: blue;
     width: 100%;
     height: 75px;
 
@@ -47,7 +52,6 @@
         height: 40px;
         width: 40px;
         margin-right: 5px;
-        background-color: red;
 
         .header-burger {
             position: relative;
@@ -58,17 +62,27 @@
     }
 
     .hide-menu {
-        display: none;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s linear;
+        overflow: hidden;
+        background-color: yellow;
+        margin: 0;
+        height: calc(100vh - 75px);
     }
 
     .show-menu {
+        background-color: lightgray;
+        overflow: hidden;
         position: absolute;
-        right: 0px;
+        visibility: visible;
+        opacity: 1;
+        left: calc(100vw  - #{$menuWidth});
         top: 75px;
-        background-color: yellow;
         margin: 0;
-        height: calc(100vh-75px);
-        width: 200px;
+        height: calc(100vh - 75px);
+        width: $menuWidth;
+        transition: .5s;
         
     }
 
