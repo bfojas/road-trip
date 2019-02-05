@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const massive = require('massive');
-const axios = require('axios');
 require("dotenv").config();
 const authController = require('./controllers/authController');
 
@@ -19,14 +18,11 @@ app.use(session({
     resave: false,
 }));
 
-//Error handler
-// app.use(function(err, req, res, next) {
-//     res.status(err.status || 500).json(err.message);
-// });
-
-//ENPOINTS
+//Auth endpoints
 app.post("/auth/register", authController.register);
 app.post("/auth/login", authController.login);
+app.get("/auth/user-data", authController.getUser);
+app.post("/auth/logout", authController.logout);
 
-const PORT = 4003;
+const PORT = 4000;
 app.listen(PORT, console.log(`Server listening on port ${PORT}`));

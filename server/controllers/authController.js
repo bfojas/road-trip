@@ -10,15 +10,16 @@ function validUser(user) {
 
 module.exports = {
 
-    register: (req, res, next) => {  
-        const { name, email, password } = req.body;   
+    register: (req, res) => {  
+		const { name, email, password } = req.body; 
+		//Validate email and pw sent in request body.  
         if (validUser(req.body)) {
             const dbInstance = req.app.get("db");
             const saltRounds = 12;
             //Check if user exists in db
             dbInstance.find_user_by_email([ email ]).then(users => {
                 if (!users[0]) {
-                    //Email not stored in db -> hash pw, insert user into db and set to session.
+                    //Is users is empty array, email not stored in db -> hash pw, create new user and set to session.
                     bcrypt.hash(password, saltRounds).then(hash => {
                         dbInstance.create_user([ name, email, hash ]).then(newUsers => {
                             const newUser = newUsers[0];
@@ -29,32 +30,36 @@ module.exports = {
                                 profile_image: newUser.profile_image,
                                 bio: newUser.bio
                             };
-                            res.json(req.session.user);
+                            res.send(req.session.user);
                         })
                     })
-                } else {
-                    next(new Error("An account already exists with this email."));
+				} else {
+					//If user exists in db, send error.
+					res.send({errorMessage: "An account already exists with this email"});
                 }
             })
             .catch(error => {
                 res.status(500).send({errorMessage: "Error in register method"});
-                console.log(error);
+                console.error(error);
             })
-        } else {
-            next(new Error("Invalid username or password"));
+		} else {
+			//If email or password are invalid, send error.
+			res.send({errorMessage: "Invalid username or password"});
         }
     },
 
-    login: (req, res, next) => {
+    login: (req, res) => {
         const { email, password } = req.body;
+		//Validate email and pw sent in request body.  
         if (validUser(req.body)) {
 			const dbInstance = req.app.get("db");
 			//Check for user in db, compare hashed pw, set user to session if match.
             dbInstance.find_user_by_email([ email ]).then(users => {
                 if (users.length) {
-                    bcrypt.compare(password, users[0].password).then(result => {
+					const user = users[0];
+					//compare returns boolean. 
+                    bcrypt.compare(password, user.password).then(result => {
                         if (result) {
-							const user = users[0]; 
 							req.session.user = {
                                 id: user.id,
                                 name: user.name,
@@ -63,18 +68,35 @@ module.exports = {
                                 bio: user.bio
 							};
 							console.log("---SESSION", req.session);
-                            res.json(result);
+                            res.send(req.session.user);
                         } else {
-                            next(new Error("Invalid username or password"));
+							//If bcrypt compare returns false, send error.
+							res.send({errorMessage: "Invalid username or password"});
                         }      
                     })
-                } else {
-                    next(new Error("Invalid username or password"));
+				} else {
+					//If no matching user in db, send error.
+					res.send({errorMessage: "Invalid username or password"});
                 }
+			})
+			.catch(error => {
+                res.status(500).send({errorMessage: "Error in login method"});
+                console.error(error);
             })
-        } else { 
-            next(new Error("Invalid username or password"));
+		} 
+		//If email or password are invalid, send error.		
+		else { 
+			res.send({errorMessage: "Invalid username or password"});
         }
+    },
+
+    getUser: (req, res) => {
+        res.send({ user: req.session.user });
+    },
+
+    logout: (req, res) => {
+        req.session.destroy();
+        res.send();
     }
 
 }
