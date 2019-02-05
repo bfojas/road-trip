@@ -8,7 +8,7 @@ import { updateUserData } from '../../ducks/reducer';
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             toggle: "hide"
         }
         this.getUserFromServer = this.getUserFromServer.bind(this);
@@ -19,14 +19,14 @@ class Header extends Component {
         this.getUserFromServer();
     }
 
-    toggleMenu = () =>{
-        console.log('toggle')
+    toggleMenu = () => {
         this.setState((prevState) => {
             return {
                 toggle: !prevState.toggle
             }
         })
     }
+
     getUserFromServer() {
         axios.get("/auth/user-data").then(response => {
             const { updateUserData } = this.props;
@@ -76,9 +76,9 @@ class Header extends Component {
                     <div className="header-burger"></div>
                 </div>
                 <ul className={this.state.toggle?"hide-menu": "show-menu"}>
-                        <li>Plan a Trip</li>
-                        <li>Explore</li>
-                        <li>Sign Up</li>
+                    <li>Plan a Trip</li>
+                    <li>Explore</li>
+                    <li>Sign Up</li>
                 </ul>
             </div>
         );

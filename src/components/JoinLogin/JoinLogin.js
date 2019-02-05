@@ -72,7 +72,7 @@ class JoinLogin extends Component {
                     }
                     <input onChange={this.handleChange} name="email" value={email} placeholder="Email Address" required/>
                     <input type="password" onChange={this.handleChange} name="password" value={password} placeholder="Password" required/>
-                    <button type ="submit">{title}</button>
+                    <button type="submit">{title}</button>
                 </form>
             </div>
         );
