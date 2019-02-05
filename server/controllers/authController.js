@@ -49,12 +49,14 @@ module.exports = {
     },
 
     login: (req, res) => {
+        console.log(req.body);
         const { email, password } = req.body;
 		//Validate email and pw sent in request body.  
         if (validUser(req.body)) {
 			const dbInstance = req.app.get("db");
 			//Check for user in db, compare hashed pw, set user to session if match.
             dbInstance.find_user_by_email([ email ]).then(users => {
+                console.log(users);
                 if (users.length) {
 					const user = users[0];
 					//compare returns boolean. 
