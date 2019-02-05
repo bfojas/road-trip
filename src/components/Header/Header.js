@@ -1,10 +1,36 @@
-import './Header.scss'
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import './Header.scss';
+import React, { Component } from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { updateUserData } from '../../ducks/reducer';
 
 class Header extends Component {
 
+    constructor(props) {
+        super(props);
+        this.getUserFromServer = this.getUserFromServer.bind(this);
+        this.logout = this.logout.bind(this);
+    }
+
+    componentDidMount() {
+        this.getUserFromServer();
+    }
+
+    getUserFromServer() {
+        axios.get("/auth/user-data").then(response => {
+            const { updateUserData } = this.props;
+            updateUserData(response.data.user);
+      });
+    }
+
+    logout() {
+        axios.post("/auth/logout").then(response => {
+            console.log(response);
+            const { updateUserData } = this.props;
+            if (!response.data) { updateUserData(null); }
+        });
+    }
 
     render(){
         let navHide = "block"
@@ -14,7 +40,7 @@ class Header extends Component {
         if (this.props.match.path === '/')
         {}
 
-        return(
+        return (
             <div className="header-container" 
             style={{backgroundColor: headerColor}}>
                 <div className="header-icon">
@@ -40,14 +66,14 @@ class Header extends Component {
                     <div className="header-burger"></div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
 const mapStateToProps = (state) =>{
-    return{
+    return {
         user: state.user
     }
 }
 
-export default withRouter(connect(mapStateToProps)(Header))
+export default withRouter(connect(mapStateToProps, { updateUserData })(Header));

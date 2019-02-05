@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 import alertify from "alertifyjs";
 
 class JoinLogin extends Component {
@@ -9,7 +10,8 @@ class JoinLogin extends Component {
         this.state = {
             name: "",
             email: "",
-            password: ""
+            password: "",
+            redirect: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.registerUser = this.registerUser.bind(this);
@@ -27,9 +29,11 @@ class JoinLogin extends Component {
         axios.post("/auth/register", newUser).then(response => {
             if (response.data.errorMessage) {
                 alertify.error(response.data.errorMessage);
+            } else {
+                alertify.success("Success! Welcome to Road Trip");
+                this.setState({ redirect: true })
             }
         })
-
     }
 
     loginUser(e) {
@@ -39,15 +43,21 @@ class JoinLogin extends Component {
         axios.post("/auth/login", user).then(response => {
             if (response.data.errorMessage) {
                 alertify.error(response.data.errorMessage);                
+            } else {
+                alertify.success("You have successfully logged in");
+                this.setState({ redirect: true })
             }
         })
     }
 
     render() {
-        const { name, email, password, errorMessage } = this.state;
+        const { name, email, password, redirect } = this.state;
         const title = this.props.match.path.replace(/^./, "").toUpperCase();
+
+        if (redirect) { return <Redirect to="/map" />; }
+
         return (
-            <div>
+            <div className="login-container">
                 <h1>{title}</h1>
                 {
                     title === "REGISTER" ?
@@ -64,7 +74,6 @@ class JoinLogin extends Component {
                     <input type="password" onChange={this.handleChange} name="password" value={password} placeholder="Password" required/>
                     <button type ="submit">{title}</button>
                 </form>
-                <p>{ errorMessage ? errorMessage : null }</p>
             </div>
         );
     }
