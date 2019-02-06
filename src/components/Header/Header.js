@@ -2,8 +2,10 @@ import './Header.scss';
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { updateUserData } from '../../ducks/reducer';
+import logo from "../../images/logo.png";
+import logoDark from "../../images/logo-dark.png";
 
 class Header extends Component {
     constructor(props) {
@@ -42,41 +44,41 @@ class Header extends Component {
         });
     }
 
-    render(){
-        let navHide = "block"
-        let profileHide = "none"
-        let headerColor = '#2955D9'
-        console.log("match",this.props.match)
-        if (this.props.match.path === '/')
-        {}
+    render() {
+        const path = this.props.location.pathname.replace(/^./, "");
+        const headerStyles = (path === "login" || path === "register") ? 
+            { backgroundColor: "transparent", position: "fixed" } : null
+        const showHeaderNav = path === "" ? { display: "flex" } : { display: "none" };
+        const logoToDisplay = path === "login" || path === "register" ? logoDark : logo;
+
+        // let profileHide = "none"
 
         return (
-            <div className="header-container" 
-            style={{backgroundColor: headerColor}}
-            >
-                <div className="header-icon">
-                Header
+            <div className="header-container" style={headerStyles}>
+                <div className="logo">
+                    <Link to="/"><img src={logoToDisplay} /></Link>
                 </div>
-                <div className="header-nav"
-                style={{display: navHide}}>
+                <div className="header-nav" style={showHeaderNav}>
                     <ul>
-                        <li onClick={()=>this.props.history.push('/map')}>Plan a Trip</li>
-                        <li>Explore</li>
-                        <li>Sign Up</li>
+                        {/* <li onClick={() => this.props.history.push('/map')}>Plan a Trip</li> */}
+                        <Link to="/map"><li>Plan a Trip</li></Link>
+                        <Link to="/map"><li>Explore</li></Link>
+                        <Link to="/register"><li>Sign Up</li></Link>
                     </ul>
                 </div>
-                <div className="header-user" style={{display: profileHide}}>
-                    <img src="" alt="user-profile"
+                <div className="profile-image">
+                    <div className="alert-circle">4</div>
+                    {/* <img src="" alt="user-profile"
                     onError={(e)=>{e.target.onerror = null; 
                         e.target.src="images/unavailable.jpg"}}
-                    />
+                    /> */}
                 </div>
                 <div className="header-menu" onClick={()=>this.toggleMenu()}>
                     <div className="header-burger"></div>
                     <div className="header-burger"></div>
                     <div className="header-burger"></div>
                 </div>
-                <div className={this.state.toggle?"hide-menu": "show-menu"}>
+                <div className={this.state.toggle ? "hide-menu" : "show-menu"}>
                     <ul>
                         <li>Plan a Trip</li>
                         <li>Explore</li>

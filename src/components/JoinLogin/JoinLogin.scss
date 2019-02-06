@@ -14,6 +14,7 @@
         align-items: center;
         justify-content: center;
         width: 50%;
+        height: 100vh;
     }
 
     .login-form-wrapper {
@@ -24,6 +25,7 @@
 
     .login-title {
         width: 70%;
+        color: $dark;
 
         h1 {
             font-size: 35px;
@@ -36,11 +38,11 @@
 
     .login-form {
         width: 50%;
-        height: 300px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        margin-top: 50px;
 
         form {
             display: flex;
@@ -49,6 +51,7 @@
 
             input {
                 font-family: $heading-font;
+                color: $text-light;
                 font-size: 14px;
                 padding: 13px 18px;
                 margin-bottom: 22px;

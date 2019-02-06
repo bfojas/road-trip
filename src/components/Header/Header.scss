@@ -1,8 +1,9 @@
+@import "../../base";
 $menuWidth: 200px;
 $backgroundColor: #2955D9;
 
 
-.header-container{
+.header-container {
     background-color: $backgroundColor;
     display: flex;
     overflow: hidden;
@@ -11,34 +12,42 @@ $backgroundColor: #2955D9;
     width: 100%;
     height: 75px;
 
-    .header-icon {
+    .logo {
         position: absolute;
-        // left: 10px;
         margin-left: 5px;
         height: 60px;
         width: 60px;
         display: flex;
-        justify-content: center;
         align-items: center;
-        background-color: black;
+
+        img {
+            width: 65%;
+        }
+
     }
 
     .header-nav {
         position: absolute;
         right: 85px;
-        margin: 0;
-        width: 25%;
         height: 75px;
         display: flex;
         align-items: center;
-        justify-content: center;
+        font-family: $heading-font;
+        color: $text-light;
+        // display: none;
         
         ul {
             list-style-type: none;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
 
+            a {
+                text-decoration: none;
+                color: $text-light;
+            }
+
+            li {
+                margin: 0 15px;
+            }
         }
     }
 
@@ -47,17 +56,49 @@ $backgroundColor: #2955D9;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        align-items: center;
+        align-items: flex-end;
         right: 0;
         height: 40px;
         width: 40px;
-        margin-right: 5px;
+        margin-right: 30px;
 
         .header-burger {
             position: relative;
             width: 80%;
-            height: 15%;
+            height: 8%;
             background-color: white;
+        }
+
+        .header-burger:first-child {
+            width: 50%;
+        }
+    }
+
+    .profile-image {
+        position: absolute;
+        right: 90px;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.7);
+        background-image: url("../../images/profile-image.jpg");
+        background-size: cover;
+        box-sizing: border-box;
+
+        .alert-circle {
+            width: 17px;
+            height: 17px;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: -7px;
+            right: -3px;
+            border-radius: 50%;
+            background-color: red;
+            color: #fff;
+            font-family: $heading-font;
+            font-size: 12px;
         }
     }
 
