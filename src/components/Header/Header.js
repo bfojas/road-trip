@@ -1,18 +1,16 @@
-import './Header.scss';
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { updateUserData } from '../../ducks/reducer';
+import Sidebar from "./Sidebar";
 import logo from "../../images/logo.png";
 import logoDark from "../../images/logo-dark.png";
+import "./Header.scss";
 
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            toggle: "hide"
-        }
         this.getUserFromServer = this.getUserFromServer.bind(this);
         this.logout = this.logout.bind(this);
     }
@@ -51,8 +49,6 @@ class Header extends Component {
         const showHeaderNav = path === "" ? { display: "flex" } : { display: "none" };
         const logoToDisplay = path === "login" || path === "register" ? logoDark : logo;
 
-        // let profileHide = "none"
-
         return (
             <div className="header-container" style={headerStyles}>
                 <div className="logo">
@@ -60,7 +56,6 @@ class Header extends Component {
                 </div>
                 <div className="header-nav" style={showHeaderNav}>
                     <ul>
-                        {/* <li onClick={() => this.props.history.push('/map')}>Plan a Trip</li> */}
                         <Link to="/map"><li>Plan a Trip</li></Link>
                         <Link to="/map"><li>Explore</li></Link>
                         <Link to="/register"><li>Sign Up</li></Link>
@@ -68,23 +63,8 @@ class Header extends Component {
                 </div>
                 <div className="profile-image">
                     <div className="alert-circle">4</div>
-                    {/* <img src="" alt="user-profile"
-                    onError={(e)=>{e.target.onerror = null; 
-                        e.target.src="images/unavailable.jpg"}}
-                    /> */}
                 </div>
-                <div className="header-menu" onClick={()=>this.toggleMenu()}>
-                    <div className="header-burger"></div>
-                    <div className="header-burger"></div>
-                    <div className="header-burger"></div>
-                </div>
-                <div className={this.state.toggle ? "hide-menu" : "show-menu"}>
-                    <ul>
-                        <li>Plan a Trip</li>
-                        <li>Explore</li>
-                        <li>Sign Up</li>
-                    </ul>
-                </div>
+                <Sidebar />
             </div>
         );
     }
