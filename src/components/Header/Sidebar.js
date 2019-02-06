@@ -10,7 +10,7 @@ export default function Sidebar(props) {
             <Link to="/map" className="menu-item" >
                 Start a new trip
             </Link>
-            <Link to="/" className="menu-item" >
+            <Link to="/profile" className="menu-item" >
                 Profile
             </Link>
             <Link to="/" className="menu-item" >
