@@ -15,6 +15,27 @@ export default function Homepage(props) {
             <section>
             </section>
             <div className="homepage-banner"></div>
+            <div className="featured-trips-container">
+                <div className="featured-trip" style={{backgroundImage: "url('https://images.pexels.com/photos/41004/alaska-wilderness-sky-aurora-borealis-41004.jpeg')"}}>
+                    <i className="fas fa-bookmark"></i>
+                    <div>
+                        <h3>ALASKA</h3>
+                    </div>
+                </div>
+                <div className="featured-trip" style={{backgroundImage: "url('https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg')"}}>
+                    <i className="fas fa-bookmark"></i>
+                    <div>
+                        <h3>YOSEMITE</h3>
+                    </div>
+                </div>
+                <div className="featured-trip" style={{backgroundImage: "url('https://images.pexels.com/photos/723496/pexels-photo-723496.jpeg')"}}>
+                    <i className="fas fa-bookmark"></i>
+                    <div>
+                        <h3>CANADA</h3>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
+
