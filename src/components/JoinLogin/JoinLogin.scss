@@ -64,15 +64,8 @@
             }
 
             button {
-                padding: 17px;
+                @extend %button;
                 width: 70%;
-                margin: 0 auto;
-                color: #fff;
-                background-color: $light-blue;
-                font-family: $heading-font;
-                font-size: 16px;
-                font-weight: 700;
-                border: none;
             }
         }
 

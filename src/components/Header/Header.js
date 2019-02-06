@@ -44,7 +44,7 @@ class Header extends Component {
 
     render() {
         const path = this.props.location.pathname.replace(/^./, "");
-        const headerStyles = (path === "login" || path === "register") ? 
+        const headerStyles = (path === "login" || path === "register" || path === "") ? 
             { backgroundColor: "transparent", position: "fixed" } : null
         const showHeaderNav = path === "" ? { display: "flex" } : { display: "none" };
         const logoToDisplay = path === "login" || path === "register" ? logoDark : logo;
@@ -61,10 +61,10 @@ class Header extends Component {
                         <Link to="/register"><li>Sign Up</li></Link>
                     </ul>
                 </div>
-                <div className="profile-image">
+                {/* <div className="profile-image">
                     <div className="alert-circle">4</div>
-                </div>
-                <Sidebar />
+                </div> */}
+                <Sidebar className="sidebar" path={path} />
             </div>
         );
     }
