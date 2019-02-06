@@ -83,6 +83,7 @@ $backgroundColor: #2955D9;
         height: calc(100vh - 75px);
         width: $menuWidth;
         transition: .5s;
+        z-index: 100;
         
     }
 

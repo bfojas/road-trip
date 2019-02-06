@@ -1,0 +1,21 @@
+.start-trip-container {
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+    height: 65%;
+    width: 65%;
+    position: fixed;
+    background-color: lightgrey;
+    z-index: 50;
+    border: black solid 1px;
+    transform: translate(25%,-50%);
+    border-radius: 10px;
+    box-shadow: 3px 3px #888888;
+
+    .start-input {
+        width: 300px;
+        max-width: 80%;
+        height: 50px;
+    }
+}

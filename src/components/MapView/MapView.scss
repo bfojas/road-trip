@@ -1,0 +1,29 @@
+.map-view-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // div:nth-child(1){
+    // position: fixed;
+    // // left: 0;
+    // // top: 0;
+    // width: 100%;
+    // height: 100%;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // z-index:
+    // }
+}
+
+.route-container{
+    
+    position: fixed;
+    
+    height: calc(100vh - 100px);
+    width: 350px;
+    top: 90px;
+    left: calc(100vw - 360px);
+    background-color: beige;
+    border: solid black 3px;
+}

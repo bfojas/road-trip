@@ -2,6 +2,7 @@
 
 import React,  {Component} from 'react';
 import  { compose, withProps, lifecycle } from 'recompose'
+import { GoogleApiWrapper } from "google-maps-react";
 import {withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer} from 'react-google-maps'
 
 
@@ -9,15 +10,24 @@ class MapRender extends Component{
 
     constructor(props){
         super(props)
-        this.state ={
-            origin:'',
-            destination:'',
-            waypoints: ''
-        }
+        // this.state ={
+        //     origin:'',
+        //     destination:'',
+        //     waypoints: ''
+        // }
       }
 
     render(){
         // const mapStyle =[]
+        let originLongLat = '42.123123, -80.123123'
+        let destinationLongLat = '42.123123, -80.123123'
+        const {origin, destination} = this.props
+        
+
+        if (destination)
+        {originLongLat = `${origin.geometry.location.lat()},${origin.geometry.location.lng()}`
+        destinationLongLat = `${destination.geometry.location.lat()},${destination.geometry.location.lng()}`}
+        console.log('map props', this.props)
         const DirectionsComponent = compose(
             withProps({
               googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_KEY}`,
@@ -29,13 +39,13 @@ class MapRender extends Component{
             withGoogleMap,
             lifecycle({
               componentDidMount() { 
-                //   console.log('map', google.maps)
+                setTimeout(()=>{
                 const DirectionsService = new google.maps.DirectionsService();
                 DirectionsService.route({
-                  origin: new google.maps.LatLng(41.8507300, -87.6512600),
-                  destination: '41.8525800, -87.6514100',
-                  waypoints: [{location: '42.123123, -80.123123', stopover: true},
-                    {location: '44.000000, -81.000000', stopover: true}],
+                  origin: originLongLat,
+                  destination: destinationLongLat,
+                  // waypoints: [{location: '42.123123, -80.123123', stopover: true},
+                  //   {location: '44.000000, -81.000000', stopover: true}],
                   travelMode: google.maps.TravelMode.DRIVING,
                 }, (result, status) => {
                   if (status === google.maps.DirectionsStatus.OK) {
@@ -46,12 +56,12 @@ class MapRender extends Component{
                   } else {
                     console.error(`error fetching directions ${result}`);
                   }
-                });
+                })},300)
               }
             })
           )(props =>
             <GoogleMap
-              defaultZoom={3}
+              defaultZoom={50}
               // controlPosition={google.maps.ControlPosition.TOP_LEFT}
             //   defaultOptions={{styles : mapStyle}}
             >
@@ -68,4 +78,4 @@ class MapRender extends Component{
       
 }
 
-export default MapRender
+export default GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_MAP_KEY})(MapRender)
