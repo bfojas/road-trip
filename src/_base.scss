@@ -1,7 +1,21 @@
 /* SASS VARIABLES */
 
 $heading-font: "Montserrat", sans-serif;
-$blue: #10BA68;
+$blue: #2955D9;
 $light-blue: #16BBD2;
 $dark: #292929;
 $text-light: #818181;
+
+/* SASS PLACEHOLDERS */
+
+%button {
+    padding: 17px;
+    margin: 0 auto;
+    color: #fff;
+    background-color: $light-blue;
+    font-family: $heading-font;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+  }
