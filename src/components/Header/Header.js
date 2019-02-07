@@ -11,6 +11,9 @@ import "./Header.scss";
 class Header extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showNav: false
+        }
         this.getUserFromServer = this.getUserFromServer.bind(this);
         this.logout = this.logout.bind(this);
     }
@@ -19,12 +22,8 @@ class Header extends Component {
         this.getUserFromServer();
     }
 
-    toggleMenu = () => {
-        this.setState((prevState) => {
-            return {
-                toggle: !prevState.toggle
-            }
-        })
+    hideNav = () => {
+        this.setState({ showNav: false })
     }
 
     getUserFromServer() {
@@ -43,6 +42,7 @@ class Header extends Component {
     }
 
     render() {
+        const { showNav } = this.state;
         const path = this.props.location.pathname.replace(/^./, "");
         const headerStyles = (path === "login" || path === "register" || path === "") ? 
             { backgroundColor: "transparent", position: "fixed" } : null
@@ -64,7 +64,7 @@ class Header extends Component {
                 {/* <div className="profile-image">
                     <div className="alert-circle">4</div>
                 </div> */}
-                <Sidebar className="sidebar" path={path} />
+                <Sidebar className="sidebar" path={path} show={showNav} hide={this.hideNav} />
             </div>
         );
     }

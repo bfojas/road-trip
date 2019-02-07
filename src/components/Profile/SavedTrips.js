@@ -5,7 +5,20 @@ export default function SavedTrips(props) {
     
     return (
         <div className="profile-tab-container">
-            Saved Trips
+            <div className="trips-container">
+                <div className="trip">
+                    <h3>ALASKA</h3>
+                    <i className="fas fa-heart"></i>
+                </div>
+                <div className="trip">
+                    <h3>ALASKA</h3>
+                    <i className="fas fa-heart"></i>
+                </div>
+                <div className="trip">
+                    <h3>ALASKA</h3>
+                    <i className="fas fa-heart"></i>
+                </div>
+            </div>
         </div>
     );
 
