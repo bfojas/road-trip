@@ -9,7 +9,7 @@ export default function Homepage(props) {
                 <div className="homepage-title">
                     <h1>Plan your next <br/> road trip adventure.</h1>
                     <p>Open Road is a web app that helps you map out your next road trip, add stops, search for landmarks and share your adventures.</p>
-                    <button>GET STARTED</button>
+                    <Link to="/register"><button>GET STARTED</button></Link>
                 </div>
             </section>
             <section>

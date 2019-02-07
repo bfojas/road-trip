@@ -59,7 +59,7 @@
                 border: none;
             }
 
-            input:focus {
+            input:focus, button:focus {
                 outline:none;
             }
 
@@ -67,7 +67,19 @@
                 @extend %button;
                 width: 70%;
             }
+
         }
 
+    }
+}
+
+//ALERTIFY STYLES
+
+.alertify-notifier {
+    .ajs-message.ajs-error, .ajs-message.ajs-success {
+        font-family: $heading-font;
+        border: none;
+        border-radius: 0;
+        text-shadow: none;
     }
 }

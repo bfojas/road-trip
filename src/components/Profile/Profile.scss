@@ -16,14 +16,14 @@
         height: 50vh;
         background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://images.pexels.com/photos/1298684/pexels-photo-1298684.jpeg");
         background-size: cover;
-        background-position: bottom;
+        background-position: center;
         color: #fff;
 
         img {
             width: 140px;
             height: 140px;
             border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.5);
+            // border: 4px solid rgba(255, 255, 255, 0.5);
         }
 
         h2 {

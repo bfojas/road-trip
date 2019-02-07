@@ -27,6 +27,7 @@ module.exports = {
                                 name: newUser.name,
                                 email: newUser.email,
                                 profile_image: newUser.profile_image,
+                                cover_image: newUser.cover_image,
                                 bio: newUser.bio
                             };
                             res.send(req.session.user);
@@ -64,6 +65,7 @@ module.exports = {
                                 name: user.name,
                                 email: user.email,
                                 profile_image: user.profile_image,
+                                cover_image: user.cover_image,
                                 bio: user.bio
 							};
                             res.send(req.session.user);
@@ -89,6 +91,7 @@ module.exports = {
     },
 
     getUser: (req, res) => {
+        console.log("---session", req.session);
         res.send({ user: req.session.user });
     },
 

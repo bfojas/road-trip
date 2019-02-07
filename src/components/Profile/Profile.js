@@ -5,27 +5,23 @@ import { updateUserData } from "../../ducks/reducer";
 import TripsList from "./TripsList";
 import Following from "./Following";
 import SavedTrips from "./SavedTrips";
+import avatar from "../../images/batman.png";
+import defaultCover from "../../images/default-cover.jpg"
 import "./Profile.scss";
 
 class Profile extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-        
-        } 
-    }
-
     render() {
-        const { match } = this.props;
+        const { match, user } = this.props;
+        const coverImage = user ? user.cover_image || defaultCover : defaultCover;
 
-        return (
+        return user ? (
             <div className="profile-container">
-                <div className="profile-hero">
+                <div className="profile-hero" style={{backgroundImage: `url(${coverImage})`}}>
                     <div className="profile-info">
-                        <img src="https://lh3.googleusercontent.com/-csKNN3Qu6rQ/W8ip2qnmf3I/AAAAAAAAAXM/Ba3wXpN8Q6Uc81Rz72LKFpQ4_9PqcXVGACEwYBhgL/w140-h140-p/Resized-JohnMarshall-00170-835.jpg" />
-                        <h2>Logan Marshall</h2>
-                        <span>@loganxc12</span>
+                        <img src={user.profile_image || avatar} />
+                        <h2>{user.name}</h2>
+                        <span>{user.bio || "Short bio goes here."}</span>
                     </div>
                 </div>
                 <div className="profile-menu-bar">
@@ -45,10 +41,14 @@ class Profile extends Component {
                 { match.path === "/profile/following" && <Following /> }
                 { match.path === "/profile/saved" && <SavedTrips /> }
             </div>
-        );
+        ) : null;
     }
 
 }
 
+function mapStateToProps(reduxState) {
+    const { user } = reduxState;
+    return { user }
+}
 
-export default connect(null, { updateUserData })(Profile);
+export default connect(mapStateToProps, { updateUserData })(Profile);

@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 const massive = require('massive');
 require("dotenv").config();
 const authController = require('./controllers/authController');
@@ -11,11 +12,17 @@ massive(process.env.CONNECTION_STRING).then(dbInstance => {
 }).catch(error => console.log("error in massive connection", error));
 
 const app = express();
+
+//Middleware
 app.use(bodyParser.json());
 app.use(session({
+    store: new RedisStore({ url: process.env.REDIS_URI }),
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 * 2
+    }
 }));
 
 //Auth endpoints

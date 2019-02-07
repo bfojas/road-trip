@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import alertify from "alertifyjs";
+import { connect } from "react-redux";
+import { updateUserData } from "../../ducks/reducer";
 import "./JoinLogin.scss";
 
 class JoinLogin extends Component {
@@ -26,11 +28,13 @@ class JoinLogin extends Component {
     registerUser(e) {
         e.preventDefault();
         const { name, email, password } = this.state;
+        const { updateUserData } = this.props;
         const newUser = { name, email, password };
         axios.post("/auth/register", newUser).then(response => {
             if (response.data.errorMessage) {
                 alertify.error(response.data.errorMessage);
             } else {
+                updateUserData(response.data);
                 alertify.success("Success! Welcome to Road Trip");
                 this.setState({ redirect: true })
             }
@@ -40,11 +44,13 @@ class JoinLogin extends Component {
     loginUser(e) {
         e.preventDefault();
         const { email, password } = this.state;
+        const { updateUserData } = this.props;
         const user = { email, password };
         axios.post("/auth/login", user).then(response => {
             if (response.data.errorMessage) {
                 alertify.error(response.data.errorMessage);                
             } else {
+                updateUserData(response.data);
                 alertify.success("You have successfully logged in");
                 this.setState({ redirect: true })
             }
@@ -89,4 +95,4 @@ class JoinLogin extends Component {
 
 }
 
-export default JoinLogin;
+export default connect(null, { updateUserData })(JoinLogin);

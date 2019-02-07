@@ -45,7 +45,7 @@ class Header extends Component {
         const { showNav } = this.state;
         const path = this.props.location.pathname.replace(/^./, "");
         const headerStyles = (path === "login" || path === "register" || path === "") ? 
-            { backgroundColor: "transparent", position: "fixed" } : null
+            { backgroundColor: "transparent", position: "fixed" } : null;
         const showHeaderNav = path === "" ? { display: "flex" } : { display: "none" };
         const logoToDisplay = path === "login" || path === "register" ? logoDark : logo;
 
@@ -70,7 +70,7 @@ class Header extends Component {
     }
 }
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = state =>{
     return {
         user: state.user
 
