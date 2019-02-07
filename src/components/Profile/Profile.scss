@@ -9,6 +9,7 @@
     line-height: 25px;
 
     .profile-hero {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -19,11 +20,71 @@
         background-position: center;
         color: #fff;
 
-        img {
+        .cover-edit-icon {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            font-size: 24px;
+            opacity: 0.8;
+            z-index: 50;
+        }
+
+        .cover-edit-box {
+            display: none;
+            align-items: center;
+            justify-content: flex-end;
+            position: absolute;
+            top: 18px;
+            left: 10px;
+            height: 40px;
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            z-index: 40;
+
+            span {
+                margin-right: 10px;
+            }
+        }
+
+        .profile-image {
             width: 140px;
             height: 140px;
             border-radius: 50%;
+            background-size: cover;
+            margin: 0 auto;
             // border: 4px solid rgba(255, 255, 255, 0.5);
+
+            .profile-edit {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                background-color: #000;
+                color: #fff;
+                font-size: 14px;
+                font-weight: 700;
+                opacity: 0.7;
+                border-radius: 50%;
+                cursor: pointer;
+
+                i {
+                    font-size: 26px;
+                    opacity: 1;
+                    color: #fff;
+                }
+            }
+        }
+
+        .profile-image:hover {
+            .profile-edit {
+                display: flex;
+            }
         }
 
         h2 {

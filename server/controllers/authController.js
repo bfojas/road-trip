@@ -21,6 +21,7 @@ module.exports = {
                     //If users is empty array, email not stored in db -> hash pw, create new user and set to session.
                     bcrypt.hash(password, saltRounds).then(hash => {
                         dbInstance.create_user([ name, email, hash ]).then(newUsers => {
+                            console.log("newUsers", newUsers);
                             const newUser = newUsers[0];
                             req.session.user = {
                                 id: newUser.id,

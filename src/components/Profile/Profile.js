@@ -13,13 +13,24 @@ class Profile extends Component {
 
     render() {
         const { match, user } = this.props;
+        const profileImage = user ? user.profile_image || avatar : avatar;
         const coverImage = user ? user.cover_image || defaultCover : defaultCover;
 
         return user ? (
             <div className="profile-container">
                 <div className="profile-hero" style={{backgroundImage: `url(${coverImage})`}}>
+                    <i className="fas fa-camera cover-edit-icon"></i>
+                    <div className="cover-edit-box">
+                        <span>EDIT COVER PHOTO</span>
+                    </div>
                     <div className="profile-info">
-                        <img src={user.profile_image || avatar} />
+                        <div className="profile-image" style={{backgroundImage: `url(${profileImage})`}}>
+                            <div className="profile-edit">
+                                <i className="fas fa-camera profile"></i>
+                                <span>UPDATE</span>
+                            </div>
+                        </div>
+                        {/* <img src={user.profile_image || avatar} /> */}
                         <h2>{user.name}</h2>
                         <span>{user.bio || "Short bio goes here."}</span>
                     </div>
