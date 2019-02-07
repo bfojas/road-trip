@@ -25,8 +25,8 @@ class MapRender extends Component{
         
 
         if (destination)
-        {originLongLat = `${origin.geometry.location.lat()},${origin.geometry.location.lng()}`
-        destinationLongLat = `${destination.geometry.location.lat()},${destination.geometry.location.lng()}`}
+        {originLongLat = `${origin.latitude},${origin.longitude}`
+        destinationLongLat = `${destination.latitude},${destination.longitude}`}
         console.log('map props', this.props)
         const DirectionsComponent = compose(
             withProps({

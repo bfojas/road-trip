@@ -1,7 +1,10 @@
 .map-view-container {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
+    // height: calc(100vh - 75px);
+    // width: 100%;
+    top: 75px;
 
     // div:nth-child(1){
     // position: fixed;
@@ -19,7 +22,7 @@
 .route-container{
     
     position: fixed;
-    
+    z-index: 30;
     height: calc(100vh - 100px);
     width: 350px;
     top: 90px;

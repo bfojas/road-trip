@@ -4,6 +4,9 @@ import React, {Component} from 'react';
 import './StartTripModal.scss';
 import AutoComplete from 'react-google-autocomplete';
 import { GoogleApiWrapper } from "google-maps-react";
+import {connect} from 'react-redux'
+import {updateStartEndData} from '../../../ducks/reducer'
+import axios from 'axios'
 
 
 
@@ -12,59 +15,141 @@ class StartTripModal extends Component {
     constructor(props){
         super(props)
         this.state={
-            
-            input: ""
+            originImage:'',
+            originName: 'Where do we start?',
+            destinationImage:'',
+            destinationName: 'Where are we going?',
+            // input: ""
+            submitDisable: true
         }
     }
 
-    componentDidMount= async ()=> {
-            var placeInput = await (<AutoComplete
-            style={{width: '90%'}}
-            onPlaceSelected={this.props.tripSet}
-            types={['geocode']}
-        />)
+    originPicker = (location) => {
+        const {formatted_address} = location;
+        const {long_name} = location.address_components[0]
+        const imageSet = location.photos
+        ?location.photos[0].getUrl()
+        :null
+        const latSet = location.geometry.location.lat()
+        const lngSet = location.geometry.location.lng()
+
+        this.setState({originPick: {
+            name: long_name,
+            address: formatted_address,
+            image: imageSet,
+            latitude: latSet,
+            longitude: lngSet
+        }})
+        const {originPick, destinationPick} = this.state
+        if (originPick && destinationPick)
+            {this.setState({submitDisable: false})}
     }
+
+    destinationPicker = (location) => {
+        console.log('location', location)
+        const {formatted_address} = location;
+        const {long_name} = location.address_components[0]
+        const imageSet = location.photos
+        ?location.photos[0].getUrl()
+        :null
+        const latSet = location.geometry.location.lat()
+        const lngSet = location.geometry.location.lng()
+
+        this.setState({destinationPick: {
+            name: long_name,
+            address: formatted_address,
+            image: imageSet,
+            latitude: latSet,
+            longitude: lngSet
+        }})
+        const {originPick, destinationPick} = this.state
+       
+            if (originPick && destinationPick)
+            {this.setState({submitDisable: false})}
+    }
+
+    submitTrip = () => {
+        const {originPick, destinationPick, destinationName} = this.state
+        console.log('picks',originPick, "dest", destinationPick, 'name', destinationName)
+        let route = {origin: originPick, 
+            destination: destinationPick,
+            name: destinationName}
+        axios.post('/map/start', route)
+        this.props.updateStartEndData(
+            route)
+        this.props.closeModal()
+
+    }
+
 
     handleChange = (e) => {
         this.setState({input: e})
     }
-
     render(){
-        // let placeInput
-        const {inputType, instruction, origin, destination, show} = this.props
-        const {input} = this.state
-        console.log('instruction', inputType)
-        return show ? ( 
-            <div className="start-trip-container" >
-                <header>
-                    <h2>Welcome!</h2>
-                    {/* <h3>{instruction}</h3> */}
-                </header>
-                <div className="start-input">
-                    {inputType === 'autoComplete'
-                    ?<div>
-                        <AutoComplete
-                            style={{width: '90%'}}
-                            onPlaceSelected={this.props.tripSet}
-                            types={['geocode']}
-                        />
-                    </div>
-                    :
-                    <input 
-                        placeholder="test"
-                        value={input} 
-                        onKeyDown={e=>{if(e.keyCode===13) {this.props.nameSet(input)}}}
-                        onChange={e=>this.handleChange(e.target.value)}
-                    />
-                }
-                </div>
-                
-                <div className="input-origin">Origin: {origin && origin.address_components[0].long_name}</div>
-                <div className="input-destination">Destination: {destination && destination.address_components[0].long_name}</div>
+        const {inputType, origin, destination, show} = this.props
+        const {originPick, originImage, originName, destinationPick, destinationImage, destinationName} = this.state
 
+        if(originPick && (originImage !== `url(${originPick.image})`))
+        {this.setState({originImage: `url(${originPick.image})`})}
+        if(originPick && (originName !== `${originPick.address}`))
+        {this.setState({originName: `${originPick.address}`})}
+        
+        if(destinationPick && (destinationImage !== `url(${destinationPick.image})`))
+        {this.setState({destinationImage: `url(${destinationPick.image})`})}
+        if(destinationPick && (destinationName !== `${destinationPick.address}`))
+        {this.setState({destinationName: `${destinationPick.address}`})}
+
+        return show ? ( 
+            <div className="fade-div">    
+                <div className="start-trip-container" >
+                    <div className="start-input">
+                        <div className="origin-select"
+                            style={{backgroundImage: this.state.originImage}}
+                        >
+                            <div className="trans-box">
+                                <h1>{originName}</h1>
+                                <AutoComplete
+                                    style={{width: '75%'}}
+                                    onPlaceSelected={this.originPicker}
+                                    types={['geocode']}
+                                />
+                            </div>
+                            
+                        </div>
+                        <div 
+                            className="destination-select"
+                            style={{backgroundImage: this.state.destinationImage}}
+                        >
+                            <div className="trans-box">
+                                <h1>{destinationName}</h1>
+                                <AutoComplete
+                                    style={{width: '75%'}}
+                                    onPlaceSelected={this.destinationPicker}
+                                    types={['geocode']}
+                                />
+                            </div>
+                        </div>
+                        <div className="submitButton">
+                            <button onClick={this.submitTrip} disabled={this.state.submitDisable}>Let's Go!</button>
+                        </div>
+                    </div>
+                    {/* <div className="location-info">
+                        <img src={origin && origin.photos[0].getUrl()}/>
+                        <div className="input-destination">Destination: {destination && destination.address_components[0].long_name}</div>
+                    </div> */}
+                </div>
             </div>
         )
         : null
     }
 }
-export default GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(StartTripModal)
+
+const mapStateToProps = ()=> {
+    
+}
+const mapDispatchToProps = {
+    updateStartEndData
+}
+
+const wrappedMap = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(StartTripModal)
+export default connect(mapStateToProps, mapDispatchToProps)(wrappedMap)
