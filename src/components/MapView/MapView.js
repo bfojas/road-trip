@@ -3,6 +3,8 @@ import MapRender from './mapRender/mapRender'
 import RouteContainer from './RouteContainer/RouteContainer'
 import './MapView.scss'
 import StartTripModal from './StartTripModal/StartTripModal';
+import {connect} from 'react-redux'
+import {updateStartEndData} from '../../ducks/reducer'
 
 
 class MapView extends Component {
@@ -10,46 +12,34 @@ class MapView extends Component {
         super(props)
         this.state = {
             startModal: true,
-            startModalStep: "origin",
-            tripOrigin: null,
-            tripDestination: null,
-            tripName: '',
-            tripWaypoints: [],
-            inputType: "autoComplete",
-            instruction: "Where do we start?"
         }
 
     }
 
-    tripSet = (location) =>{
-        const {tripOrigin} = this.state
-        !tripOrigin
-        ? this.setState({
-            tripOrigin: location, 
-            instruction: "Where to?"
-        })
-        : this.setState({
-            tripDestination: location,
-            instruction: "Name your trip:"})
-    }
+    // originSet = (location) =>{
+    //     console.log('location', location)
+    //     this.props.updateStartEndData({location, type: 'tripOrigin'})
+    // }
 
-    nameSet = (tripName) => {
-        this.setState({tripName})
+    // destinationSet = (location) =>{
+    //     this.props.updateStartEndData({location, type: 'tripDestination'})
+    // }
+
+    closeModal = () => {
         this.setState({startModal: false})
     }
 
+
     render(){
-        const {startModal, tripOrigin, tripDestination, tripName, instruction, inputType} = this.state
+        const {tripOrigin, tripDestination, tripName, tripWaypoints, updateStartEndData} = this.props
+        const {startModal} = this.state
         return(
             <div className="map-view-container">
                 <StartTripModal 
                     show= {startModal}
                     origin={tripOrigin} 
                     destination={tripDestination}
-                    tripSet={this.tripSet}
-                    nameSet={this.nameSet}
-                    instruction={instruction}
-                    inputType={inputType}
+                    closeModal={this.closeModal}
                 />
                 <div className="map-container">
                     <MapRender
@@ -69,4 +59,17 @@ class MapView extends Component {
     }
 }
 
-export default MapView
+const mapStateToProps = (state) => {
+    return {user: state.user,
+    tripOrigin: state.tripOrigin,
+    tripDestination: state.tripDestination,
+    tripName: state.tripName,
+    tripWaypoints: state.tripWaypoints
+    }
+}
+
+const mapDispatchToProps = {
+    updateStartEndData
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapView)

@@ -4,6 +4,7 @@ const session = require('express-session');
 const massive = require('massive');
 require("dotenv").config();
 const authController = require('./controllers/authController');
+const mapController = require('./controllers/mapController')
 
 massive(process.env.CONNECTION_STRING).then(dbInstance => {
     app.set("db", dbInstance);
@@ -23,6 +24,8 @@ app.post("/auth/register", authController.register);
 app.post("/auth/login", authController.login);
 app.get("/auth/user-data", authController.getUser);
 app.post("/auth/logout", authController.logout);
+
+app.post('/map/start', mapController.start)
 
 const PORT = 4000;
 app.listen(PORT, console.log(`Server listening on port ${PORT}`));
