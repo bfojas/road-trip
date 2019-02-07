@@ -5,6 +5,7 @@ $backgroundColor: #2955D9;
 
 .header-container {
     background-color: $backgroundColor;
+    position: relative;
     display: flex;
     overflow: hidden;
     justify-content: space-between;
