@@ -4,6 +4,7 @@ import RouteContainer from './RouteContainer/RouteContainer'
 import './MapView.scss'
 import StartTripModal from './StartTripModal/StartTripModal';
 import {connect} from 'react-redux'
+import { GoogleApiWrapper } from "google-maps-react";
 import {updateStartEndData} from '../../ducks/reducer'
 
 
@@ -45,6 +46,7 @@ class MapView extends Component {
                     <MapRender
                     origin={tripOrigin} 
                     destination={tripDestination}
+                    waypoints={tripWaypoints}
                     />
                 </div>
                 <div className="route-container">
@@ -72,4 +74,4 @@ const mapDispatchToProps = {
     updateStartEndData
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapView)
+export default connect(mapStateToProps, mapDispatchToProps)(GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_MAP_KEY})(MapView))
