@@ -37,6 +37,7 @@ app.put("/api/user/:id", userController.updateUserInfo);
 
 //Map endpoints
 app.post('/map/start', mapController.start)
+app.put('/map/add', mapController.add)
 
 const PORT = 4000;
 app.listen(PORT, console.log(`Server listening on port ${PORT}`));

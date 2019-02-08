@@ -92,7 +92,6 @@ module.exports = {
     },
 
     getUser: (req, res) => {
-        console.log("---session", req.session);
         res.send({ user: req.session.user });
     },
 

@@ -2,7 +2,7 @@
     background-color: rgba(0, 0, 0, 0.363);
     height: calc(100vh - 75px);
     width: 100%;
-    position: absolute;
+    position: fixed;
     // top: -1px;
     z-index: 60;
     transform: translate(0%, -50%);
@@ -14,7 +14,7 @@
         display: flex;
         flex-direction: column;
         // justify-content: center;
-        align-items: center;
+        align-content: center;
         height: 65%;
         width: 65%;
         position: fixed;
@@ -79,14 +79,18 @@
                 .trans-box {
                     border-radius: 0 15px 15px 0;
                 }
+
             }
         
         .submitButton {
+            display: flex;
             height: 50px;
             width: 100px;
             position: absolute;
             font-size: 24px;
-            transform: translate(0%,1000%);
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%,-50%);
             color: white;
         }
         

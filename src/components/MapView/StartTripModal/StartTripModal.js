@@ -5,7 +5,7 @@ import './StartTripModal.scss';
 import AutoComplete from 'react-google-autocomplete';
 import { GoogleApiWrapper } from "google-maps-react";
 import {connect} from 'react-redux'
-import {updateStartEndData} from '../../../ducks/reducer'
+import {updateStartEndData, updateTripId} from '../../../ducks/reducer'
 import axios from 'axios'
 
 
@@ -25,6 +25,8 @@ class StartTripModal extends Component {
     }
 
     originPicker = (location) => {
+
+// sets origin in state with info
         const {formatted_address} = location;
         const {long_name} = location.address_components[0]
         const imageSet = location.photos
@@ -40,13 +42,16 @@ class StartTripModal extends Component {
             latitude: latSet,
             longitude: lngSet
         }})
+
+// if origin & desination are picked, enables submit button        
         const {originPick, destinationPick} = this.state
         if (originPick && destinationPick)
             {this.setState({submitDisable: false})}
     }
 
     destinationPicker = (location) => {
-        console.log('location', location)
+
+// sets origin in state with info
         const {formatted_address} = location;
         const {long_name} = location.address_components[0]
         const imageSet = location.photos
@@ -64,19 +69,34 @@ class StartTripModal extends Component {
         }})
         const {originPick, destinationPick} = this.state
        
+// if origin & desination are picked, enables submit button        
             if (originPick && destinationPick)
             {this.setState({submitDisable: false})}
     }
 
     submitTrip = () => {
         const {originPick, destinationPick, destinationName} = this.state
-        console.log('picks',originPick, "dest", destinationPick, 'name', destinationName)
-        let route = {origin: originPick, 
+        
+// sends trip data to db        
+        axios.post('/map/start', 
+            {origin: originPick, 
             destination: destinationPick,
-            name: destinationName}
-        axios.post('/map/start', route)
+            name: destinationName,
+            userId: this.props.user.id})
+// sends trip id to redux props
+            .then(res=>{
+                console.log('tripId', res)
+                this.props.updateTripId(res.data[0].id)
+            })
+            .catch(error => console.log('------submit trip', error))
+
+// sends trip data to redux props
         this.props.updateStartEndData(
-            route)
+            {origin: originPick, 
+            destination: destinationPick,
+            name: destinationName})
+
+// close modal
         this.props.closeModal()
 
     }
@@ -86,9 +106,10 @@ class StartTripModal extends Component {
         this.setState({input: e})
     }
     render(){
-        const {inputType, origin, destination, show} = this.props
+        const {show} = this.props
         const {originPick, originImage, originName, destinationPick, destinationImage, destinationName} = this.state
 
+// changes modal images for cities
         if(originPick && (originImage !== `url(${originPick.image})`))
         {this.setState({originImage: `url(${originPick.image})`})}
         if(originPick && (originName !== `${originPick.address}`))
@@ -127,16 +148,14 @@ class StartTripModal extends Component {
                                     onPlaceSelected={this.destinationPicker}
                                     types={['geocode']}
                                 />
+                                
                             </div>
+                            
                         </div>
                         <div className="submitButton">
-                            <button onClick={this.submitTrip} disabled={this.state.submitDisable}>Let's Go!</button>
-                        </div>
+                                    <button onClick={this.submitTrip} disabled={this.state.submitDisable}>Let's Go!</button>
+                                </div>
                     </div>
-                    {/* <div className="location-info">
-                        <img src={origin && origin.photos[0].getUrl()}/>
-                        <div className="input-destination">Destination: {destination && destination.address_components[0].long_name}</div>
-                    </div> */}
                 </div>
             </div>
         )
@@ -144,12 +163,15 @@ class StartTripModal extends Component {
     }
 }
 
-const mapStateToProps = ()=> {
-    
+const mapStateToProps = (state)=> {
+    return{
+        user: state.user
+    }
 }
 const mapDispatchToProps = {
-    updateStartEndData
+    updateStartEndData,
+    updateTripId
 }
 
-const wrappedMap = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(StartTripModal)
-export default connect(mapStateToProps, mapDispatchToProps)(wrappedMap)
+const wrappedModal = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(StartTripModal)
+export default connect(mapStateToProps, mapDispatchToProps)(wrappedModal)
