@@ -15,7 +15,7 @@
         justify-content: center;
         width: 100%;
         height: 50vh;
-        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://images.pexels.com/photos/1298684/pexels-photo-1298684.jpeg");
+        // background-color: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
         background-size: cover;
         background-position: center;
         color: #fff;
@@ -30,23 +30,24 @@
         }
 
         .cover-edit-box {
-            display: none;
+            display: flex;
             align-items: center;
             justify-content: flex-end;
             position: absolute;
-            top: 18px;
+            top: 14px;
             left: 10px;
             height: 40px;
-            width: 200px;
+            width: 190px;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 15px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: #fff;
             z-index: 40;
+            cursor: pointer;
 
             span {
-                margin-right: 10px;
+                margin-right: 15px;
             }
         }
 
@@ -67,7 +68,7 @@
                 height: 100%;
                 background-color: #000;
                 color: #fff;
-                font-size: 14px;
+                font-size: 13px;
                 font-weight: 700;
                 opacity: 0.7;
                 border-radius: 50%;
