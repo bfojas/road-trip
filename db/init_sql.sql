@@ -3,6 +3,7 @@ create table users (
     name text,
     email text,
     profile_image text,
+    cover_image text,
     bio text,
     password varchar
 )

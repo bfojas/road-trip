@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
+import ReactS3 from "react-s3";
 import { updateUserData } from "../../ducks/reducer";
 import TripsList from "./TripsList";
 import Following from "./Following";
@@ -9,6 +11,14 @@ import EditProfileModal from "./EditProfileModal";
 import avatar from "../../images/batman.png";
 import defaultCover from "../../images/default-cover.jpg";
 import "./Profile.scss";
+
+//AWS S3 CONFIGURATION
+const config = {
+    bucketName: "road-trip-project-bucket",
+    region: "us-east-1",
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS,
+    secretAccessKey: process.env.REACT_APP_AWS_SECRET
+}
 
 class Profile extends Component {
 
@@ -21,6 +31,8 @@ class Profile extends Component {
         this.showCoverEdit = this.showCoverEdit.bind(this);
         this.hideCoverEdit = this.hideCoverEdit.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.upload = this.upload.bind(this);
+        this.updateUserPhotoOnServer = this.updateUserPhotoOnServer.bind(this);
     }
 
     showCoverEdit() {
@@ -34,6 +46,21 @@ class Profile extends Component {
     toggleModal() {
         let modalState = this.state.showModal;
         this.setState({ showModal: !modalState })
+    }
+
+    upload(e) {
+        const target = e.target.name;
+        ReactS3.uploadFile(e.target.files[0], config).then(data => {
+            this.updateUserPhotoOnServer(target, data.location);
+        }).catch(error => console.log(error));
+    }
+
+    updateUserPhotoOnServer(type, url) {
+        const { user, updateUserData } = this.props;
+        const updatedUser = Object.assign({}, user, { [type]: url });
+        axios.put(`/api/user/${user.id}`, updatedUser).then(response => {
+            updateUserData(response.data[0]);
+        })
     }
 
     render() {
@@ -59,7 +86,8 @@ class Profile extends Component {
                 >
                     <i className="fas fa-camera cover-edit-icon" style={coverIconStyle}></i>
                     <div className="cover-edit-box" style={coverEditStyle}>
-                        <span>EDIT COVER PHOTO</span>
+                        <label htmlFor="cover-upload">EDIT COVER PHOTO</label>
+                        <input type="file" name="cover_image" onChange={this.upload} id="cover-upload" style={{display:'none'}} />
                     </div>
                     <div className="update-info" 
                         onClick={this.toggleModal}
@@ -74,8 +102,11 @@ class Profile extends Component {
                                 onMouseEnter={this.hideCoverEdit}
                                 onMouseLeave={this.showCoverEdit}
                             >
-                                <i className="fas fa-camera profile"></i>
-                                <span>UPDATE</span>
+                                <label htmlFor="profile-upload">
+                                    <i className="fas fa-camera profile"></i>
+                                    <span>UPDATE</span>
+                                </label>
+                                <input type="file" name="profile_image" onChange={this.upload} id="profile-upload" style={{display:"none"}} />
                             </div>
                         </div>
                         <h2>{user.name}</h2>

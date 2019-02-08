@@ -42,8 +42,8 @@ class EditProfileModal extends Component {
     updateUserOnServer(e) {
         e.preventDefault();
         const { name, email, bio } = this.state;
-        const updatedUser = { name, email, bio };
-        const { id } = this.props.user;
+        const { id, profile_image, cover_image } = this.props.user;
+        const updatedUser = { name, email, bio, profile_image, cover_image };
         axios.put(`/api/user/${id}`, updatedUser).then(response => {
             this.props.updateUserData(response.data[0]);
             this.props.hide();
@@ -68,7 +68,7 @@ class EditProfileModal extends Component {
                             <div>
                                 <label>EMAIL:</label><input onChange={this.handleChange} name="email" value={email} placeholder="Email Address" required />
                             </div>
-                            <div>
+                            <div style={{flex: "auto"}}>
                                 <label>BIO:</label><textarea onChange={this.handleChange} name="bio" value={bio} placeholder="Short bio goes here" maxLength="100"/>
                             </div>
                             <button type="submit">SAVE</button>
