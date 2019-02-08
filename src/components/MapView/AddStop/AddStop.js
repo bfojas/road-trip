@@ -41,12 +41,43 @@ class AddStop extends Component {
     }
 
     addStop = () =>{
-        const {tripId} = this.props;
+        const {tripId, tripOrigin} = this.props;
         const { name, address, image, latitude, longitude} = this.state
 
+        let startDistance = this.getDistance(tripOrigin, latitude, longitude)
 // ------create new waypoint array       
         let newList = this.props.tripWaypoints.slice()
-        newList.push({name, address, image, latitude, longitude})
+        let newStop = {name, address, image, latitude, longitude, startDistance}
+        let insertInOrder = (index) =>{
+            console.log('start', index)
+            var newIndex
+            if (index === newList.length){
+                newIndex = index
+                console.log('=', newIndex)
+            }
+            else if (newList[index].startDistance < startDistance){
+                console.log('rec')
+
+                return insertInOrder(index + 1)
+            } else {
+            newIndex = index
+            console.log('out', newIndex)
+            }
+            return newIndex
+        }
+
+        if (newList.length){
+            let insertIndex = insertInOrder(0)
+            console.log('insert index', insertIndex)
+            newList.splice(insertIndex, 0 , newStop)
+        }
+            else{
+            newList.push(newStop)
+        }
+        console.log('list with distance', newList)
+
+        
+
 // ------ add stop to database        
         axios.put('/map/add', {tripId, stop:{
             name, address, image, latitude, longitude
@@ -54,6 +85,13 @@ class AddStop extends Component {
 // ------ send new waypoint array to props        
         this.props.addStop(newList)
     }
+
+    getDistance = (start, latitude, longitude) =>{
+        let aSquare = Math.pow(Math.abs(start.latitude - latitude),2)
+        let bSquare = Math.pow(Math.abs(start.longitude - longitude),2)
+        return Math.sqrt(aSquare + bSquare)
+    }
+
 
     render (){
         return (
