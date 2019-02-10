@@ -43,9 +43,9 @@ module.exports = {
                 return res.length 
                 ? res
                 : req.app.get('db').add_stop(stop)})
-
+            .catch(error=>console.log('-----add stop', error))
+            
         req.app.get('db').add_line_item(tripId, stopId[0].id, start_distance)
-        .catch(error=>console.log('-----add stop', error))
 
     },
 

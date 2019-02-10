@@ -23,7 +23,7 @@ class MapRender extends Component{
 
 // ------ default map start
         let originLongLat, destinationLongLat
-        const {tripOrigin, tripDestination, tripWaypoints} = this.props
+        const {tripOrigin, tripDestination, tripWaypoints} = this.props.currentTrip
 
 // ------ sets map based on props
       if (tripDestination){
@@ -40,7 +40,6 @@ class MapRender extends Component{
         destination: destinationLongLat,
         travelMode: google.maps.TravelMode.DRIVING,
       }
-      console.log('render', renderRoute)
 
 
 // ------ renders waypoints when they are added
@@ -68,7 +67,6 @@ class MapRender extends Component{
             lifecycle({
               componentDidMount() { 
                 setTimeout(()=>{
-                  console.log('route', renderRoute)
                 const DirectionsService = new google.maps.DirectionsService();
                 DirectionsService.route(renderRoute, 
                   (result, status) => {
@@ -106,9 +104,7 @@ class MapRender extends Component{
 
 const mapStateToProps = (state) => {
   return{
-  tripOrigin: state.tripOrigin, 
-  tripDestination:state.tripDestination, 
-  tripWaypoints: state.tripWaypoints
+    currentTrip: state.currentTrip
   }
 }
 

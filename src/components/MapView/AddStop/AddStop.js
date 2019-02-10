@@ -44,33 +44,37 @@ class AddStop extends Component {
     }
 
     addStop = () =>{
-        const {tripId, tripOrigin} = this.props;
+        const {tripId, tripOrigin} = this.props.currentTrip;
         const { name, address, image, latitude, longitude} = this.state
 
         let start_distance = this.getDistance(tripOrigin, latitude, longitude)
+        // ------ add stop to database        
+        let newStopId = axios.put('/map/add', {tripId, start_distance, stop:{
+            name, address, image, latitude, longitude
+            }})
 
 // ------create new waypoint array       
-        let newList = this.props.tripWaypoints.slice()
-        let newStop = {name, address, image, latitude, longitude, start_distance}
-
+        let newList = this.props.tripWaypoints.slice();
+        let newStop = {name, address, image, latitude, longitude, start_distance, id: newStopId};
+        let newWaypointArray = [];
     // ------ places new stops based on distance from start point
         let insertInOrder = (index) =>{
-            var newIndex
+            var newIndex;
             if (index === newList.length){
                 newIndex = index
             }
             else if (newList[index].start_distance < start_distance){
 
-                return insertInOrder(index + 1)
+                return insertInOrder(index + 1);
             } else {
             newIndex = index
             }
-            return newIndex
+            return newIndex;
         }
 
         if (newList.length){
-            let insertIndex = insertInOrder(0)
-            newList.splice(insertIndex, 0 , newStop)
+            let insertIndex = insertInOrder(0);
+            newList.splice(insertIndex, 0 , newStop);
         }
             else{
             newList.push(newStop)
@@ -78,10 +82,7 @@ class AddStop extends Component {
 
         
 
-// ------ add stop to database        
-        axios.put('/map/add', {tripId, start_distance, stop:{
-            name, address, image, latitude, longitude
-            }})
+
 // ------ send new waypoint array to props        
         this.props.addStop(newList)
     }
@@ -124,10 +125,7 @@ class AddStop extends Component {
 const mapStateToProps = (state)=> {
     return{
         user: state.user,
-        tripOrigin: state.tripOrigin,
-        tripDestination: state.tripDestination,
-        tripWaypoints: state.tripWaypoints,
-        tripId: state.tripId
+        currentTrip: state.currentTrip
 
     }
 }
