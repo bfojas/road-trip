@@ -38,6 +38,6 @@ app.get("/api/user-trips", userController.getUserTrips)
 //Map endpoints
 app.post('/map/start', mapController.start)
 app.put('/map/add', mapController.add)
-
+app.delete('/map/new-trip', mapController.newTrip)
 const PORT = 4000;
 app.listen(PORT, console.log(`Server listening on port ${PORT}`));

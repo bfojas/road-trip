@@ -22,10 +22,18 @@ class MapView extends Component {
         this.tripCheck()
     }
 
+    componentDidUpdate = (prevProps) =>{
+        console.log('updated')
+        if (prevProps !== this.props){
+            this.tripCheck()
+        }
+    }
+
     tripCheck = () => {
         console.log('trip id', this.props.tripId)
         if(this.props.tripId !== 0)
         {this.setState({startModal: false})}
+        else {this.setState({startModal: true})}
     }
 
     closeModal = () => {

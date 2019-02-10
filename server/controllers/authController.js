@@ -78,13 +78,14 @@ module.exports = {
                                         .catch(error=> console.log('----trip dest error', error));
                                     let tripWaypoints = await dbInstance.get_waypoints([tripId, origin_id, destination_id])
                                         .catch(error=> console.log('----waypoint error', error));
+                                    req.session.currentTrip = await {
+                                        tripOrigin: tripOrigin[0], 
+                                        tripDestination: tripDestination[0],
+                                        tripName, 
+                                        tripWaypoints, 
+                                        tripId}
                                     res.status(200).send({user: req.session.user,
-                                        currentTrip: {
-                                            tripOrigin: tripOrigin[0], 
-                                            tripDestination: tripDestination[0],
-                                            tripName, 
-                                            tripWaypoints, 
-                                            tripId}});}
+                                        currentTrip: req.session.currentTrip });}
                                 else { res.status(200).send({user: req.session.user})}
                                 
                             })
@@ -112,7 +113,10 @@ module.exports = {
     },
 
     getUser: (req, res) => {
-        res.send({ user: req.session.user });
+        res.send({ 
+            user: req.session.user,
+            currentTrip: req.session.currentTrip 
+        });
     },
 
     logout: (req, res) => {

@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import "./Sidebar.scss";
 
 export default function Sidebar(props) {
-    const { show, hide } = props;
+    const { show, hide, startNew } = props;
     const burgerClass = !props.path ? "homepage-nav" : null;
     return (
         <Menu right burgerBarClassName={burgerClass} isOpen={show} >
             <Link to="/map" className="menu-item" onClick={hide}>
+                Plan your trip
+            </Link>
+            <Link onClick={startNew} to="/map" className="menu-item" >
                 Start a new trip
             </Link>
             <Link to="/profile" className="menu-item" onClick={hide}>

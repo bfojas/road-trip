@@ -23,23 +23,41 @@ module.exports = {
 
 //connects stops to trip in line_item table    
         console.log('t stamp', +timeStamp)
-        req.app.get('db').add_line_item([tripId[0].id, originId[0].id])
-        req.app.get('db').add_line_item([tripId[0].id, destinationId[0].id])
+        req.session.currentTrip = {
+            tripOrigin: origin,
+            tripDestination: destination,
+            tripName: name,
+            tripWaypoints: [],
+            tripId: tripId[0]
+        }
+        req.app.get('db').add_line_item([tripId[0].id, originId[0].id, null])
+        req.app.get('db').add_line_item([tripId[0].id, destinationId[0].id, null])
         req.app.get('db').add_trip_info([originId[0].id, destinationId[0].id, tripId[0].id, +timeStamp])
         res.status(200).send(tripId)
     },
 
     add: async (req, res) => {
-        const {stop, tripId} = req.body
+        const {stop, tripId, start_distance} = req.body
         let stopId =  await req.app.get('db').find_stop_id(stop.address)
             .then(res=>{ 
                 return res.length 
                 ? res
                 : req.app.get('db').add_stop(stop)})
 
-        req.app.get('db').add_line_item(tripId, stopId[0].id)
+        req.app.get('db').add_line_item(tripId, stopId[0].id, start_distance)
         .catch(error=>console.log('-----add stop', error))
 
+    },
+
+    newTrip: (req, res) => {
+        req.session.currentTrip = {
+            tripOrigin: null,
+            tripDestination: null,
+            tripName: '',
+            tripWaypoints: [],
+            tripId: 0
+        }
+        res.status(200).send(req.session.currentTrip)
     }
 
 

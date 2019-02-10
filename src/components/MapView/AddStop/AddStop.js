@@ -47,11 +47,11 @@ class AddStop extends Component {
         const {tripId, tripOrigin} = this.props;
         const { name, address, image, latitude, longitude} = this.state
 
-        let startDistance = this.getDistance(tripOrigin, latitude, longitude)
+        let start_distance = this.getDistance(tripOrigin, latitude, longitude)
 
 // ------create new waypoint array       
         let newList = this.props.tripWaypoints.slice()
-        let newStop = {name, address, image, latitude, longitude, startDistance}
+        let newStop = {name, address, image, latitude, longitude, start_distance}
 
     // ------ places new stops based on distance from start point
         let insertInOrder = (index) =>{
@@ -59,7 +59,7 @@ class AddStop extends Component {
             if (index === newList.length){
                 newIndex = index
             }
-            else if (newList[index].startDistance < startDistance){
+            else if (newList[index].start_distance < start_distance){
 
                 return insertInOrder(index + 1)
             } else {
@@ -79,7 +79,7 @@ class AddStop extends Component {
         
 
 // ------ add stop to database        
-        axios.put('/map/add', {tripId, stop:{
+        axios.put('/map/add', {tripId, start_distance, stop:{
             name, address, image, latitude, longitude
             }})
 // ------ send new waypoint array to props        
@@ -135,5 +135,5 @@ const mapDispatchToProps = {
     addStop
 }
 
-const wrappedRoute = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(AddStop)
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(wrappedRoute))
+// const wrappedRoute = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_MAP_KEY})(AddStop)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddStop))

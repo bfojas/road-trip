@@ -25,11 +25,16 @@ class StartTripModal extends Component {
         }
     }
 
-    originPicker = (location) => {
+    componentDidMount = () => {
+        console.log('refs', this)
+        // this.refs.destination.ref.input.current.autocomplete.setFields(['formatted_address', 'name', 'geometry', 'photos'])
+      }
 
+    originPicker = (location) => {
+        console.log('origin', location)
 // sets origin in state with info
         const {formatted_address} = location;
-        const {long_name} = location.address_components[0]
+        const {name} = location
         const imageSet = location.photos
         ?location.photos[0].getUrl()
         :null
@@ -37,24 +42,30 @@ class StartTripModal extends Component {
         const lngSet = location.geometry.location.lng()
 
         this.setState({originPick: {
-            name: long_name,
+            name: name,
             address: formatted_address,
             image: imageSet,
             latitude: latSet,
             longitude: lngSet
         }})
+        const {originPick, originImage, originName, destinationPick} = this.state
+
+// update modal pic/name        
+        if(originPick && (originImage !== `url(${originPick.image})`))
+        {this.setState({originImage: `url(${originPick.image})`})}
+        if(originPick && (originName !== `${originPick.address}`))
+        {this.setState({originName: `${originPick.address}`})}
 
 // if origin & desination are picked, enables submit button        
-        const {originPick, destinationPick} = this.state
         if (originPick && destinationPick)
             {this.setState({submitDisable: false})}
     }
 
     destinationPicker = (location) => {
-
+        console.log('destination', location)
 // sets origin in state with info
         const {formatted_address} = location;
-        const {long_name} = location.address_components[0]
+        const {name} = location
         const imageSet = location.photos
         ?location.photos[0].getUrl()
         :null
@@ -62,16 +73,22 @@ class StartTripModal extends Component {
         const lngSet = location.geometry.location.lng()
 
         this.setState({destinationPick: {
-            name: long_name,
+            name: name,
             address: formatted_address,
             image: imageSet,
             latitude: latSet,
             longitude: lngSet
         }})
-        const {originPick, destinationPick} = this.state
+        const {originPick, destinationImage, destinationName, destinationPick} = this.state
+
+// update modal pic/name        
+        if(destinationPick && (destinationImage !== `url(${destinationPick.image})`))
+        {this.setState({destinationImage: `url(${destinationPick.image})`})}
+        if(destinationPick && (destinationName !== `${destinationPick.address}`))
+        {this.setState({destinationName: `${destinationPick.address}`})}
        
 // if origin & desination are picked, enables submit button        
-            if (originPick && destinationPick)
+        if (originPick && destinationPick)
             {this.setState({submitDisable: false})}
     }
 
@@ -109,18 +126,8 @@ class StartTripModal extends Component {
     }
     render(){
         const {show} = this.props
-        const {originPick, originImage, originName, destinationPick, destinationImage, destinationName} = this.state
-
-// changes modal images for cities
-        if(originPick && (originImage !== `url(${originPick.image})`))
-        {this.setState({originImage: `url(${originPick.image})`})}
-        if(originPick && (originName !== `${originPick.address}`))
-        {this.setState({originName: `${originPick.address}`})}
+        const {originName, destinationName} = this.state
         
-        if(destinationPick && (destinationImage !== `url(${destinationPick.image})`))
-        {this.setState({destinationImage: `url(${destinationPick.image})`})}
-        if(destinationPick && (destinationName !== `${destinationPick.address}`))
-        {this.setState({destinationName: `${destinationPick.address}`})}
 
         return show ? ( 
             <div className="fade-div">    
@@ -146,6 +153,7 @@ class StartTripModal extends Component {
                             <div className="trans-box">
                                 <h1>{destinationName}</h1>
                                 <AutoComplete
+                                    ref='destination'
                                     style={{width: '75%'}}
                                     onPlaceSelected={this.destinationPicker}
                                     types={['geocode']}
@@ -177,5 +185,5 @@ const mapDispatchToProps = {
     updateTripId
 }
 
-const wrappedModal = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(StartTripModal)
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(wrappedModal))
+// const wrappedModal = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(StartTripModal)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StartTripModal))

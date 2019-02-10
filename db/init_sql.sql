@@ -36,5 +36,6 @@ create table line_item (
     trip_id integer,
     stop_id integer,
     foreign key (trip_id) references trips(id),
-    foreign key (stop_id) references stops(id)
+    foreign key (stop_id) references stops(id),
+    start_distance numeric (15,12)
 );

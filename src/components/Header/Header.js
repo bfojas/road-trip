@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-import { updateUserData } from '../../ducks/reducer';
+import { updateUserData, updateTripInfo } from '../../ducks/reducer';
 import Sidebar from "./Sidebar";
 import logo from "../../images/logo.png";
 import logoDark from "../../images/logo-dark.png";
@@ -16,6 +16,7 @@ class Header extends Component {
         }
         this.getUserFromServer = this.getUserFromServer.bind(this);
         this.logout = this.logout.bind(this);
+        this.startNewTrip = this.startNewTrip.bind(this);
     }
 
     componentDidMount() {
@@ -28,16 +29,40 @@ class Header extends Component {
 
     getUserFromServer() {
         axios.get("/auth/user-data").then(response => {
-            const { updateUserData } = this.props;
+            const { updateUserData, updateTripInfo } = this.props;
             updateUserData(response.data.user);
+            updateTripInfo(response.data.currentTrip)
       });
+    }
+
+    startNewTrip() {
+        this.props.updateTripInfo({
+            tripOrigin: null,
+            tripDestination: null,
+            tripName: '',
+            tripWaypoints: [],
+            tripId: 0
+        });
+        axios.delete('/map/new-trip')
+        .catch(error => console.log('New trip error', error))
+        this.hideNav()
+        // this.props.history.push('/map')
     }
 
     logout() {
         axios.post("/auth/logout").then(response => {
             console.log(response);
             const { updateUserData } = this.props;
-            if (!response.data) { updateUserData(null); }
+            if (!response.data) { 
+                updateUserData(null);
+                updateTripInfo({
+                    tripOrigin: null,
+                    tripDestination: null,
+                    tripName: '',
+                    tripWaypoints: [],
+                    tripId: 0
+                })
+            }
         });
     }
 
@@ -64,7 +89,7 @@ class Header extends Component {
                 {/* <div className="profile-image">
                     <div className="alert-circle">4</div>
                 </div> */}
-                <Sidebar className="sidebar" path={path} show={showNav} hide={this.hideNav} />
+                <Sidebar className="sidebar" path={path} show={showNav} startNew={this.startNewTrip} hide={this.hideNav} />
             </div>
         );
     }
@@ -77,4 +102,4 @@ const mapStateToProps = state =>{
     }
 }
 
-export default withRouter(connect(mapStateToProps, { updateUserData })(Header));
+export default withRouter(connect(mapStateToProps, { updateUserData, updateTripInfo })(Header));
