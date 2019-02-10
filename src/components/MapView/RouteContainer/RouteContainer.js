@@ -22,7 +22,8 @@ class RouteContainer extends Component {
 
 const mapStateToProps = (state)=> {
     return{
-        user: state.user
+        user: state.user,
+        currentTrip: state.currentTrip
     }
 }
 const mapDispatchToProps = {

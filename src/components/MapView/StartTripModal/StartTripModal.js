@@ -22,10 +22,6 @@ class StartTripModal extends Component {
         };
     }
 
-    componentDidMount = () => {
-        console.log('refs', this)
-        // this.refs.destination.ref.input.current.autocomplete.setFields(['formatted_address', 'name', 'geometry', 'photos'])
-      }
 
     // sets origin in state with info
     originPicker = (location) => {
@@ -59,7 +55,6 @@ class StartTripModal extends Component {
     }
 
     destinationPicker = (location) => {
-        console.log('destination', location)
 // sets origin in state with info
         const {formatted_address} = location;
         const {name} = location;
@@ -173,7 +168,7 @@ class StartTripModal extends Component {
 const mapStateToProps = (state)=> {
     return{
         user: state.user,
-        tripId: state.tripId
+        currentTrip: state.currentTrip
 
     }
 }

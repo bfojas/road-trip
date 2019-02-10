@@ -22,17 +22,17 @@ class MapView extends Component {
     }
 
     componentDidUpdate = (prevProps) =>{
-        console.log('updated')
         if (prevProps !== this.props){
             this.tripCheck();
         }
     }
 
     tripCheck = () => {
-        console.log('trip id', this.props.tripId)
-        if (this.props.tripId !== 0)
-        {this.setState({startModal: false})}
-        else {this.setState({startModal: true})}
+        if (this.props.currentTrip.tripId !== 0) {
+            this.setState({startModal: false})
+        } else {
+            this.setState({startModal: true})
+        }
     }
 
     closeModal = () => {
@@ -41,27 +41,19 @@ class MapView extends Component {
 
 
     render(){
-        const { tripOrigin, tripDestination, tripName, tripWaypoints, updateStartEndData } = this.props
-        const { startModal } = this.state
-        return (
+        const {tripName} = this.props.currentTrip;
+        const {startModal} = this.state;
+        return(
             <div className="map-view-container">
                 <StartTripModal 
-                    show={startModal}
-                    origin={tripOrigin} 
-                    destination={tripDestination}
+                    show= {startModal}
                     closeModal={this.closeModal}
                 />
                 <div className="map-container">
-                    <MapRender
-                    // origin={tripOrigin} 
-                    // destination={tripDestination}
-                    // waypoints={tripWaypoints}
-                    />
+                    <MapRender/>
                 </div>
                 <div className="route-container">
                     <RouteContainer
-                    origin={tripOrigin} 
-                    destination={tripDestination}
                     tripName={tripName}
                     />
                 </div>
@@ -72,11 +64,7 @@ class MapView extends Component {
 
 const mapStateToProps = (state) => {
     return {user: state.user,
-    tripOrigin: state.tripOrigin,
-    tripDestination: state.tripDestination,
-    tripName: state.tripName,
-    tripWaypoints: state.tripWaypoints,
-    tripId: state.tripId
+    currentTrip: state.currentTrip
     }
 }
 
