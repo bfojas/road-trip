@@ -44,7 +44,7 @@ class AddStop extends Component {
     }
 
     addStop = () =>{
-        const {tripId, tripOrigin} = this.props.currentTrip;
+        const {tripId, tripOrigin, tripWaypoints} = this.props.currentTrip;
         const { name, address, image, latitude, longitude} = this.state
 
         let start_distance = this.getDistance(tripOrigin, latitude, longitude)
@@ -54,7 +54,7 @@ class AddStop extends Component {
             }})
 
 // ------create new waypoint array       
-        let newList = this.props.tripWaypoints.slice();
+        let newList = tripWaypoints.slice();
         let newStop = {name, address, image, latitude, longitude, start_distance, id: newStopId};
         let newWaypointArray = [];
     // ------ places new stops based on distance from start point
