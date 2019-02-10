@@ -1,28 +1,25 @@
 /*global google*/
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './StartTripModal.scss';
 import AutoComplete from 'react-google-autocomplete';
 import { GoogleApiWrapper } from "google-maps-react";
-import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
-import {updateStartEndData, updateTripId} from '../../../ducks/reducer'
-import axios from 'axios'
-
-
-
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { updateStartEndData, updateTripId } from '../../../ducks/reducer';
+import axios from 'axios';
 
 class StartTripModal extends Component {
-    constructor(props){
-        super(props)
-        this.state={
+    constructor(props) {
+        super(props);
+        this.state = {
             originImage:'',
             originName: 'Where do we start?',
             destinationImage:'',
             destinationName: 'Where are we going?',
             // input: ""
             submitDisable: true
-        }
+        };
     }
 
     componentDidMount = () => {
@@ -30,14 +27,14 @@ class StartTripModal extends Component {
         // this.refs.destination.ref.input.current.autocomplete.setFields(['formatted_address', 'name', 'geometry', 'photos'])
       }
 
+    // sets origin in state with info
     originPicker = (location) => {
         console.log('origin', location)
-// sets origin in state with info
         const {formatted_address} = location;
-        const {name} = location
+        const {name} = location;
         const imageSet = location.photos
-        ?location.photos[0].getUrl()
-        :null
+        ? location.photos[0].getUrl()
+        : null;
         const latSet = location.geometry.location.lat()
         const lngSet = location.geometry.location.lng()
 
@@ -50,13 +47,13 @@ class StartTripModal extends Component {
         }})
         const {originPick, originImage, originName, destinationPick} = this.state
 
-// update modal pic/name        
+        // update modal pic/name        
         if(originPick && (originImage !== `url(${originPick.image})`))
         {this.setState({originImage: `url(${originPick.image})`})}
         if(originPick && (originName !== `${originPick.address}`))
         {this.setState({originName: `${originPick.address}`})}
 
-// if origin & desination are picked, enables submit button        
+        // if origin & desination are picked, enables submit button        
         if (originPick && destinationPick)
             {this.setState({submitDisable: false})}
     }
@@ -65,10 +62,10 @@ class StartTripModal extends Component {
         console.log('destination', location)
 // sets origin in state with info
         const {formatted_address} = location;
-        const {name} = location
+        const {name} = location;
         const imageSet = location.photos
-        ?location.photos[0].getUrl()
-        :null
+        ? location.photos[0].getUrl()
+        : null;
         const latSet = location.geometry.location.lat()
         const lngSet = location.geometry.location.lng()
 

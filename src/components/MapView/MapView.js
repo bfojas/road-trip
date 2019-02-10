@@ -1,37 +1,36 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import MapRender from './mapRender/mapRender'
 import RouteContainer from './RouteContainer/RouteContainer'
 import './MapView.scss'
 import StartTripModal from './StartTripModal/StartTripModal';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { GoogleApiWrapper } from "google-maps-react";
-import {updateStartEndData} from '../../ducks/reducer'
-import {withRouter} from 'react-router-dom';
+import { updateStartEndData } from '../../ducks/reducer'
+import { withRouter } from 'react-router-dom';
 
 
 class MapView extends Component {
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
-            startModal: true,
+            startModal: true
         }
-
     }
 
     componentDidMount = () => {
-        this.tripCheck()
+        this.tripCheck();
     }
 
     componentDidUpdate = (prevProps) =>{
         console.log('updated')
         if (prevProps !== this.props){
-            this.tripCheck()
+            this.tripCheck();
         }
     }
 
     tripCheck = () => {
         console.log('trip id', this.props.tripId)
-        if(this.props.tripId !== 0)
+        if (this.props.tripId !== 0)
         {this.setState({startModal: false})}
         else {this.setState({startModal: true})}
     }
@@ -42,12 +41,12 @@ class MapView extends Component {
 
 
     render(){
-        const {tripOrigin, tripDestination, tripName, tripWaypoints, updateStartEndData} = this.props
-        const {startModal} = this.state
-        return(
+        const { tripOrigin, tripDestination, tripName, tripWaypoints, updateStartEndData } = this.props
+        const { startModal } = this.state
+        return (
             <div className="map-view-container">
                 <StartTripModal 
-                    show= {startModal}
+                    show={startModal}
                     origin={tripOrigin} 
                     destination={tripDestination}
                     closeModal={this.closeModal}
@@ -67,7 +66,7 @@ class MapView extends Component {
                     />
                 </div>
             </div>
-        )
+        );
     }
 }
 
