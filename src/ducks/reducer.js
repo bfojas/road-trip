@@ -4,7 +4,7 @@ const initialState = {
     tripDestination: null,
     tripName: '',
     tripWaypoints: [],
-    tripId:7
+    tripId: 0
 }
 
 
@@ -22,6 +22,8 @@ export default function reducer (state = initialState, action){
             return Object.assign( {}, state, {tripId: action.payload})
         case ADD_STOP:
             return Object.assign( {}, state, {tripWaypoints: action.payload})
+        case UPDATE_TRIP_DATA:
+            return Object.assign( {}, state, action.payload)
         default: return state
     }
 
@@ -32,6 +34,7 @@ const UPDATE_USER_DATA = "UPDATE_USER_DATA";
 const UPDATE_START_END_DATA = "UPDATE_START_END_DATA";
 const UPDATE_TRIP_ID = "UPDATE_TRIP_ID"
 const ADD_STOP = "ADD_STOP"
+const UPDATE_TRIP_DATA = "UPDATE_TRIP_DATA"
 
 //ACTION CREATORS
 export function updateUserData(userData) {
@@ -59,5 +62,12 @@ export function updateTripId(id) {
     return {
         type: UPDATE_TRIP_ID,
         payload: id
+    }
+}
+
+export function updateTripInfo (tripData) {
+    return {
+        type: UPDATE_TRIP_DATA,
+        payload: tripData
     }
 }

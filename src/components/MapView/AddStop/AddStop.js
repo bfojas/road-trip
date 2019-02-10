@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import AutoComplete from 'react-google-autocomplete';
 import { GoogleApiWrapper } from "google-maps-react";
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import {addStop} from '../../../ducks/reducer'
 import axios from 'axios';
 
@@ -15,14 +16,14 @@ class AddStop extends Component {
             image: "",
             latitude: "",
             longitude: "",
-            wait: true
+            wait: true,
+            buttonDisable : true
         }
     }
 
 
     pickStop = (location) =>{
 // ------ set location to state
-        console.log('location', location)
         const {formatted_address} = location;
         const {long_name} = location.address_components[0]
         const imageSet = location.photos
@@ -36,8 +37,10 @@ class AddStop extends Component {
             address: formatted_address,
             image: imageSet,
             latitude: latSet,
-            longitude: lngSet
+            longitude: lngSet,
+            buttonDisable: false
         })
+
     }
 
     addStop = () =>{
@@ -45,36 +48,33 @@ class AddStop extends Component {
         const { name, address, image, latitude, longitude} = this.state
 
         let startDistance = this.getDistance(tripOrigin, latitude, longitude)
+
 // ------create new waypoint array       
         let newList = this.props.tripWaypoints.slice()
         let newStop = {name, address, image, latitude, longitude, startDistance}
+
+    // ------ places new stops based on distance from start point
         let insertInOrder = (index) =>{
-            console.log('start', index)
             var newIndex
             if (index === newList.length){
                 newIndex = index
-                console.log('=', newIndex)
             }
             else if (newList[index].startDistance < startDistance){
-                console.log('rec')
 
                 return insertInOrder(index + 1)
             } else {
             newIndex = index
-            console.log('out', newIndex)
             }
             return newIndex
         }
 
         if (newList.length){
             let insertIndex = insertInOrder(0)
-            console.log('insert index', insertIndex)
             newList.splice(insertIndex, 0 , newStop)
         }
             else{
             newList.push(newStop)
         }
-        console.log('list with distance', newList)
 
         
 
@@ -98,20 +98,20 @@ class AddStop extends Component {
 
 // ------ waits to render input
             this.state.wait
-            ?<div>
+            ?<div className="add-stop-container">
                 <div>Loading...</div>
                 {setTimeout(() => {
                     this.setState({wait: false})
                 }, 500)}
             </div>
             :
-            <div>
+            <div className="add-stop-container">
                 <AutoComplete
                 style={{width: '75%'}}
                 onPlaceSelected={this.pickStop}
                 types={['geocode']}
                 />
-                <button onClick={this.addStop}>Add</button>
+                <button onClick={this.addStop} disabled={this.state.buttonDisable}>Add</button>
 
             </div>
         )
@@ -136,4 +136,4 @@ const mapDispatchToProps = {
 }
 
 const wrappedRoute = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(AddStop)
-export default connect(mapStateToProps, mapDispatchToProps)(wrappedRoute)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(wrappedRoute))

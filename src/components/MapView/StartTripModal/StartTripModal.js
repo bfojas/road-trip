@@ -5,6 +5,7 @@ import './StartTripModal.scss';
 import AutoComplete from 'react-google-autocomplete';
 import { GoogleApiWrapper } from "google-maps-react";
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import {updateStartEndData, updateTripId} from '../../../ducks/reducer'
 import axios from 'axios'
 
@@ -82,7 +83,8 @@ class StartTripModal extends Component {
             {origin: originPick, 
             destination: destinationPick,
             name: destinationName,
-            userId: this.props.user.id})
+            userId: this.props.user.id,
+            timeStamp : Date.now()})
 // sends trip id to redux props
             .then(res=>{
                 console.log('tripId', res)
@@ -165,7 +167,9 @@ class StartTripModal extends Component {
 
 const mapStateToProps = (state)=> {
     return{
-        user: state.user
+        user: state.user,
+        tripId: state.tripId
+
     }
 }
 const mapDispatchToProps = {
@@ -174,4 +178,4 @@ const mapDispatchToProps = {
 }
 
 const wrappedModal = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(StartTripModal)
-export default connect(mapStateToProps, mapDispatchToProps)(wrappedModal)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(wrappedModal))

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import alertify from "alertifyjs";
 import { connect } from "react-redux";
-import { updateUserData } from "../../ducks/reducer";
+import { updateUserData, updateTripInfo } from "../../ducks/reducer";
 import "./JoinLogin.scss";
 
 class JoinLogin extends Component {
@@ -44,13 +44,16 @@ class JoinLogin extends Component {
     loginUser(e) {
         e.preventDefault();
         const { email, password } = this.state;
-        const { updateUserData } = this.props;
+        const { updateUserData, updateTripInfo } = this.props;
         const user = { email, password };
-        axios.post("/auth/login", user).then(response => {
+        axios.post("/auth/login", user).then(async response => {
             if (response.data.errorMessage) {
                 alertify.error(response.data.errorMessage);                
             } else {
-                updateUserData(response.data);
+                console.log('current', response.data.currentTrip)
+                const {user, currentTrip} = response.data
+                updateUserData(response.data.user);
+                updateTripInfo(response.data.currentTrip)
                 alertify.success("You have successfully logged in");
                 this.setState({ redirect: true })
             }
@@ -95,4 +98,9 @@ class JoinLogin extends Component {
 
 }
 
-export default connect(null, { updateUserData })(JoinLogin);
+
+const mapDispatchToProps = {
+    updateUserData, updateTripInfo
+}
+
+export default connect(null, mapDispatchToProps)(JoinLogin);

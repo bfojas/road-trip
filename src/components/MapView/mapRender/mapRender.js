@@ -4,13 +4,25 @@ import React,  {Component} from 'react';
 import  { compose, withProps, lifecycle } from 'recompose'
 import { GoogleApiWrapper } from "google-maps-react";
 import {withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer} from 'react-google-maps'
+import { connect } from 'react-redux'
+
 
 
 class MapRender extends Component{
 
     constructor(props){
         super(props)
+        this.state = {
+          rerender : ""
+        }
       }
+
+    componentDidUpdate(prevProps) {
+      if(prevProps.destination !== this.props.destination)
+      {this.setState({rerender: "hi"})}
+      // :null
+
+    }
 
     render(){
 
@@ -20,15 +32,16 @@ class MapRender extends Component{
 // ------ default map start
         let originLongLat = '42.123123, -80.123123'
         let destinationLongLat = '33.448377, -112.074037'
-        const {origin, destination, waypoints} = this.props
-        console.log('waypoints', waypoints)
+        const {tripOrigin, tripDestination, tripWaypoints} = this.props
+        console.log('waypoints', tripWaypoints)
 
 // ------ sets map based on props
-      if (destination)
-      {originLongLat = `${origin.latitude},${origin.longitude}`
-      destinationLongLat = `${destination.latitude},${destination.longitude}`}
+      if (tripDestination)
+      {console.log('origin', tripOrigin)
+        originLongLat = `${tripOrigin.latitude},${tripOrigin.longitude}`
+      destinationLongLat = `${tripDestination.latitude},${tripDestination.longitude}`}
 
-// ------ for rendering default map without waypoints
+      // ------ for rendering default map without waypoints
       let renderWaypoints = []
       let renderRoute={
         origin: originLongLat,
@@ -38,8 +51,8 @@ class MapRender extends Component{
 
 
 // ------ renders waypoints when they are added
-      if(waypoints.length){
-      renderWaypoints = waypoints.map(val=>{
+      if(tripWaypoints.length){
+      renderWaypoints = tripWaypoints.map(val=>{
           return {location: `${val.latitude}, ${val.longitude}`, stopover: true}
         })
       renderRoute = {
@@ -62,6 +75,7 @@ class MapRender extends Component{
             lifecycle({
               componentDidMount() { 
                 // setTimeout(()=>{
+                  console.log('route', renderRoute)
                 const DirectionsService = new google.maps.DirectionsService();
                 DirectionsService.route(renderRoute, 
                   (result, status) => {
@@ -74,7 +88,7 @@ class MapRender extends Component{
                     console.error(`error fetching directions ${result}`);
                   }
                 })
-              // },200)
+              // },5000)
               }
             })
           )(props =>
@@ -96,4 +110,13 @@ class MapRender extends Component{
       
 }
 
-export default GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(MapRender)
+const mapStateToProps = (state) => {
+  return{
+  tripOrigin: state.tripOrigin, 
+  tripDestination:state.tripDestination, 
+  tripWaypoints: state.tripWaypoints
+  }
+}
+
+const wrappedRender = connect(mapStateToProps)(MapRender)
+export default GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(wrappedRender)

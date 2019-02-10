@@ -21,7 +21,6 @@ module.exports = {
                     //If users is empty array, email not stored in db -> hash pw, create new user and set to session.
                     bcrypt.hash(password, saltRounds).then(hash => {
                         dbInstance.create_user([ name, email, hash ]).then(newUsers => {
-                            console.log("newUsers", newUsers);
                             const newUser = newUsers[0];
                             req.session.user = {
                                 id: newUser.id,
@@ -68,8 +67,29 @@ module.exports = {
                                 profile_image: user.profile_image,
                                 cover_image: user.cover_image,
                                 bio: user.bio
-							};
-                            res.send(req.session.user);
+                            };
+                            dbInstance.get_recent_trip([user.id])
+                            .then(async trip => {
+                                if (trip.length){
+                                    const {origin_id, destination_id, id: tripId, name: tripName, images} = trip[0];
+                                    let tripOrigin = await dbInstance.get_stop([origin_id])
+                                        .catch(error=> console.log('----trip origin error', error));
+                                    let tripDestination = await dbInstance.get_stop([destination_id])
+                                        .catch(error=> console.log('----trip dest error', error));
+                                    let tripWaypoints = await dbInstance.get_waypoints([tripId, origin_id, destination_id])
+                                        .catch(error=> console.log('----waypoint error', error));
+                                    res.status(200).send({user: req.session.user,
+                                        currentTrip: {
+                                            tripOrigin: tripOrigin[0], 
+                                            tripDestination: tripDestination[0],
+                                            tripName, 
+                                            tripWaypoints, 
+                                            tripId}});}
+                                else { res.status(200).send({user: req.session.user})}
+                                
+                            })
+
+                            // res.send(req.session.user);
                         } else {
 							//If bcrypt compare returns false, send error.
 							res.send({errorMessage: "Invalid username or password"});

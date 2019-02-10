@@ -6,6 +6,7 @@ import StartTripModal from './StartTripModal/StartTripModal';
 import {connect} from 'react-redux'
 import { GoogleApiWrapper } from "google-maps-react";
 import {updateStartEndData} from '../../ducks/reducer'
+import {withRouter} from 'react-router-dom';
 
 
 class MapView extends Component {
@@ -17,14 +18,15 @@ class MapView extends Component {
 
     }
 
-    // originSet = (location) =>{
-    //     console.log('location', location)
-    //     this.props.updateStartEndData({location, type: 'tripOrigin'})
-    // }
+    componentDidMount = () => {
+        this.tripCheck()
+    }
 
-    // destinationSet = (location) =>{
-    //     this.props.updateStartEndData({location, type: 'tripDestination'})
-    // }
+    tripCheck = () => {
+        console.log('trip id', this.props.tripId)
+        if(this.props.tripId !== 0)
+        {this.setState({startModal: false})}
+    }
 
     closeModal = () => {
         this.setState({startModal: false})
@@ -44,9 +46,9 @@ class MapView extends Component {
                 />
                 <div className="map-container">
                     <MapRender
-                    origin={tripOrigin} 
-                    destination={tripDestination}
-                    waypoints={tripWaypoints}
+                    // origin={tripOrigin} 
+                    // destination={tripDestination}
+                    // waypoints={tripWaypoints}
                     />
                 </div>
                 <div className="route-container">
@@ -66,7 +68,8 @@ const mapStateToProps = (state) => {
     tripOrigin: state.tripOrigin,
     tripDestination: state.tripDestination,
     tripName: state.tripName,
-    tripWaypoints: state.tripWaypoints
+    tripWaypoints: state.tripWaypoints,
+    tripId: state.tripId
     }
 }
 
@@ -74,4 +77,4 @@ const mapDispatchToProps = {
     updateStartEndData
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_MAP_KEY})(MapView))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_MAP_KEY})(MapView)))

@@ -35,6 +35,10 @@ class Profile extends Component {
         this.updateUserPhotoOnServer = this.updateUserPhotoOnServer.bind(this);
     }
 
+    // componentDidMount = () => {
+    //     axios.get(`/api/user-trips/${}`)
+    // }
+
     showCoverEdit() {
         this.setState({ showCoverEdit: true })
     }
@@ -49,6 +53,7 @@ class Profile extends Component {
     }
 
     upload(e) {
+        console.log('img', e.target.files)
         const target = e.target.name;
         ReactS3.uploadFile(e.target.files[0], config).then(data => {
             this.updateUserPhotoOnServer(target, data.location);
@@ -87,7 +92,7 @@ class Profile extends Component {
                     <i className="fas fa-camera cover-edit-icon" style={coverIconStyle}></i>
                     <div className="cover-edit-box" style={coverEditStyle}>
                         <label htmlFor="cover-upload">EDIT COVER PHOTO</label>
-                        <input type="file" name="cover_image" onChange={this.upload} id="cover-upload" style={{display:'none'}} />
+                        <input type="file" name="cover_image" onChange={this.upload} id="cover-upload" accept="image/*" style={{display:'none'}} />
                     </div>
                     <div className="update-info" 
                         onClick={this.toggleModal}
@@ -106,7 +111,7 @@ class Profile extends Component {
                                     <i className="fas fa-camera profile"></i>
                                     <span>UPDATE</span>
                                 </label>
-                                <input type="file" name="profile_image" onChange={this.upload} id="profile-upload" style={{display:"none"}} />
+                                <input type="file" name="profile_image" onChange={this.upload} id="profile-upload" accept="image/*" style={{display:"none"}} />
                             </div>
                         </div>
                         <h2>{user.name}</h2>

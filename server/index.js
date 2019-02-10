@@ -34,7 +34,7 @@ app.get("/auth/user-data", authController.getUser);
 app.post("/auth/logout", authController.logout);
 //User endpoints
 app.put("/api/user/:id", userController.updateUserInfo);
-
+app.get("/api/user-trips", userController.getUserTrips)
 //Map endpoints
 app.post('/map/start', mapController.start)
 app.put('/map/add', mapController.add)
