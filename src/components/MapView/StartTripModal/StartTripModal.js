@@ -104,7 +104,7 @@ class StartTripModal extends Component {
         this.props.updateStartEndData(
             {origin: originPick, 
             destination: destinationPick,
-            name: destinationName})
+            name: destinationPick.name})
 
         this.props.closeModal();
     }

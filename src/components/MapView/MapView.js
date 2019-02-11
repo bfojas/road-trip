@@ -44,8 +44,10 @@ class MapView extends Component {
         const {startModal} = this.state;
         if (startModal){
             var blur = 'blur(1px)'
+            var routeDisplay = 'none'
         } else {
-            blur = 'none'
+            blur = 'none';
+            routeDisplay = 'flex'
         };
         return(
             <div className="map-view-container">
@@ -56,9 +58,8 @@ class MapView extends Component {
                 <div className="map-container" style={{filter: blur}}>
                     <MapRender/>
                 </div>
-                <div className="route-holder" style={{filter: blur}}>
-                    <RouteContainer
-                    />
+                <div className="route-holder" style={{filter: blur, display: routeDisplay}} >
+                    <RouteContainer />
                 </div>
             </div>
         );

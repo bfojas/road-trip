@@ -56,7 +56,7 @@ class RouteContainer extends Component {
                 </div>
             </div>
             :
-            <div>loading...</div>
+            null
 
         )
     }
