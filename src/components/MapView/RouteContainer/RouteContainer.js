@@ -24,7 +24,7 @@ class RouteContainer extends Component {
             .catch(error => console.log('--- change route error', error))
     }
 
-    render(){
+    render() {
         const {tripWaypoints, tripOrigin, tripDestination} = this.props.currentTrip
         let mappedWaypoints = tripWaypoints.map((val,i) =>{
             return(
@@ -38,7 +38,8 @@ class RouteContainer extends Component {
                 </DragDropContainer>
             )
         })
-        return(
+
+        return (
             tripDestination
             ?
             <div className="route-holder">
@@ -60,6 +61,7 @@ class RouteContainer extends Component {
 
         )
     }
+    
 }
 
 const mapStateToProps = state => {
