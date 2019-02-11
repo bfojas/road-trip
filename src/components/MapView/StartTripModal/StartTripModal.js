@@ -1,67 +1,68 @@
 
-import React, {Component} from 'react';
-import './StartTripModal.scss';
+import React, { Component } from 'react';
+import axios from 'axios';
 import AutoComplete from 'react-google-autocomplete';
-import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
-import {updateStartEndData, updateTripId} from '../../../ducks/reducer'
-import axios from 'axios'
-
-
-
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { updateStartEndData, updateTripId } from '../../../ducks/reducer';
+import './StartTripModal.scss';
 
 class StartTripModal extends Component {
-    constructor(props){
-        super(props)
-        this.state={
-            originImage:'',
-            originName: 'Where do we start?',
-            destinationImage:'',
-            destinationName: 'Where are we going?',
+    constructor(props) {
+        super(props);
+        this.state = {
+            originImage:"",
+            originName: "Where do we start?",
+            destinationImage:"",
+            destinationName: "Where are we going?",
             submitDisable: true
-        }
+        };
     }
 
+    handleChange = (e) => {
+        this.setState({input: e})
+    }
 
+    //Sets trip origin in state with info.
     originPicker = (location) => {
-// sets origin in state with info
-        const {formatted_address} = location;
-        const {name} = location
+        //Destructure property values off passed location object.
+        const { name } = location;
+        const { formatted_address } = location;
         const imageSet = location.photos
-        ?location.photos[0].getUrl()
-        :null
+        ? location.photos[0].getUrl()
+        : null;
         const latSet = location.geometry.location.lat()
         const lngSet = location.geometry.location.lng()
-
+        //Set those values to state as originPick object.
         this.setState({originPick: {
             name: name,
             address: formatted_address,
             image: imageSet,
             latitude: latSet,
             longitude: lngSet
-        }})
-        const {originPick, originImage, originName, destinationPick} = this.state
-
-// update modal pic/name        
-        if(originPick && (originImage !== `url(${originPick.image})`))
-        {this.setState({originImage: `url(${originPick.image})`})}
-        if(originPick && (originName !== `${originPick.address}`))
-        {this.setState({originName: `${originPick.address}`})}
-
-// if origin & desination are picked, enables submit button        
-        if (originPick && destinationPick)
-            {this.setState({submitDisable: false})}
+        }});
+        //Destructure state values.
+        const { originPick, originImage, originName, destinationPick } = this.state;
+        // Update modal image/name in state if changed.        
+        if (originPick && (originImage !== `url(${originPick.image})`)) {
+            this.setState({originImage: `url(${originPick.image})`});
+        }
+        if (originPick && (originName !== `${originPick.address}`)) {
+            this.setState({originName: `${originPick.address}`});
+        }
+        // if origin & desination are picked, enable submit button.      
+        if (originPick && destinationPick) { this.setState({submitDisable: false}) }
     }
 
+    // Sets trip destination in state with info.
     destinationPicker = (location) => {
-// sets origin in state with info
-        const {formatted_address} = location;
-        const {name} = location
+        const { name } = location;
+        const { formatted_address } = location;
         const imageSet = location.photos
-        ?location.photos[0].getUrl()
-        :null
-        const latSet = location.geometry.location.lat()
-        const lngSet = location.geometry.location.lng()
+        ? location.photos[0].getUrl()
+        : null;
+        const latSet = location.geometry.location.lat();
+        const lngSet = location.geometry.location.lng();
 
         this.setState({destinationPick: {
             name: name,
@@ -69,56 +70,48 @@ class StartTripModal extends Component {
             image: imageSet,
             latitude: latSet,
             longitude: lngSet
-        }})
-        const {originPick, destinationImage, destinationName, destinationPick} = this.state
+        }});
 
-// update modal pic/name        
-        if(destinationPick && (destinationImage !== `url(${destinationPick.image})`))
-        {this.setState({destinationImage: `url(${destinationPick.image})`})}
-        if(destinationPick && (destinationName !== `${destinationPick.address}`))
-        {this.setState({destinationName: `${destinationPick.address}`})}
-       
-// if origin & desination are picked, enables submit button        
-        if (originPick && destinationPick)
-            {this.setState({submitDisable: false})}
+        const { originPick, destinationImage, destinationName, destinationPick } = this.state
+        // Update modal image/name in state if changed.         
+        if (destinationPick && (destinationImage !== `url(${destinationPick.image})`)) {
+            this.setState({destinationImage: `url(${destinationPick.image})`});
+        }
+        if (destinationPick && (destinationName !== `${destinationPick.address}`)) {
+            this.setState({destinationName: `${destinationPick.address}`});
+        }
+        // if origin & desination are picked, enable submit button.       
+        if (originPick && destinationPick) { this.setState({submitDisable: false}) }
     }
 
     submitTrip = () => {
-        const {originPick, destinationPick, destinationName} = this.state
-        
-// sends trip data to db        
-        axios.post('/map/start', 
+        const { originPick, destinationPick, destinationName } = this.state;
+        // Sends trip data to db.        
+        axios.post("/map/start", 
             {origin: originPick, 
             destination: destinationPick,
             name: destinationName,
             userId: this.props.user.id,
-            timeStamp : Date.now()})
-// sends trip id to redux props
-            .then(res=>{
-                console.log('tripId', res)
-                this.props.updateTripId(res.data[0].id)
+            timeStamp: Date.now()})
+            // Sends newly created trip ID to Redux.
+            .then(response => {
+                console.log('tripId', response);
+                this.props.updateTripId(response.data[0].id);
             })
-            .catch(error => console.log('------submit trip', error))
+            .catch(error => console.log('------submit trip', error));
 
-// sends trip data to redux props
+        // Sends trip data to Redux.
         this.props.updateStartEndData(
             {origin: originPick, 
             destination: destinationPick,
             name: destinationName})
 
-// close modal
-        this.props.closeModal()
-
+        this.props.closeModal();
     }
 
-
-    handleChange = (e) => {
-        this.setState({input: e})
-    }
-    render(){
-        const {show} = this.props
-        const {originName, destinationName} = this.state
-        
+    render() {
+        const { show } = this.props;
+        const { originName, destinationName } = this.state;
 
         return show ? ( 
             <div className="fade-div">    
@@ -130,45 +123,39 @@ class StartTripModal extends Component {
                             <div className="trans-box">
                                 <h1>{originName}</h1>
                                 <AutoComplete
-                                    style={{width: '75%'}}
+                                    style={{width: "75%"}}
                                     onPlaceSelected={this.originPicker}
-                                    types={['geocode']}
+                                    types={["geocode"]}
                                 />
                             </div>
-                            
                         </div>
-                        <div 
-                            className="destination-select"
+                        <div className="destination-select"
                             style={{backgroundImage: this.state.destinationImage}}
                         >
                             <div className="trans-box">
                                 <h1>{destinationName}</h1>
                                 <AutoComplete
-                                    ref='destination'
-                                    style={{width: '75%'}}
+                                    ref="destination"
+                                    style={{width: "75%"}}
                                     onPlaceSelected={this.destinationPicker}
-                                    types={['geocode']}
+                                    types={["geocode"]}
                                 />
-                                
                             </div>
-                            
                         </div>
                         <div className="submitButton">
-                                    <button onClick={this.submitTrip} disabled={this.state.submitDisable}>Let's Go!</button>
-                                </div>
+                            <button onClick={this.submitTrip} disabled={this.state.submitDisable}>Let's Go!</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        )
-        : null
+        ) : null;
     }
 }
 
-const mapStateToProps = (state)=> {
-    return{
+const mapStateToProps = state => {
+    return {
         user: state.user,
         currentTrip: state.currentTrip
-
     }
 }
 const mapDispatchToProps = {

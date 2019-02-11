@@ -1,15 +1,14 @@
-import React, {Component} from 'react';
-import AutoComplete from 'react-google-autocomplete';
-import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
-import {addStop, updateTripInfo} from '../../../ducks/reducer'
-import axios from 'axios';
-import './AddStop.scss'
-
+import React, { Component } from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import AutoComplete from "react-google-autocomplete";
+import { addStop, updateTripInfo } from "../../../ducks/reducer";
+import './AddStop.scss';
 
 class AddStop extends Component {
-    constructor (props) {
-        super(props)
+    constructor(props) {
+        super(props);
         this.state = {
             name: "",
             address: "",
@@ -17,21 +16,18 @@ class AddStop extends Component {
             latitude: "",
             longitude: "",
             wait: true,
-            buttonDisable : true
+            buttonDisable: true
         }
     }
 
-
-    pickStop = (location) =>{
-// ------ set location to state
-        const {formatted_address} = location;
-        const {long_name} = location.address_components[0]
-        const imageSet = location.photos
-        ?location.photos[0].getUrl()
-        :null
-        const latSet = location.geometry.location.lat()
-        const lngSet = location.geometry.location.lng()
-
+    pickStop = location => {
+        // Destructure values from selected location.
+        const { formatted_address } = location;
+        const { long_name } = location.address_components[0];
+        const imageSet = location.photos ? location.photos[0].getUrl() : null;
+        const latSet = location.geometry.location.lat();
+        const lngSet = location.geometry.location.lng();
+        // Set selected location values to state.
         this.setState({
             name: long_name,
             address: formatted_address,
@@ -40,7 +36,6 @@ class AddStop extends Component {
             longitude: lngSet,
             buttonDisable: false
         })
-
     }
 
     addStop = () =>{
@@ -101,26 +96,26 @@ class AddStop extends Component {
 
 
 
-    getDistance = (start, latitude, longitude) =>{
-        let aSquare = Math.pow(Math.abs(start.latitude - latitude),2)
-        let bSquare = Math.pow(Math.abs(start.longitude - longitude),2)
-        return Math.sqrt(aSquare + bSquare)
+    //Calculates distance from origin location for new stop.
+    getDistance = (start, latitude, longitude) => {
+        let aSquare = Math.pow(Math.abs(start.latitude - latitude), 2);
+        let bSquare = Math.pow(Math.abs(start.longitude - longitude), 2);
+        return Math.sqrt(aSquare + bSquare);
     }
 
 
     render (){
-        let imageUrl
-        let displayName = ""
+        let imageUrl;
+        let displayName = "";
         if(this.props.currentTrip.tripDestination){
             imageUrl = `url(${this.props.currentTrip.tripDestination.image})`
             displayName = this.props.currentTrip.tripName
-        }
+        };
 
         return (
-
-// ------ waits to render input
-            this.state.wait
-            ?<div className="add-stop-container">
+            // Waits to render input.
+            this.state.wait ?
+            <div className="add-stop-container">
                 <div>Loading...</div>
                 {setTimeout(() => {
                     this.setState({wait: false})
@@ -133,23 +128,25 @@ class AddStop extends Component {
                 <h1>{displayName}</h1>
                 <div className="search-component">
                 <AutoComplete
-                style={{width: '75%'}}
-                onPlaceSelected={this.pickStop}
-                types={['geocode']}
+                    style={{width: '75%'}}
+                    onPlaceSelected={this.pickStop}
+                    types={['geocode']}
                 />
-                <button onClick={this.addStop} disabled={this.state.buttonDisable}>Add</button>
+                <button 
+                    onClick={this.addStop} 
+                    disabled={this.state.buttonDisable}>
+                Add
+                </button>
                 </div>
             </div>
-        )
+        );
     }
 }
 
-
-const mapStateToProps = (state)=> {
-    return{
+const mapStateToProps = state => {
+    return {
         user: state.user,
         currentTrip: state.currentTrip
-
     }
 }
 const mapDispatchToProps = {
@@ -158,4 +155,4 @@ const mapDispatchToProps = {
 }   
 
 // const wrappedRoute = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_MAP_KEY})(AddStop)
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddStop))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddStop));

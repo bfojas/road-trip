@@ -79,7 +79,7 @@ module.exports = {
                             
                             dbInstance.get_recent_trip([user.id])
                             .then(async trip => {
-                                if (trip.length){
+                                if (trip.length) {
                                     const {origin_id, destination_id, id: tripId, name: tripName, images} = trip[0];
                                     let tripOrigin = await dbInstance.get_stop([origin_id])
                                         .catch(error=> console.log('----trip origin error', error));
@@ -113,7 +113,6 @@ module.exports = {
                                 }
                                 
                             })
-
                             // res.send(req.session.user);
                         } else {
 							//If bcrypt compare returns false, send error.

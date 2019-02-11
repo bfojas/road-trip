@@ -1,11 +1,12 @@
 const initialState = {
     user: null,
-    currentTrip:{
+    currentTrip: {
         tripOrigin: null,
         tripDestination: null,
-        tripName: '',
+        tripName: "",
         tripWaypoints: [],
-        tripId: 0}
+        tripId: 0
+    }
 }
 
 
@@ -27,7 +28,7 @@ export default function reducer (state = initialState, action){
             return Object.assign( {}, state, {currentTrip:
                 Object.assign( {}, state.currentTrip,{tripWaypoints: action.payload})})
         case UPDATE_TRIP_DATA:
-            return Object.assign( {}, state, {currentTrip:action.payload})
+            return Object.assign( {}, state, {currentTrip: action.payload})
         default: return state
     }
 

@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import { GoogleApiWrapper } from "google-maps-react";
-import {connect} from 'react-redux'
-import {DragDropContainer, DropTarget} from 'react-drag-drop-container';
-import AddStop from '../AddStop/AddStop'
-import { updateTripInfo } from '../../../ducks/reducer'
-import './RouteContainer.scss'
+import { connect } from 'react-redux';
+import { DragDropContainer, DropTarget } from 'react-drag-drop-container';
+import AddStop from '../AddStop/AddStop';
+import { updateTripInfo } from '../../../ducks/reducer';
+import './RouteContainer.scss';
 import axios from 'axios';
 
 class RouteContainer extends Component {
     constructor(props){
-        super(props)
+        super(props);
     }
 
     drop = (drag, drop) => {
@@ -25,7 +25,7 @@ class RouteContainer extends Component {
     }
 
     render(){
-        const {tripWaypoints, tripOrigin, tripDestination, tripName, tripId} = this.props.currentTrip
+        const {tripWaypoints, tripOrigin, tripDestination} = this.props.currentTrip
         let mappedWaypoints = tripWaypoints.map((val,i) =>{
             return(
                 <DragDropContainer dragData={{drag:i}}>
@@ -62,8 +62,8 @@ class RouteContainer extends Component {
     }
 }
 
-const mapStateToProps = (state)=> {
-    return{
+const mapStateToProps = state => {
+    return {
         user: state.user,
         currentTrip: state.currentTrip,
         tripWaypoints: state.currentTrip.tripWaypoints
@@ -73,5 +73,5 @@ const mapDispatchToProps = {
     updateTripInfo
 }
 
-const wrappedRoute = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(RouteContainer)
-export default connect(mapStateToProps, mapDispatchToProps)(wrappedRoute)
+const wrappedRoute = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(RouteContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(wrappedRoute);
