@@ -53,9 +53,9 @@ class JoinLogin extends Component {
                 console.log('current', response.data.currentTrip)
                 const {user, currentTrip} = response.data
                 updateUserData(user);
-                updateTripInfo(currentTrip)
+                updateTripInfo(currentTrip);
                 alertify.success("You have successfully logged in");
-                this.setState({ redirect: true })
+                this.setState({ redirect: true });
             }
         })
     }

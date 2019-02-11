@@ -34,10 +34,11 @@ app.get("/auth/user-data", authController.getUser);
 app.post("/auth/logout", authController.logout);
 //User endpoints
 app.put("/api/user/:id", userController.updateUserInfo);
-app.get("/api/user-trips", userController.getUserTrips)
+app.get("/api/user-trips", userController.getUserTrips);
 //Map endpoints
-app.post('/map/start', mapController.start)
-app.put('/map/add', mapController.add)
-app.delete('/map/new-trip', mapController.newTrip)
+app.post("/map/start", mapController.start);
+app.put("/map/add", mapController.add);
+app.delete("/map/new-trip", mapController.newTrip);
+
 const PORT = 4000;
 app.listen(PORT, console.log(`Server listening on port ${PORT}`));

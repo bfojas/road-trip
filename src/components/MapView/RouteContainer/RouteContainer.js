@@ -1,34 +1,32 @@
-import React, {Component} from 'react';
-import AutoComplete from 'react-google-autocomplete';
+import React, { Component } from "react";
+import AutoComplete from "react-google-autocomplete";
 import { GoogleApiWrapper } from "google-maps-react";
-import {connect} from 'react-redux'
-import AddStop from '../AddStop/AddStop'
+import { connect } from "react-redux";
+import AddStop from "../AddStop/AddStop";
 
 class RouteContainer extends Component {
     constructor(props){
-        super(props)
+        super(props);
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div className="route-container">
-             <AddStop/>
-            this is the route container
+                <AddStop/>
+                this is the route container
             </div>
-
-        )
+        );
     }
 }
 
-const mapStateToProps = (state)=> {
-    return{
+const mapStateToProps = state => {
+    return {
         user: state.user,
         currentTrip: state.currentTrip
     }
 }
-const mapDispatchToProps = {
 
-}
+const mapDispatchToProps = {}
 
-const wrappedRoute = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(RouteContainer)
-export default connect(mapStateToProps, mapDispatchToProps)(wrappedRoute)
+const wrappedRoute = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(RouteContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(wrappedRoute);
