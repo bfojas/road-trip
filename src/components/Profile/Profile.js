@@ -35,10 +35,6 @@ class Profile extends Component {
         this.updateUserPhotoOnServer = this.updateUserPhotoOnServer.bind(this);
     }
 
-    // componentDidMount = () => {
-    //     axios.get(`/api/user-trips/${}`)
-    // }
-
     showCoverEdit() {
         this.setState({ showCoverEdit: true })
     }
@@ -71,7 +67,7 @@ class Profile extends Component {
 
     render() {
         const { showCoverEdit, showModal } = this.state;
-        const { match, user } = this.props;
+        const { match, user, trips } = this.props;
         const profileImage = user ? user.profile_image || avatar : avatar;
         const coverImage = user ? user.cover_image || defaultCover : defaultCover;
         const coverEditStyle = showCoverEdit ? { display: "flex" } : { display: "none" };
@@ -132,7 +128,7 @@ class Profile extends Component {
                         </NavLink>
                     </div>
                 </div>
-                { match.path === "/profile" && <TripsList />}
+                { match.path === "/profile" && <TripsList trips={trips} />}
                 { match.path === "/profile/following" && <Following /> }
                 { match.path === "/profile/saved" && <SavedTrips /> }
             </div>
@@ -142,8 +138,8 @@ class Profile extends Component {
 }
 
 function mapStateToProps(reduxState) {
-    const { user } = reduxState;
-    return { user }
+    const { user, trips } = reduxState;
+    return { user, trips }
 }
 
 export default connect(mapStateToProps, { updateUserData })(Profile);

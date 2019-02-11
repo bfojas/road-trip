@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
-import { updateUserData, updateTripInfo } from '../../ducks/reducer';
+import React, { Component } from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
+import { updateUserData, updateUserTrips, updateTripInfo } from "../../ducks/reducer";
 import Sidebar from "./Sidebar";
 import logo from "../../images/logo.png";
 import logoDark from "../../images/logo-dark.png";
@@ -15,12 +15,14 @@ class Header extends Component {
             showNav: false
         }
         this.getUserFromServer = this.getUserFromServer.bind(this);
+        this.getTripsFromServer = this.getTripsFromServer.bind(this);
         this.logout = this.logout.bind(this);
         this.startNewTrip = this.startNewTrip.bind(this);
     }
 
     componentDidMount() {
         this.getUserFromServer();
+        this.getTripsFromServer();
     }
 
     hideNav = () => {
@@ -33,6 +35,13 @@ class Header extends Component {
             updateUserData(response.data.user);
             updateTripInfo(response.data.currentTrip);
       });
+    }
+
+    getTripsFromServer() {
+        axios.get("/api/trips").then(response => {
+            const { updateUserTrips } = this.props;
+            updateUserTrips(response.data);
+        })
     }
 
     startNewTrip() {
@@ -108,4 +117,4 @@ const mapStateToProps = state =>{
     }
 }
 
-export default withRouter(connect(mapStateToProps, { updateUserData, updateTripInfo })(Header));
+export default withRouter(connect(mapStateToProps, { updateUserData, updateUserTrips, updateTripInfo })(Header));

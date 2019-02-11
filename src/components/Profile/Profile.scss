@@ -206,10 +206,11 @@
                     color: #fff;
                     border: none;
                     border-radius: 15%;
-                    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("https://images.pexels.com/photos/289407/pexels-photo-289407.jpeg");
                     background-size: cover;
+                    background-position: center;
                     cursor: pointer;
-                    letter-spacing: 0.03em;
+                    letter-spacing: 0.04em;
+                    font-size: 18px;
 
                     h3 {
                         margin-left: 18px;

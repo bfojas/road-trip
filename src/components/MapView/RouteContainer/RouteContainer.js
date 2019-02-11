@@ -56,12 +56,10 @@ class RouteContainer extends Component {
                     </div>
                 </div>
             </div>
-            :
-            null
-
-        )
+            : null
+        );
     }
-    
+
 }
 
 const mapStateToProps = state => {
@@ -71,6 +69,7 @@ const mapStateToProps = state => {
         tripWaypoints: state.currentTrip.tripWaypoints
     }
 }
+
 const mapDispatchToProps = {
     updateTripInfo
 }
