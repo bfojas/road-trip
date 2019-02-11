@@ -28,7 +28,7 @@ class MapView extends Component {
 
     tripCheck = () => {
         //Hide StartTripModal if current trip exists, otherwise show.
-        if (this.props.currentTrip.tripId !== 0) {
+        if (this.props.currentTrip.tripId) {
             this.setState({ startModal: false });
         } else {
             this.setState({ startModal: true });
@@ -40,9 +40,9 @@ class MapView extends Component {
     }
 
 
-    render(){
+    render() {
         const {startModal} = this.state;
-        if (startModal){
+        if (startModal) {
             var blur = 'blur(1px)'
         } else {
             blur = 'none'
@@ -57,8 +57,7 @@ class MapView extends Component {
                     <MapRender/>
                 </div>
                 <div className="route-holder" style={{filter: blur}}>
-                    <RouteContainer
-                    />
+                    <RouteContainer />
                 </div>
             </div>
         );

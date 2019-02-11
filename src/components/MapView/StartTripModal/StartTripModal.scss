@@ -4,7 +4,7 @@
     background-color: rgba(0, 0, 0, 0.432);
     height: calc(100vh - 75px);
     width: 100%;
-
+    display: flex;
     position: fixed;
     // top: -1px;
     z-index: 60;
@@ -23,7 +23,6 @@
         align-content: center;
         height: 65%;
         width: 65%;
-        position: fixed;
         background-image: url('/images/road.jpg');
         background-size: cover;
         z-index: 50;
