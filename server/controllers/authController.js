@@ -61,13 +61,22 @@ module.exports = {
                     bcrypt.compare(password, user.password).then(result => {
                         if (result) {
 							req.session.user = {
-                                id: user.id,
-                                name: user.name,
-                                email: user.email,
-                                profile_image: user.profile_image,
-                                cover_image: user.cover_image,
-                                bio: user.bio
-                            };
+                                    id: user.id,
+                                    name: user.name,
+                                    email: user.email,
+                                    profile_image: user.profile_image,
+                                    cover_image: user.cover_image,
+                                    bio: user.bio
+                            }
+                                
+                            req.session.currentTrip =  {
+                                    tripOrigin: null,
+                                    tripDestination: null,
+                                    tripName: '',
+                                    tripWaypoints: [],
+                                    tripId: 0
+                            }
+                            
                             dbInstance.get_recent_trip([user.id])
                             .then(async trip => {
                                 if (trip.length){
@@ -76,17 +85,32 @@ module.exports = {
                                         .catch(error=> console.log('----trip origin error', error));
                                     let tripDestination = await dbInstance.get_stop([destination_id])
                                         .catch(error=> console.log('----trip dest error', error));
-                                    let tripWaypoints = await dbInstance.get_waypoints([tripId, origin_id, destination_id])
+                                    let waypoints = await dbInstance.get_waypoints([tripId, origin_id, destination_id])
                                         .catch(error=> console.log('----waypoint error', error));
+                                    let wayPointOrder = await dbInstance.get_trip_order([tripId])
+                                        .catch(error=> console.log('----trip order error', error))
+                                    let tripWaypoints = []
+                                    if (wayPointOrder.length && wayPointOrder[0].waypoint_order){
+                                        console.log('order',wayPointOrder)
+                                        tripWaypoints = wayPointOrder[0].waypoint_order.map(val=>{
+                                            return waypoints.filter(stop =>{
+                                                console.log('compare', val, stop.id)
+                                                return +val === stop.id
+                                            })[0]
+                                        })}
                                     req.session.currentTrip = await {
                                         tripOrigin: tripOrigin[0], 
                                         tripDestination: tripDestination[0],
                                         tripName, 
                                         tripWaypoints, 
                                         tripId}
+                                    console.log('tripwaypoints', req.session.currentTrip)                                    
                                     res.status(200).send({user: req.session.user,
                                         currentTrip: req.session.currentTrip });}
-                                else { res.status(200).send({user: req.session.user})}
+                                else { 
+                                    const {user, currentTrip} = req.session;
+                                    res.status(200).send({user, currentTrip})
+                                }
                                 
                             })
 

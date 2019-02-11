@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import AutoComplete from 'react-google-autocomplete';
-import { GoogleApiWrapper } from "google-maps-react";
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {addStop} from '../../../ducks/reducer'
+import {addStop, updateTripInfo} from '../../../ducks/reducer'
 import axios from 'axios';
+import './AddStop.scss'
 
 
 class AddStop extends Component {
@@ -46,46 +46,60 @@ class AddStop extends Component {
     addStop = () =>{
         const {tripId, tripOrigin, tripWaypoints} = this.props.currentTrip;
         const { name, address, image, latitude, longitude} = this.state
-
+        
         let start_distance = this.getDistance(tripOrigin, latitude, longitude)
         // ------ add stop to database        
-        let newStopId = axios.put('/map/add', {tripId, start_distance, stop:{
+        axios.put('/map/add', {tripId, start_distance, stop:{
             name, address, image, latitude, longitude
             }})
-
+            .then(newStopId=>{
 // ------create new waypoint array       
-        let newList = tripWaypoints.slice();
-        let newStop = {name, address, image, latitude, longitude, start_distance, id: newStopId};
-        let newWaypointArray = [];
+                let newList = tripWaypoints.slice();
+                let newStop = {name, address, image, latitude, longitude, start_distance, id: newStopId.data.stopId};
+                let waypointIndexArray = [];
     // ------ places new stops based on distance from start point
-        let insertInOrder = (index) =>{
-            var newIndex;
-            if (index === newList.length){
-                newIndex = index
-            }
-            else if (newList[index].start_distance < start_distance){
+        //------ function finds where to insert stop into array
+                let insertInOrder = (index) =>{
+                    var newIndex;
+                    if (index === newList.length){
+                        newIndex = index
+                    }
+                    else if (newList[index].start_distance < start_distance){
 
-                return insertInOrder(index + 1);
-            } else {
-            newIndex = index
-            }
-            return newIndex;
-        }
+                        return insertInOrder(index + 1);
+                    } else {
+                    newIndex = index
+                    }
+                    return newIndex;
+                }
+        //------ places stop into array
+                if (newList.length){
+                    let insertIndex = insertInOrder(0);
+                    newList.splice(insertIndex, 0 , newStop);
+                }
+                    else{
+                    newList.push(newStop)
+                }
 
-        if (newList.length){
-            let insertIndex = insertInOrder(0);
-            newList.splice(insertIndex, 0 , newStop);
-        }
-            else{
-            newList.push(newStop)
-        }
+//------ makes array of stop order by stop id                
+                waypointIndexArray = newList.map (val=>{
+                    return val.id
+                })
 
-        
-
-
-// ------ send new waypoint array to props        
-        this.props.addStop(newList)
+// ------ send new waypoint array to props 
+                const {currentTrip} = this.props;
+                currentTrip.tripWaypoints = newList   
+                console.log('current', waypointIndexArray) 
+                this.props.updateTripInfo(currentTrip)
+            
+//------ send stop order array to session/db
+                axios.post('/map/stopOrder', {waypointIndexArray, tripId})
+            
+            })
     }
+
+
+
 
     getDistance = (start, latitude, longitude) =>{
         let aSquare = Math.pow(Math.abs(start.latitude - latitude),2)
@@ -95,6 +109,13 @@ class AddStop extends Component {
 
 
     render (){
+        let imageUrl
+        let displayName = ""
+        if(this.props.currentTrip.tripDestination){
+            imageUrl = `url(${this.props.currentTrip.tripDestination.image})`
+            displayName = this.props.currentTrip.tripName
+        }
+
         return (
 
 // ------ waits to render input
@@ -106,19 +127,21 @@ class AddStop extends Component {
                 }, 500)}
             </div>
             :
-            <div className="add-stop-container">
+            <div className="add-stop-container" 
+            style={{backgroundImage: imageUrl}}
+            >
+                <h1>{displayName}</h1>
+                <div className="search-component">
                 <AutoComplete
                 style={{width: '75%'}}
                 onPlaceSelected={this.pickStop}
                 types={['geocode']}
                 />
                 <button onClick={this.addStop} disabled={this.state.buttonDisable}>Add</button>
-
+                </div>
             </div>
         )
     }
-
-
 }
 
 
@@ -130,8 +153,9 @@ const mapStateToProps = (state)=> {
     }
 }
 const mapDispatchToProps = {
-    addStop
-}
+    addStop,
+    updateTripInfo
+}   
 
 // const wrappedRoute = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_MAP_KEY})(AddStop)
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddStop))

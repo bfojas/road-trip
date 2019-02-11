@@ -1,9 +1,7 @@
-/*global google*/
 
 import React, {Component} from 'react';
 import './StartTripModal.scss';
 import AutoComplete from 'react-google-autocomplete';
-import { GoogleApiWrapper } from "google-maps-react";
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {updateStartEndData, updateTripId} from '../../../ducks/reducer'
@@ -20,7 +18,6 @@ class StartTripModal extends Component {
             originName: 'Where do we start?',
             destinationImage:'',
             destinationName: 'Where are we going?',
-            // input: ""
             submitDisable: true
         }
     }
@@ -179,5 +176,4 @@ const mapDispatchToProps = {
     updateTripId
 }
 
-// const wrappedModal = GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_KEY})(StartTripModal)
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StartTripModal))

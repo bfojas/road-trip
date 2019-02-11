@@ -2,7 +2,6 @@
 
 import React,  {Component} from 'react';
 import  { compose, withProps, lifecycle } from 'recompose'
-import { GoogleApiWrapper } from "google-maps-react";
 import {withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer} from 'react-google-maps'
 import { connect } from 'react-redux'
 import { withRouter} from 'react-router-dom';
@@ -11,11 +10,6 @@ import { withRouter} from 'react-router-dom';
 
 class MapRender extends Component{
 
-    constructor(props){
-        super(props)
-      }
-
-
     render(){
 
 // ------ map styles
@@ -23,7 +17,8 @@ class MapRender extends Component{
 
 // ------ default map start
         let originLongLat, destinationLongLat
-        const {tripOrigin, tripDestination, tripWaypoints} = this.props.currentTrip
+        const {tripOrigin, tripDestination} = this.props.currentTrip
+        const {tripWaypoints} = this.props
 
 // ------ sets map based on props
       if (tripDestination){
@@ -86,7 +81,16 @@ class MapRender extends Component{
             <GoogleMap
               defaultZoom={50}
               // controlPosition={google.maps.ControlPosition.TOP_LEFT}
-            //   defaultOptions={{styles : mapStyle}}
+              defaultOptions={{
+                // styles : mapStyle,
+                streetViewControl: false,
+                scaleControl: false,
+                mapTypeControl: false,
+                panControl: false,
+                zoomControl: false,
+                rotateControl: false,
+                fullscreenControl: false
+              }}
             >
               {props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers}/>}
               
@@ -104,7 +108,8 @@ class MapRender extends Component{
 
 const mapStateToProps = (state) => {
   return{
-    currentTrip: state.currentTrip
+    currentTrip: state.currentTrip,
+    tripWaypoints: state.currentTrip.tripWaypoints
   }
 }
 

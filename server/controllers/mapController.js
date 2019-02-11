@@ -22,7 +22,6 @@ module.exports = {
                 .catch(error => console.log('----destinationId error', error))
 
 //connects stops to trip in line_item table    
-        console.log('t stamp', +timeStamp)
         req.session.currentTrip = {
             tripOrigin: origin,
             tripDestination: destination,
@@ -45,8 +44,9 @@ module.exports = {
                 : req.app.get('db').add_stop(stop)})
             .catch(error=>console.log('-----add stop', error))
             
-        req.app.get('db').add_line_item(tripId, stopId[0].id, start_distance)
-
+        req.app.get('db').add_line_item(tripId, stopId[0].id, start_distance).then(response=>{
+            res.status(200).send({stopId:stopId[0].id})
+        })
     },
 
     newTrip: (req, res) => {
@@ -58,6 +58,13 @@ module.exports = {
             tripId: 0
         }
         res.status(200).send(req.session.currentTrip)
+    },
+
+    setOrder: (req, res) => {
+        const {waypointIndexArray, tripId} = req.body
+        req.session.currentTrip.wayPointIdArray = waypointIndexArray
+        console.log('setOrder', waypointIndexArray, tripId)
+        req.app.get('db').set_trip_order([waypointIndexArray, tripId])
     }
 
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./Sidebar.scss";
 
 export default function Sidebar(props) {
-    const { show, hide, startNew } = props;
+    const { show, hide, startNew, logout } = props;
     const burgerClass = !props.path ? "homepage-nav" : null;
     return (
         <Menu right burgerBarClassName={burgerClass} isOpen={show} >
@@ -20,7 +20,7 @@ export default function Sidebar(props) {
             <Link to="/" className="menu-item" onClick={hide}>
                 Explore
             </Link>
-            <Link to="/" className="menu-item" onClick={hide}>
+            <Link to="/" className="menu-item" onClick={logout}>
                 Sign out 
             </Link>
         </Menu>

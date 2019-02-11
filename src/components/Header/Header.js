@@ -51,8 +51,8 @@ class Header extends Component {
 
     logout() {
         axios.post("/auth/logout").then(response => {
-            console.log(response);
-            const { updateUserData } = this.props;
+            console.log('logout',response);
+            const { updateUserData, updateTripInfo } = this.props;
             if (!response.data) { 
                 updateUserData(null);
                 updateTripInfo({
@@ -64,6 +64,7 @@ class Header extends Component {
                 })
             }
         });
+        this.hideNav()
     }
 
     render() {
@@ -89,7 +90,13 @@ class Header extends Component {
                 {/* <div className="profile-image">
                     <div className="alert-circle">4</div>
                 </div> */}
-                <Sidebar className="sidebar" path={path} show={showNav} startNew={this.startNewTrip} hide={this.hideNav} />
+                <Sidebar 
+                    className="sidebar" 
+                    path={path} 
+                    show={showNav} 
+                    startNew={this.startNewTrip} 
+                    logout={this.logout}
+                    hide={this.hideNav} />
             </div>
         );
     }

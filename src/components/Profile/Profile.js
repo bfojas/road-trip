@@ -64,7 +64,8 @@ class Profile extends Component {
         const { user, updateUserData } = this.props;
         const updatedUser = Object.assign({}, user, { [type]: url });
         axios.put(`/api/user/${user.id}`, updatedUser).then(response => {
-            updateUserData(response.data[0]);
+            console.log('upload res', response.data)
+            updateUserData(response.data.users[0]);
         })
     }
 

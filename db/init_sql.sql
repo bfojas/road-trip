@@ -8,10 +8,6 @@ create table users (
     password varchar
 );
 
-drop table line_item;
-drop table trips;
-drop table stops;
-
 create table trips (
     id serial primary key,
     user_id integer,
@@ -20,7 +16,8 @@ create table trips (
     images text[],
     active_time bigint,
     origin_id integer,
-    destination_id integer
+    destination_id integer,
+    waypoint_order text[]
 );
 
 create table stops (

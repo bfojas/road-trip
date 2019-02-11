@@ -40,20 +40,28 @@ class MapView extends Component {
 
 
     render(){
-        const {tripName} = this.props.currentTrip
         const {startModal} = this.state
+        console.log('map hit')
+        // if (startModal){
+        //     var blur = 'blur(1px)'
+        // } else {
+        //     blur = 'none'
+        // }
         return(
             <div className="map-view-container">
                 <StartTripModal 
                     show= {startModal}
                     closeModal={this.closeModal}
                 />
-                <div className="map-container">
+                <div className="map-container" 
+                // style={{filter: blur}}
+                >
                     <MapRender/>
                 </div>
-                <div className="route-container">
+                <div className="route-holder" 
+                // style={{filter: blur}}
+                >
                     <RouteContainer
-                    tripName={tripName}
                     />
                 </div>
             </div>
