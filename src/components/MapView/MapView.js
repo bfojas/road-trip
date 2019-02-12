@@ -12,7 +12,8 @@ class MapView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            startModal: true
+            startModal: true,
+            showRouteContainer: true
         }
     }
 
@@ -39,9 +40,14 @@ class MapView extends Component {
         this.setState({ startModal: false });
     }
 
+    toggleRouteContainer = () => {
+        let routeContainerState = this.state.showRouteContainer;
+        this.setState({ showRouteContainer: !routeContainerState });
+    }
+
 
     render() {
-        const {startModal} = this.state;
+        const {startModal, showRouteContainer} = this.state;
         if (startModal) {
             var blur = 'blur(1px)'
             var routeDisplay = 'none'
@@ -59,8 +65,12 @@ class MapView extends Component {
                     <MapRender/>
                 </div>
                 <div className="route-holder" style={{filter: blur, display: routeDisplay}} >
-                    <RouteContainer />
+                    <RouteContainer 
+                        show={showRouteContainer}
+                        toggle={this.toggleRouteContainer}
+                    />
                 </div>
+            
             </div>
         );
     }
