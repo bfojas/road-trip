@@ -10,7 +10,7 @@ const mapController = require('./controllers/mapController');
 
 massive(process.env.CONNECTION_STRING).then(dbInstance => {
     app.set("db", dbInstance);
-    console.log("connected to db")
+    console.log("connected to db");
 }).catch(error => console.log("error in massive connection", error));
 
 const app = express();
@@ -34,7 +34,7 @@ app.get("/auth/user-data", authController.getUser);
 app.post("/auth/logout", authController.logout);
 //User endpoints
 app.put("/api/user/:id", userController.updateUserInfo);
-app.get("/api/user-trips", userController.getUserTrips);
+app.get("/api/trips", userController.getUserTrips);
 //Map endpoints
 app.post('/api/start-trip', mapController.start);
 app.post('/api/add-stop', mapController.add);

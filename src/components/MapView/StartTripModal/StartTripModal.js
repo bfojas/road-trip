@@ -4,7 +4,7 @@ import axios from 'axios';
 import AutoComplete from 'react-google-autocomplete';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { updateStartEndData, updateTripId } from '../../../ducks/reducer';
+import { updateStartEndData, updateTripId, updateUserTrips } from '../../../ducks/reducer';
 import './StartTripModal.scss';
 
 class StartTripModal extends Component {
@@ -95,6 +95,8 @@ class StartTripModal extends Component {
             timeStamp: Date.now()})
             // Sends newly created trip ID to Redux.
             .then(response => {
+                console.log('tripId', response);
+                this.props.updateUserTrips([...this.props.trips, response.data[0]]);
                 this.props.updateTripId(response.data[0].id);
             })
             .catch(error => console.log('------submit trip', error));
@@ -154,10 +156,12 @@ class StartTripModal extends Component {
 const mapStateToProps = state => {
     return {
         user: state.user,
+        trips: state.trips,
         currentTrip: state.currentTrip
     }
 }
 const mapDispatchToProps = {
+    updateUserTrips,
     updateStartEndData,
     updateTripId
 }

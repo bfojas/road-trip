@@ -93,9 +93,6 @@ class AddStop extends Component {
             })
     }
 
-
-
-
     //Calculates distance from origin location for new stop.
     getDistance = (start, latitude, longitude) => {
         let aSquare = Math.pow(Math.abs(start.latitude - latitude), 2);
@@ -103,8 +100,7 @@ class AddStop extends Component {
         return Math.sqrt(aSquare + bSquare);
     }
 
-
-    render (){
+    render () {
         let imageUrl;
         let displayName = "";
         if(this.props.currentTrip.tripDestination){
@@ -122,9 +118,7 @@ class AddStop extends Component {
                 }, 500)}
             </div>
             :
-            <div className="add-stop-container" 
-            style={{backgroundImage: imageUrl}}
-            >
+            <div className="add-stop-container" style={{backgroundImage: imageUrl}}>
                 <h1>{displayName}</h1>
                 <div className="search-component">
                 <AutoComplete

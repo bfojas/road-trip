@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import { GoogleApiWrapper } from "google-maps-react";
-import { connect } from 'react-redux';
-import { DragDropContainer, DropTarget } from 'react-drag-drop-container';
-import AddStop from '../AddStop/AddStop';
-import StopModal from './StopModal'
-import { updateTripInfo } from '../../../ducks/reducer';
-import './RouteContainer.scss';
-import axios from 'axios';
+import { connect } from "react-redux";
+import { DragDropContainer, DropTarget } from "react-drag-drop-container";
+import { slide as Menu } from "react-burger-menu";
+import AddStop from "../AddStop/AddStop";
+import { updateTripInfo } from "../../../ducks/reducer";
+import "./RouteContainer.scss";
+import axios from "axios";
 
 class RouteContainer extends Component {
     constructor(props){
         super(props);
-        this.state={
+        this.state = {
             showModal: false,
             modalInfo: null
         }
@@ -20,7 +20,7 @@ class RouteContainer extends Component {
     drop = (drag, drop) => {
         const {updateTripInfo} = this.props;
         const {tripWaypoints, tripOrigin, tripDestination, tripName, tripId} = this.props.currentTrip
-        let newArr =tripWaypoints.slice();
+        let newArr = tripWaypoints.slice();
         let element = newArr.splice(drag, 1);
         newArr.splice(+drop, 0 , element[0])
         updateTripInfo({tripWaypoints: newArr, tripOrigin, tripDestination, tripName, tripId})
@@ -57,7 +57,7 @@ class RouteContainer extends Component {
                             </div>
                         </DropTarget>
                     </DragDropContainer>
-                    <div key={val.name} className="stop-info" onClick={()=>this.showModal(val)}>
+                    <div key={val.name} className="stop-info" onClick={() => this.showModal(val)}>
                         <h3>{val.name}</h3>
                         <div className="image-div" style={{backgroundImage: `url(${val.image})`}}></div>
                     </div>
@@ -66,29 +66,29 @@ class RouteContainer extends Component {
         })
 
         return (
-            tripDestination
-            ?
-            <div className="route-holder">
-                <AddStop/>
-                <div className="stop-container">
-                    <div key={tripOrigin.name} className="stop">
-                        <h3>{tripOrigin.name}</h3>
-                        <div className="image-div" style={{backgroundImage: `url(${tripOrigin.image})`}}></div>
+            tripDestination ?
+                <Menu right isOpen={show}>
+                    <div className="route-holder">
+                        <div className="route-tab"></div>
+                        <AddStop/>
+                        <div className="stop-container">
+                            <div key={tripOrigin.name} className="stop">
+                                <h3>{tripOrigin.name}</h3>
+                                <div className="image-div" style={{backgroundImage: `url(${tripOrigin.image})`}}></div>
+                            </div>
+                            {mappedWaypoints}
+                            <div key={tripDestination.name} className="stop">
+                                <h3>{tripDestination.name}</h3>
+                                <div className="image-div" style={{backgroundImage: `url(${tripDestination.image})`}}></div>
+                            </div>
+                        </div>
+                        <StopModal show={showModal} stopInfo={modalInfo} hide={this.hideModal}/>
                     </div>
-                    {mappedWaypoints}
-                    <div key={tripDestination.name} className="stop">
-                        <h3>{tripDestination.name}</h3>
-                        <div className="image-div" style={{backgroundImage: `url(${tripDestination.image})`}}></div>
-                    </div>
-                </div>
-                <StopModal show={showModal} stopInfo={modalInfo} hide={this.hideModal}/>
-            </div>
-            :
-            null
-
-        )
+                </Menu>
+            : null
+        );
     }
-    
+
 }
 
 const mapStateToProps = state => {
@@ -98,6 +98,7 @@ const mapStateToProps = state => {
         tripWaypoints: state.currentTrip.tripWaypoints
     }
 }
+
 const mapDispatchToProps = {
     updateTripInfo
 }

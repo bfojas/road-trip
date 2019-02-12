@@ -188,6 +188,19 @@
         background-color: #F1F1F1;
         min-height: 50vh;
 
+        .profile-message {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        button {
+            @extend %button;
+            padding: 12px 18px;
+            border-radius: 15px;
+            letter-spacing: 0.02em;
+        }
+
             .trips-container {
                 width: 80%;
                 display: flex;
@@ -203,13 +216,14 @@
                     flex: 0 1 200px;
                     height: 250px;
                     margin: 3% 2% 0 2%;
+                    padding: 10px;
                     color: #fff;
                     border: none;
                     border-radius: 15%;
-                    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("https://images.pexels.com/photos/289407/pexels-photo-289407.jpeg");
                     background-size: cover;
+                    background-position: center;
                     cursor: pointer;
-                    letter-spacing: 0.03em;
+                    letter-spacing: 0.04em;
 
                     h3 {
                         margin-left: 18px;
@@ -225,9 +239,9 @@
             }
         
         .following-container {
-            width: 400px;
+            width: 420px;
             max-width: 100%;
-            margin-top: 25px;
+            margin-top: 10px;
 
             .follow-bar {
                 display: flex;
