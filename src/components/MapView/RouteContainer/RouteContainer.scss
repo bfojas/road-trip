@@ -24,14 +24,18 @@
             }
 
         }
+
+        
         .stop {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            width: 95%;
+            width: 90%;
             height: 75px;
-            // margin-bottom: 3px;
+            color: $dark;
+            margin-bottom: 10px;
+            font-size: 17px;
             // border: black 2px solid;
 
             .image-div{

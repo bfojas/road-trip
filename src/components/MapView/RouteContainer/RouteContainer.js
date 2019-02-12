@@ -28,7 +28,7 @@ class RouteContainer extends Component {
     render() {
         const {tripWaypoints, tripOrigin, tripDestination} = this.props.currentTrip
         const { show, toggle } = this.props;
-        let mappedWaypoints = tripWaypoints.map((val,i) =>{
+        let mappedWaypoints = tripWaypoints.map((val,i) => {
             return (
                 <DragDropContainer dragData={{drag:i}}>
                     <DropTarget onHit={e=>this.drop(e.dragData.drag, e.target.id)}>
@@ -45,6 +45,7 @@ class RouteContainer extends Component {
             tripDestination ?
                 <Menu right isOpen={show}>
                     <div className="route-holder">
+                        <div className="route-tab"></div>
                         <AddStop/>
                         <div className="stop-container">
                             <div key={tripOrigin.name} className="stop">

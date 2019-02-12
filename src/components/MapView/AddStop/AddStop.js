@@ -118,9 +118,7 @@ class AddStop extends Component {
                 }, 500)}
             </div>
             :
-            <div className="add-stop-container" 
-            style={{backgroundImage: imageUrl}}
-            >
+            <div className="add-stop-container" style={{backgroundImage: imageUrl}}>
                 <h1>{displayName}</h1>
                 <div className="search-component">
                 <AutoComplete
