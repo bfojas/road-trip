@@ -30,6 +30,7 @@ class RouteContainer extends Component {
     }
 
     showModal = (stop) => {
+        console.log('hit')
         this.setState=({
             showModal: true,
             modalInfo: stop
@@ -56,7 +57,7 @@ class RouteContainer extends Component {
                             </div>
                         </DropTarget>
                     </DragDropContainer>
-                    <div key={val.name} className="stop-info" onClick={this.showModal(val)}>
+                    <div key={val.name} className="stop-info" onClick={()=>this.showModal(val)}>
                         <h3>{val.name}</h3>
                         <div className="image-div" style={{backgroundImage: `url(${val.image})`}}></div>
                     </div>
