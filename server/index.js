@@ -36,10 +36,10 @@ app.post("/auth/logout", authController.logout);
 app.put("/api/user/:id", userController.updateUserInfo);
 app.get("/api/user-trips", userController.getUserTrips);
 //Map endpoints
-app.post('/map/start', mapController.start);
-app.put('/map/add', mapController.add);
-app.delete('/map/new-trip', mapController.newTrip);
-app.post('/map/stopOrder', mapController.setOrder);
+app.post('/api/start-trip', mapController.start);
+app.put('/api/add-stop', mapController.add);
+app.delete('/api/new-trip', mapController.newTrip);
+app.post('/api/stopOrder', mapController.setOrder);
 
 
 

@@ -43,7 +43,7 @@ class Header extends Component {
             tripWaypoints: [],
             tripId: 0
         });
-        axios.delete("/map/new-trip").catch(error => console.log("New trip error", error));
+        axios.delete("/api/new-trip").catch(error => console.log("New trip error", error));
         this.hideNav()
         // this.props.history.push('/map')
     }

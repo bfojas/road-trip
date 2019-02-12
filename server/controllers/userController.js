@@ -10,15 +10,7 @@ module.exports = {
             const { id, name, email, bio, profile_image, cover_image } = users[0];
             req.session.user = { id, name, email, bio, profile_image, cover_image };
             
-            // dbInstance.get_recent_trip([id])
-            // .then(async trip => {
-            //     const {origin_id, destination_id, id: tripId, name: tripName, images} = trip[0];
-            //     let tripOrigin = await dbInstance.get_stop([origin_id]);
-            //     let tripDestination = await dbInstance.get_stop([destination_id])
-            //     let tripWaypoints = await dbInstance.get_waypoints([tripId, origin_id, destination_id])
-            //     res.status(200).send({user: users,
-            //         currentTrip: {tripOrigin, tripDestination,tripName, tripWaypoints, tripId}});
-            // })
+            // dbInsta
 
             res.status(200).send({users});
         })

@@ -44,6 +44,7 @@ module.exports = {
     },
 
     add: async (req, res) => {
+
         const { stop, tripId, start_distance } = req.body;
         // Looks for existing stop with address matching passed address and creates new stop if doesn't exist, 
         // storing id of newly created stop in stopId variable.
@@ -56,6 +57,7 @@ module.exports = {
             .catch(error => console.log('-----add stop', error));
         // Connects new stop to current trip in line_item table.   
         req.app.get('db').add_line_item(tripId, stopId[0].id, start_distance);
+        res.status(200).send(stopId[0])
     },
 
     newTrip: (req, res) => {
@@ -70,8 +72,12 @@ module.exports = {
     },
 
     setOrder: (req, res) => {
-        const {waypointIndexArray, tripId} = req.body;
-        req.session.currentTrip.wayPointIdArray = waypointIndexArray;
+        const {waypointIndexArray, tripId, currentTrip} = req.body;
+        // console.log('currentTrip ============================', currentTrip);
+        // currentTrip.wayPointIdArray = waypointIndexArray
+        req.session.currentTrip = currentTrip
+        // req.session.currentTrip.wayPointIdArray = waypointIndexArray;
+        console.log('----------------session trip', req.session.currentTrip)
         req.app.get('db').set_trip_order([waypointIndexArray, tripId]);
     }
 

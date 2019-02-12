@@ -87,10 +87,10 @@ class StartTripModal extends Component {
     submitTrip = () => {
         const { originPick, destinationPick, destinationName } = this.state;
         // Sends trip data to db.        
-        axios.post("/map/start", 
+        axios.post("/api/start-trip", 
             {origin: originPick, 
             destination: destinationPick,
-            name: destinationName,
+            name: destinationPick.name,
             userId: this.props.user.id,
             timeStamp: Date.now()})
             // Sends newly created trip ID to Redux.

@@ -38,6 +38,7 @@ class MapRender extends Component {
 		};
 		// Updates renderWaypoints array with Redux values + adds waypoints to renderRoute object.
 		if (tripWaypoints.length) {
+			console.log('map waypoints', tripWaypoints)
 			renderWaypoints = tripWaypoints.map(val => {
 				return { location: `${val.latitude}, ${val.longitude}`, stopover: true };
 			});
