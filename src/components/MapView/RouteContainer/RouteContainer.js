@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import { GoogleApiWrapper } from "google-maps-react";
-import { connect } from 'react-redux';
-import { DragDropContainer, DropTarget } from 'react-drag-drop-container';
-import AddStop from '../AddStop/AddStop';
-import { updateTripInfo } from '../../../ducks/reducer';
-import './RouteContainer.scss';
-import axios from 'axios';
+import { connect } from "react-redux";
+import { DragDropContainer, DropTarget } from "react-drag-drop-container";
+import { slide as Menu } from "react-burger-menu";
+import AddStop from "../AddStop/AddStop";
+import { updateTripInfo } from "../../../ducks/reducer";
+import "./RouteContainer.scss";
+import axios from "axios";
 
 class RouteContainer extends Component {
     constructor(props){
@@ -15,7 +16,7 @@ class RouteContainer extends Component {
     drop = (drag, drop) => {
         const {updateTripInfo} = this.props;
         const {tripWaypoints, tripOrigin, tripDestination, tripName, tripId} = this.props.currentTrip
-        let newArr =tripWaypoints.slice();
+        let newArr = tripWaypoints.slice();
         let element = newArr.splice(drag, 1);
         newArr.splice(+drop, 0 , element[0])
         updateTripInfo({tripWaypoints: newArr, tripOrigin, tripDestination, tripName, tripId})
@@ -26,8 +27,9 @@ class RouteContainer extends Component {
 
     render() {
         const {tripWaypoints, tripOrigin, tripDestination} = this.props.currentTrip
+        const { show, toggle } = this.props;
         let mappedWaypoints = tripWaypoints.map((val,i) =>{
-            return(
+            return (
                 <DragDropContainer dragData={{drag:i}}>
                     <DropTarget onHit={e=>this.drop(e.dragData.drag, e.target.id)}>
                         <div key={val.name} id={i} className="stop">
@@ -36,26 +38,27 @@ class RouteContainer extends Component {
                         </div>
                     </DropTarget>
                 </DragDropContainer>
-            )
+            );
         })
 
         return (
-            tripDestination
-            ?
-            <div className="route-holder">
-                <AddStop/>
-                <div className="stop-container">
-                    <div key={tripOrigin.name} className="stop">
-                        <h3>{tripOrigin.name}</h3>
-                        <div className="image-div" style={{backgroundImage: `url(${tripOrigin.image})`}}></div>
+            tripDestination ?
+                <Menu right isOpen={show}>
+                    <div className="route-holder">
+                        <AddStop/>
+                        <div className="stop-container">
+                            <div key={tripOrigin.name} className="stop">
+                                <h3>{tripOrigin.name}</h3>
+                                <div className="image-div" style={{backgroundImage: `url(${tripOrigin.image})`}}></div>
+                            </div>
+                            {mappedWaypoints}
+                            <div key={tripDestination.name} className="stop">
+                                <h3>{tripDestination.name}</h3>
+                                <div className="image-div" style={{backgroundImage: `url(${tripDestination.image})`}}></div>
+                            </div>
+                        </div>
                     </div>
-                    {mappedWaypoints}
-                    <div key={tripDestination.name} className="stop">
-                        <h3>{tripDestination.name}</h3>
-                        <div className="image-div" style={{backgroundImage: `url(${tripDestination.image})`}}></div>
-                    </div>
-                </div>
-            </div>
+                </Menu>
             : null
         );
     }

@@ -1,26 +1,25 @@
 @import "../../../base";
 
 .add-stop-container {
-    border-radius: 12px 12px 0 0;
+    // border-radius: 12px 12px 0 0;
     position: relative;
     width: 100%;
-    height: 25%;
+    height: 200px;
     max-height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
     color: white;
-    
     background-size: cover;
+    background-position: center;
     text-shadow: 1px 1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, -1px -1px 0 #000000, 1px 0px 0 #000000, 0px 1px 0 #000000, -1px 0px 0 #000000, 0px -1px 0 #000000, 1px 1px 1px rgba(0,0,0,0);
 
 
     .search-component {
         transform: translate(0, 50%);
         width: 90%;
-        height: 24px;
         display: flex;
         flex-direction: row;
         position: absolute;
@@ -30,19 +29,22 @@
             padding: 12px;
             width: 80%;
             margin-right: 8px;
-            border-radius: 15px;
-            // background-color: rgba(220, 220, 220, 0.459);
+            border-radius: 20px;
             border: 1px solid rgb(212, 212, 212);
             font-family: $heading-font;
             color: #6e6e6e;
             resize: none;
             font-size: 12px;
-                
+        }
+
+        input:focus {
+            outline: none;
         }
 
         button {
             @extend %button;
-            border-radius: 10px;
+            padding: 7px;
+            border-radius: 5px;
             
         }
     }

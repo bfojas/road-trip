@@ -10,7 +10,7 @@ const mapController = require('./controllers/mapController');
 
 massive(process.env.CONNECTION_STRING).then(dbInstance => {
     app.set("db", dbInstance);
-    console.log("connected to db")
+    console.log("connected to db");
 }).catch(error => console.log("error in massive connection", error));
 
 const app = express();

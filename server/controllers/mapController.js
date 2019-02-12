@@ -2,9 +2,11 @@ module.exports = {
     //Creates trip, finds/adds stops for origin and destination, connects stops to trip.
     start: async (req, res) => {
         const { origin, destination, name, userId, timeStamp } = req.body;
-        //Sets trip ID.
-        let tripId = await req.app.get('db').add_trip([userId, name, [destination.image]])
-            .catch(error => console.log('----tripId error', error))
+        const { id } = req.session.user;
+        //Creates new trip and stores id, name, and destination image in tripInfo variable.
+        let tripInfo = await req.app.get('db').add_trip([userId, name, [destination.image]])
+            .catch(error => console.log('----tripInfo error', error))
+        console.log(tripInfo);
 
         //Looks for existing stop with address matching origin address and creates new stop if doesn't exist,
         //storing id of newly created stop in originId variable.
@@ -32,19 +34,20 @@ module.exports = {
             tripDestination: destination,
             tripName: name,
             tripWaypoints: [],
-            tripId: tripId[0]
+            tripId: tripInfo[0].id
         };
         //Connects origin stop to trip in line_item table.
-        req.app.get('db').add_line_item([tripId[0].id, originId[0].id, null]);
+        req.app.get('db').add_line_item([id, tripInfo[0].id, originId[0].id, null]);
         //Connects destination stop to trip in line_item table.
-        req.app.get('db').add_line_item([tripId[0].id, destinationId[0].id, null]);
+        req.app.get('db').add_line_item([id, tripInfo[0].id, destinationId[0].id, null]);
         //Updates trip in db: inserts into orgin_id, destination_id, and active_time columns.
-        req.app.get('db').add_trip_info([originId[0].id, destinationId[0].id, tripId[0].id, +timeStamp])
-        res.status(200).send(tripId);
+        req.app.get('db').add_trip_info([originId[0].id, destinationId[0].id, tripInfo[0].id, +timeStamp])
+        res.status(200).send(tripInfo);
     },
 
     add: async (req, res) => {
         const { stop, tripId, start_distance } = req.body;
+        const { id } = req.session.user;
         // Looks for existing stop with address matching passed address and creates new stop if doesn't exist, 
         // storing id of newly created stop in stopId variable.
         let stopId = await req.app.get('db').find_stop_id(stop.address)
@@ -55,7 +58,7 @@ module.exports = {
             })
             .catch(error => console.log('-----add stop', error));
         // Connects new stop to current trip in line_item table.   
-        req.app.get('db').add_line_item(tripId, stopId[0].id, start_distance);
+        req.app.get('db').add_line_item([id, tripId, stopId[0].id, start_distance]);
     },
 
     newTrip: (req, res) => {

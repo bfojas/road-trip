@@ -20,14 +20,45 @@
 }
 
 .route-holder{
-    border-radius: 15px;
-    position: fixed;
+    // border-radius: 15px;
+    // position: fixed;
     z-index: 30;
-    height: calc(100vh - 100px);
-    width: 350px;
+    // height: calc(100vh - 100px);
+    width: 100%;
     top: 85px;
-    left: calc(100vw - 365px);
+    left: calc(100vw - 360px);
     background-color: rgb(245, 245, 245);
-    border: solid black 2px;
-    
+    // box-shadow: 0px 3px 10px rgba(0,0,0,0.2); 
+
+    .bm-menu-wrap {
+        top: 85px !important;
+        right: 30px !important;
+        bottom: 12px !important;
+        width: 320px !important;
+        height: auto !important;
+        display: flex !important;
+        border-radius: 15px !important;
+
+        .bm-menu {
+            width: 100% !important;
+            padding: 0 !important;
+            border-radius: 15px !important;
+        }
+
+        .bm-item {
+            margin-bottom: 0;
+        }
+
+        .bm-cross {
+            background-color: transparent;
+        }
+
+        .bm-cross-button {
+            left: 0px !important;
+            width: 100% !important;
+            height: 170px !important;
+        }
+    }
+
+
 }

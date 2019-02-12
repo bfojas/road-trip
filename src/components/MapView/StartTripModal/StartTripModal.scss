@@ -78,6 +78,10 @@
                     resize: none;
                     font-size: 12px;
                 }
+
+                input:focus {
+                    outline: none;
+                }
             }
 
             .origin-select {
@@ -115,6 +119,10 @@
                 border-radius: 50px;
                 opacity: 0.9;
                 font-size: 14px;
+            }
+
+            button:focus {
+                outline: none;
             }
         }
         
