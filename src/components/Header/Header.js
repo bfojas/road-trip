@@ -50,7 +50,6 @@ class Header extends Component {
 
     logout() {
         axios.post("/auth/logout").then(response => {
-            console.log('logout',response);
             const { updateUserData, updateTripInfo } = this.props;
             if (!response.data) { 
                 updateUserData(null);

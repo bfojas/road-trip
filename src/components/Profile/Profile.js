@@ -53,7 +53,6 @@ class Profile extends Component {
     }
 
     upload(e) {
-        console.log('img', e.target.files)
         const target = e.target.name;
         ReactS3.uploadFile(e.target.files[0], config).then(data => {
             this.updateUserPhotoOnServer(target, data.location);
@@ -64,7 +63,6 @@ class Profile extends Component {
         const { user, updateUserData } = this.props;
         const updatedUser = Object.assign({}, user, { [type]: url });
         axios.put(`/api/user/${user.id}`, updatedUser).then(response => {
-            console.log('upload res', response.data)
             updateUserData(response.data.users[0]);
         })
     }

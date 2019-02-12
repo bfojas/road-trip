@@ -95,7 +95,6 @@ class StartTripModal extends Component {
             timeStamp: Date.now()})
             // Sends newly created trip ID to Redux.
             .then(response => {
-                console.log('tripId', response);
                 this.props.updateTripId(response.data[0].id);
             })
             .catch(error => console.log('------submit trip', error));

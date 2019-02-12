@@ -72,13 +72,13 @@ module.exports = {
     },
 
     setOrder: (req, res) => {
-        const {waypointIndexArray, tripId, currentTrip} = req.body;
-        // console.log('currentTrip ============================', currentTrip);
+        const {waypointIndexArray, tripId, newTrip} = req.body;
+        // consolenew ============================', currentTrip);
         // currentTrip.wayPointIdArray = waypointIndexArray
-        req.session.currentTrip = currentTrip
+        req.session.currentTrip = newTrip
         // req.session.currentTrip.wayPointIdArray = waypointIndexArray;
-        console.log('----------------session trip', req.session.currentTrip)
         req.app.get('db').set_trip_order([waypointIndexArray, tripId]);
+        res.status(200).send(req.session.currentTrip);
     }
 
 }

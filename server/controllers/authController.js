@@ -81,7 +81,6 @@ module.exports = {
                             .then(async trip => {
                                 if (trip.length) {
                                     const {origin_id, destination_id, id: tripId, name: tripName, images} = trip[0];
-                                    console.log('get id', tripId)
                                     let tripOrigin = await dbInstance.get_stop([origin_id])
                                         .catch(error=> console.log('----trip origin error', error));
                                     let tripDestination = await dbInstance.get_stop([destination_id])
@@ -94,10 +93,8 @@ module.exports = {
                                     console.log('order',wayPointOrder, 'id', tripId)
 
                                     if (wayPointOrder.length && wayPointOrder[0].waypoint_order){
-                                        console.log('waypointOrder',wayPointOrder)
                                         tripWaypoints = wayPointOrder[0].waypoint_order.map(val=>{
                                             return waypoints.filter(stop =>{
-                                                console.log('compare', val, stop.id)
                                                 return +val === stop.id
                                             })[0]
                                         })}
@@ -107,7 +104,6 @@ module.exports = {
                                         tripName, 
                                         tripWaypoints, 
                                         tripId}
-                                    console.log('tripwaypoints', tripWaypoints)                                    
                                     res.status(200).send({user: req.session.user,
                                         currentTrip: req.session.currentTrip });}
                                 else { 
@@ -139,7 +135,6 @@ module.exports = {
     },
 
     getUser: (req, res) => {
-        console.log('-----------------get session', req.session)
         res.send({ 
             user: req.session.user,
             currentTrip: req.session.currentTrip 

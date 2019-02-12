@@ -37,7 +37,7 @@ app.put("/api/user/:id", userController.updateUserInfo);
 app.get("/api/user-trips", userController.getUserTrips);
 //Map endpoints
 app.post('/api/start-trip', mapController.start);
-app.put('/api/add-stop', mapController.add);
+app.post('/api/add-stop', mapController.add);
 app.delete('/api/new-trip', mapController.newTrip);
 app.post('/api/stopOrder', mapController.setOrder);
 

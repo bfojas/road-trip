@@ -44,20 +44,17 @@ class AddStop extends Component {
         
         let start_distance = this.getDistance(tripOrigin, latitude, longitude)
         // ------ add stop to database
-        console.log('tripId front', tripId)        
-        axios.put('/api/add-stop', {tripId, start_distance, stop:{
+        axios.post('/api/add-stop', {tripId, start_distance, stop:{
             name, address, image, latitude, longitude
             }})
             .then(newStopId=>{
 // ------create new waypoint array     
-                console.log('newStopId', newStopId)
                 let newList = tripWaypoints.slice();
                 let newStop = {name, address, image, latitude, longitude, start_distance, id: newStopId.data.id};
                 let waypointIndexArray = [];
     // ------ places new stops based on distance from start point
         //------ function finds where to insert stop into array
                 let insertInOrder = (index) =>{
-        console.log('button hit')
 
                     var newIndex;
                     if (index === newList.length){
@@ -82,18 +79,16 @@ class AddStop extends Component {
 
 //------ makes array of stop order by stop id                
                 waypointIndexArray = newList.map (val=>{
-                    console.log('indexing val', val)
                     return val.id
                 })
 
 // ------ send new waypoint array to props 
                 const {currentTrip} = this.props;
                 currentTrip.tripWaypoints = newList   
-                console.log('current', currentTrip) 
                 this.props.updateTripInfo(currentTrip)
             
 //------ send stop order array to session/db
-                axios.post('/api/stopOrder', {waypointIndexArray, tripId, currentTrip})
+                axios.post('/api/stopOrder', {waypointIndexArray, tripId, newTrip: currentTrip})
             
             })
     }
