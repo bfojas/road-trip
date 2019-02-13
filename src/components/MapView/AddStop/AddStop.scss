@@ -9,17 +9,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     flex-direction: column;
     margin-bottom: 35px;
     color: white;
     background-size: cover;
     background-position: center;
-    text-shadow: 1px 1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, -1px -1px 0 #000000, 1px 0px 0 #000000, 0px 1px 0 #000000, -1px 0px 0 #000000, 0px -1px 0 #000000, 1px 1px 1px rgba(0,0,0,0);
+    // text-shadow: 1px 1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, -1px -1px 0 #000000, 1px 0px 0 #000000, 0px 1px 0 #000000, -1px 0px 0 #000000, 0px -1px 0 #000000, 1px 1px 1px rgba(0,0,0,0);
+    text-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+    font-family: $heading-font;
 
     h1 {
-        height: 50%;
-        width: 80%;
-        font-size: 48px;
+        font-size: 30px;
+        margin: 15px;
+    }
+
+    i {
+        position: absolute;
+        right: 18px;
+        top: 15px;
+        cursor: pointer;
     }
 
     .search-component {

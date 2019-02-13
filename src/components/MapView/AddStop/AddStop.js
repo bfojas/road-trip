@@ -103,8 +103,8 @@ class AddStop extends Component {
     render () {
         let imageUrl;
         let displayName = "";
-        if(this.props.currentTrip.tripDestination){
-            imageUrl = `url(${this.props.currentTrip.tripDestination.image})`
+        if (this.props.currentTrip.tripDestination){
+            imageUrl = `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${this.props.currentTrip.tripDestination.image})`
             displayName = this.props.currentTrip.tripName
         };
 
@@ -119,6 +119,7 @@ class AddStop extends Component {
             </div>
             :
             <div className="add-stop-container" style={{backgroundImage: imageUrl}}>
+                <i className="fas fa-cog"></i>
                 <h1>{displayName}</h1>
                 <div className="search-component">
                 <AutoComplete

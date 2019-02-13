@@ -11,25 +11,26 @@
     // transform: translate(0%, -50%);
 
 
-
-
     .start-trip-container {
 
         font-size: 100%;
-        text-shadow: 1px 1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, -1px -1px 0 #000000, 1px 0px 0 #000000, 0px 1px 0 #000000, -1px 0px 0 #000000, 0px -1px 0 #000000, 1px 1px 1px rgba(0,0,0,0);
+        // text-shadow: 1px 1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, -1px -1px 0 #000000, 1px 0px 0 #000000, 0px 1px 0 #000000, -1px 0px 0 #000000, 0px -1px 0 #000000, 1px 1px 1px rgba(0,0,0,0);
+        text-shadow: 0px 2px 5px rgba(0,0,0,0.5);
         display: flex;
         flex-direction: column;
         align-content: center;
-        height: 65%;
-        width: 65%;
+        height: 70%;
+        width: 60%;
         position: absolute;
-        background-image: url('/images/road.jpg');
+        background-image: url('https://images.pexels.com/photos/97065/pexels-photo-97065.jpeg');
         background-size: cover;
+        background-position: center;
         z-index: 50;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         border-radius: 15px;
+        box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
 
         .start-input {
             display: flex;
@@ -38,8 +39,6 @@
             // max-width: 100%;
             height: 100%;
             background-blend-mode: lighten;
-
-
 
             div {
                 display: flex;
@@ -51,13 +50,32 @@
                 height: 100%;
                 background-size: cover;
                 border-radius:  0 15px 15px 0;
-                // background-color: aliceblue;
+
                 .trans-box {
-                    // opacity: .8;
-                    background-color: rgba(61, 61, 61, 0.582);
+                    font-family: $heading-font;
+                    font-size: 14px;
+                    // font-weight: 700;
+                    background-color: rgba(0, 0, 0, 0.23);
+                    border: 0;
                     height: 100%;
                     width: 100%;
                     color: white;
+
+                    input  {
+                        width: 65%;
+                        padding: 16px;
+                        margin-left: 8px;
+                        border-radius: 40px;
+                        border: none;
+                        font-family: $heading-font;
+                        color: #6e6e6e;
+                        resize: none;
+                        font-size: 12px;
+                    }
+    
+                    input:focus {
+                        outline: none;
+                    }
                 }
 
                 div {
@@ -66,22 +84,6 @@
                     height: 25px;
                 }
 
-                input  {
-                    // width: 100%;
-                    padding: 12px;
-                    margin-left: 8px;
-                    border-radius: 15px;
-                    // background-color: rgba(220, 220, 220, 0.459);
-                    border: 1px solid rgb(212, 212, 212);
-                    font-family: $heading-font;
-                    color: #6e6e6e;
-                    resize: none;
-                    font-size: 12px;
-                }
-
-                input:focus {
-                    outline: none;
-                }
             }
 
             .origin-select {
@@ -100,11 +102,9 @@
 
             }
         
-        
         .submitButton {
             display: flex;
             height: 50px;
-            width: 100px;
             position: absolute;
             font-size: 24px;
             top: 80%;
@@ -115,10 +115,11 @@
             button {
                 @extend %button;
                 margin: 0;
-                padding: 13px 18px;
+                padding: 13px 22px;
                 border-radius: 50px;
                 opacity: 0.9;
                 font-size: 14px;
+                letter-spacing: 0.03em;
             }
 
             button:focus {

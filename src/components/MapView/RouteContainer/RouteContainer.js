@@ -45,8 +45,6 @@ class RouteContainer extends Component {
         })
     }
 
-    
-
     render() {
         const {tripWaypoints, tripOrigin, tripDestination} = this.props.currentTrip
         const {showModal, modalInfo} = this.state
@@ -55,7 +53,7 @@ class RouteContainer extends Component {
                 <DragDropContainer dragData={{drag:i}}>
                     <DropTarget onHit={e=>this.drop(e.dragData.drag, e.target.id)}>
                         <div key={val.name} className="stop" id={i} onClick={()=>this.showModal(val)}>
-                            <h3>{val.name}</h3>
+                            <h3><i className="far fa-circle"></i> {val.name}</h3>
                             <div className="image-div" style={{backgroundImage: `url(${val.image})`}}></div>
                         </div>
                     </DropTarget>
@@ -67,16 +65,16 @@ class RouteContainer extends Component {
             tripDestination ?
                 <Menu right isOpen>
                     <div className="route-holder">
-                        <div className="route-tab"></div>
+                        {/* <div className="route-tab"></div> */}
                         <AddStop/>
                         <div className="stop-container">
                             <div key={tripOrigin.name} className="stop" onClick={()=>this.showModal(tripOrigin)}>
-                                <h3>{tripOrigin.name}</h3>
+                                <h3><i className="far fa-circle"></i> {tripOrigin.name}</h3>
                                 <div className="image-div" style={{backgroundImage: `url(${tripOrigin.image})`}}></div>
                             </div>
                             {mappedWaypoints}
                             <div key={tripDestination.name} className="stop" onClick={()=>this.showModal(tripDestination)}>
-                                <h3>{tripDestination.name}</h3>
+                                <h3><i className="far fa-circle"></i> {tripDestination.name}</h3>
                                 <div className="image-div" style={{backgroundImage: `url(${tripDestination.image})`}}></div>
                             </div>
                         </div>

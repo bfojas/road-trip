@@ -12,26 +12,28 @@ export default function Homepage(props) {
                     <Link to="/register"><button>GET STARTED <i className="fas fa-long-arrow-alt-right"></i></button></Link>
                 </div>
             </section>
-            <section>
-            </section>
+            <section></section>
             <div className="homepage-banner"></div>
             <div className="featured-trips-container">
-                <div className="featured-trip" style={{backgroundImage: "url('https://images.pexels.com/photos/41004/alaska-wilderness-sky-aurora-borealis-41004.jpeg')"}}>
+                <div className="featured-trip" style={{backgroundImage: "linear-gradient(rgba(225, 225, 225, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.pexels.com/photos/41004/alaska-wilderness-sky-aurora-borealis-41004.jpeg')"}}>
                     <i className="fas fa-bookmark"></i>
                     <div>
                         <h3>ALASKA</h3>
+                        <p>Featured trip</p>
                     </div>
                 </div>
-                <div className="featured-trip" style={{backgroundImage: "url('https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg')"}}>
+                <div className="featured-trip" style={{backgroundImage: "linear-gradient(rgba(225, 225, 225, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg')"}}>
                     <i className="fas fa-bookmark"></i>
                     <div>
                         <h3>YOSEMITE</h3>
+                        <p>Featured trip</p>
                     </div>
                 </div>
-                <div className="featured-trip" style={{backgroundImage: "url('https://images.pexels.com/photos/723496/pexels-photo-723496.jpeg')"}}>
+                <div className="featured-trip" style={{backgroundImage: "linear-gradient(rgba(225, 225, 225, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.pexels.com/photos/723496/pexels-photo-723496.jpeg')"}}>
                     <i className="fas fa-bookmark"></i>
                     <div>
                         <h3>CANADA</h3>
+                        <p>Featured trip</p>
                     </div>
                 </div>
             </div>

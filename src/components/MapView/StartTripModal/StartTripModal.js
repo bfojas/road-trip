@@ -124,7 +124,7 @@ class StartTripModal extends Component {
                             <div className="trans-box">
                                 <h1>{originName}</h1>
                                 <AutoComplete
-                                    style={{width: "75%"}}
+                                    style={{width: "65%"}}
                                     onPlaceSelected={this.originPicker}
                                     types={["geocode"]}
                                 />
@@ -137,14 +137,14 @@ class StartTripModal extends Component {
                                 <h1>{destinationName}</h1>
                                 <AutoComplete
                                     ref="destination"
-                                    style={{width: "75%"}}
+                                    style={{width: "65%"}}
                                     onPlaceSelected={this.destinationPicker}
                                     types={["geocode"]}
                                 />
                             </div>
                         </div>
                         <div className="submitButton">
-                            <button onClick={this.submitTrip} disabled={this.state.submitDisable}>Let's Go!</button>
+                            <button onClick={this.submitTrip} disabled={this.state.submitDisable}>LET'S GO!</button>
                         </div>
                     </div>
                 </div>

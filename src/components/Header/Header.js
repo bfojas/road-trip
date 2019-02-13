@@ -82,11 +82,14 @@ class Header extends Component {
 
     render() {
         const { showNav } = this.state;
+        const { user } = this.props;
         const path = this.props.location.pathname.replace(/^./, "");
+        const homePath = !path || path === "login" || path === "register";
         const headerStyles = (path === "login" || path === "register" || !path) ? 
             { backgroundColor: "transparent", position: "fixed" } : null;
         const headerNavStyles = !path ? { display: "flex" } : { display: "none" };
         const logoToDisplay = path === "login" || path === "register" ? logoDark : logo;
+        const userImage = !user ? null : !user.profile_image ? "https://image.flaticon.com/icons/svg/189/189626.svg" : user.profile_image;
 
         return (
             <div className="header-container" style={headerStyles}>
@@ -99,9 +102,16 @@ class Header extends Component {
                         <Link to="/login"><li>Login <i className="fas fa-sign-in-alt"></i></li></Link>
                     </ul>
                 </div>
-                {/* <div className="profile-image">
-                    <div className="alert-circle">4</div>
-                </div> */}
+                { 
+                    user && !homePath ?
+                        <Link to="/profile">
+                            <div className="profile-image" style={{backgroundImage: `url(${userImage})`}}>
+                                {/* <div className="alert-circle">4</div> */}
+                            </div>
+                        </Link>
+
+                    : null
+                }
                 <Sidebar 
                     className="sidebar" 
                     path={path} 

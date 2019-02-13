@@ -8,7 +8,7 @@ import TripsList from "./TripsList";
 import Following from "./Following";
 import SavedTrips from "./SavedTrips";
 import EditProfileModal from "./EditProfileModal";
-import avatar from "../../images/batman.png";
+import avatar from "../../images/user.png";
 import defaultCover from "../../images/default-cover.jpg";
 import "./Profile.scss";
 
