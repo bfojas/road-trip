@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import "./Sidebar.scss";
 
 export default function Sidebar(props) {
-    const { show, hide, startNew, logout } = props;
-    const burgerClass = !props.path ? "homepage-nav" : null;
-    return (
-        <Menu right burgerBarClassName={burgerClass} isOpen={show} >
+    const { show, hide, startNew, logout, path } = props;
+    const hideSidebar = (!path || path === "login" || path === "register");
+
+    return !hideSidebar ? (
+        <Menu right isOpen={show} >
             <Link to="/map" className="menu-item" onClick={hide}>
                 Plan your trip
             </Link>
@@ -24,6 +25,6 @@ export default function Sidebar(props) {
                 Sign out 
             </Link>
         </Menu>
-    );
+    ) : null;
 
 }

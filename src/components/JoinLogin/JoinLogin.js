@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect, withRouter, Link } from "react-router-dom";
 import alertify from "alertifyjs";
 import { connect } from "react-redux";
 import { updateUserData, updateTripInfo } from "../../ducks/reducer";
@@ -83,12 +83,17 @@ class JoinLogin extends Component {
                         <form onSubmit={title === "REGISTER" ? this.registerUser : this.loginUser}>
                             { 
                                 title === "REGISTER" ?
-                                <input onChange={this.handleChange} name="name" value={name} placeholder="Full Name" required/>
+                                    <input onChange={this.handleChange} name="name" value={name} placeholder="Full Name" required/>
                                 : null
                             }
                             <input onChange={this.handleChange} name="email" value={email} placeholder="Email Address" required/>
                             <input type="password" onChange={this.handleChange} name="password" value={password} placeholder="Password" required/>
                             <button type="submit">{title === "REGISTER" ? "CREATE ACCOUNT" : "LOG ME IN"} <i className="fas fa-long-arrow-alt-right"></i></button>
+                            { 
+                                title === "REGISTER" ?
+                                    <span>Have an account? <Link to="/login">Login</Link></span>
+                                :   <span>Don't have an account? <Link to="/register">Register</Link></span>
+                            }
                         </form>
                     </div>
                 </section>

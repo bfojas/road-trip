@@ -83,9 +83,9 @@ class Header extends Component {
     render() {
         const { showNav } = this.state;
         const path = this.props.location.pathname.replace(/^./, "");
-        const headerStyles = (path === "login" || path === "register" || path === "") ? 
+        const headerStyles = (path === "login" || path === "register" || !path) ? 
             { backgroundColor: "transparent", position: "fixed" } : null;
-        const showHeaderNav = path === "" ? { display: "flex" } : { display: "none" };
+        const headerNavStyles = !path ? { display: "flex" } : { display: "none" };
         const logoToDisplay = path === "login" || path === "register" ? logoDark : logo;
 
         return (
@@ -93,11 +93,10 @@ class Header extends Component {
                 <div className="logo">
                     <Link to="/"><img src={logoToDisplay} /></Link>
                 </div>
-                <div className="header-nav" style={showHeaderNav}>
+                <div className="header-nav" style={headerNavStyles}>
                     <ul>
-                        <Link to="/map"><li>Plan a Trip</li></Link>
-                        <Link to="/map"><li>Explore</li></Link>
                         <Link to="/register"><li>Sign Up</li></Link>
+                        <Link to="/login"><li>Login <i className="fas fa-sign-in-alt"></i></li></Link>
                     </ul>
                 </div>
                 {/* <div className="profile-image">
