@@ -1,9 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import axios from 'axios'
+import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { updateTripInfo } from "../../ducks/reducer";
 import "./Profile.scss";
 
-export default function TripsList(props) {
-    const { trips } = props;
+
+export function TripsList  (props) {
+    const { trips , updateTripInfo } = props;
+
+    let getTrip = (trip) =>{
+        axios.get(`/api/retrieve-trip/${trip.id}`)
+            .then(res=>{
+                updateTripInfo(res.data.currentTrip)
+                props.history.push('/map')
+            })
+            .catch(error => console.log('error getting trip', error))
+    }
+
     return trips ? (
         <div className="profile-tab-container">
             <div className="trips-container">
@@ -11,7 +25,7 @@ export default function TripsList(props) {
                     trips.length ? 
                         trips.map(trip => {
                             return (
-                                <div className="trip" style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${trip.images[0]})`}}>
+                                <div className="trip" onClick={()=>getTrip(trip)} style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${trip.images[0]})`}}>
                                     <h3>{trip.name.toUpperCase()}</h3>
                                 </div>
                             );
@@ -27,3 +41,11 @@ export default function TripsList(props) {
     ) : null;
 
 }
+
+const mapStateToProps = (state) =>{
+    return {
+        currentTrip: state.currentTrip
+    }
+}
+
+export default withRouter(connect(mapStateToProps, { updateTripInfo})(TripsList))

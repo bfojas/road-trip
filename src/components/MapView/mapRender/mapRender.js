@@ -57,7 +57,8 @@ class MapRender extends Component {
 				loadingElement: <div className="test" style={{ height: `400px` }} />,
 				containerElement: <div style={{ width: `100%` }} />,
 				mapElement: <div style={{height: `calc(100vh - 75px)`, width: `100vw` }}  />,
-            }),
+			}),
+			withRouter,
             withScriptjs,
             withGoogleMap,
             lifecycle({
@@ -70,8 +71,8 @@ class MapRender extends Component {
 									directions: {...result},
 									markers: true
 								})
-							} else {
-								console.error(`error fetching directions ${result}`);
+							} else {this.props.history.push('/')
+								// console.error(`error fetching directions ${result}`);
 							}
 						})
 					}, 1000);
@@ -79,7 +80,8 @@ class MapRender extends Component {
             })
         )(props =>
             <GoogleMap
-              defaultZoom={50}
+			  defaultZoom={50}
+			  onClick={e=>console.log('click', e)}
               // controlPosition={google.maps.ControlPosition.TOP_LEFT}
               defaultOptions={{
                 // styles : mapStyle,
@@ -92,7 +94,7 @@ class MapRender extends Component {
                 fullscreenControl: false
               }}
             >
-              	{props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers} />}  
+				  {	props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers}/>}  
             </GoogleMap>
             
         );
@@ -105,6 +107,7 @@ class MapRender extends Component {
 
 const mapStateToProps = (state) => {
   return{
+	user: state.user,
     currentTrip: state.currentTrip,
     tripWaypoints: state.currentTrip.tripWaypoints
   }

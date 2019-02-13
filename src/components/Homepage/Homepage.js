@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import "./Homepage.scss";
 
 export default function Homepage(props) {
+
+    
+
     return (
         <div className="homepage-container">
             <section style={{backgroundColor: "#2955D9"}}>

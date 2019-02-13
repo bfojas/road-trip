@@ -8,14 +8,10 @@ import {connect} from 'react-redux'
 class App extends Component {
   render() {
     return (
-      // this.props.currentTrip
-      // ?
       <div className="App">
         <Header/>
         { routes }
       </div>
-      // :
-      // <div>loading...</div>
     );
   }
 }

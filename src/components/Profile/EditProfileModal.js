@@ -45,7 +45,6 @@ class EditProfileModal extends Component {
         const { id, profile_image, cover_image } = this.props.user;
         const updatedUser = { name, email, bio, profile_image, cover_image };
         axios.put(`/api/user/${id}`, updatedUser).then(response => {
-            console.log(response);
             this.props.updateUserData(response.data.users[0]);
             this.props.hide();
         })

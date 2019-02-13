@@ -74,13 +74,14 @@ module.exports = {
                                     tripDestination: null,
                                     tripName: '',
                                     tripWaypoints: [],
-                                    tripId: 0
+                                    tripId: 0,
+                                    userId: user.id
                             }
                             
                             dbInstance.get_recent_trip([user.id])
                             .then(async trip => {
                                 if (trip.length) {
-                                    const {origin_id, destination_id, id: tripId, name: tripName, images} = trip[0];
+                                    const {origin_id, destination_id, id: tripId, name: tripName, user_id} = trip[0];
                                     let tripOrigin = await dbInstance.get_stop([origin_id])
                                         .catch(error=> console.log('----trip origin error', error));
                                     let tripDestination = await dbInstance.get_stop([destination_id])
@@ -90,7 +91,6 @@ module.exports = {
                                     let wayPointOrder = await dbInstance.get_trip_order([tripId])
                                         .catch(error=> console.log('----trip order error', error))
                                     let tripWaypoints = []
-                                    console.log('order',wayPointOrder, 'id', tripId)
 
                                     if (wayPointOrder.length && wayPointOrder[0].waypoint_order){
                                         tripWaypoints = wayPointOrder[0].waypoint_order.map(val=>{
@@ -103,7 +103,8 @@ module.exports = {
                                         tripDestination: tripDestination[0],
                                         tripName, 
                                         tripWaypoints, 
-                                        tripId}
+                                        tripId,
+                                        userId: user_id}
                                     res.status(200).send({user: req.session.user,
                                         currentTrip: req.session.currentTrip });}
                                 else { 

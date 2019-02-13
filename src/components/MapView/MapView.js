@@ -1,3 +1,4 @@
+/*global google*/
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleApiWrapper } from "google-maps-react";
@@ -89,5 +90,5 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     updateStartEndData
 };
-
+// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MapView))
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_MAP_KEY})(MapView)));

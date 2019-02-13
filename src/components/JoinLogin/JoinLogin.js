@@ -50,7 +50,6 @@ class JoinLogin extends Component {
             if (response.data.errorMessage) {
                 alertify.error(response.data.errorMessage);                
             } else {
-                console.log('current', response.data.currentTrip)
                 const {user, currentTrip} = response.data
                 updateUserData(user);
                 updateTripInfo(currentTrip);

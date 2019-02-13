@@ -31,12 +31,10 @@ class RouteContainer extends Component {
     }
 
     showModal = (stop) => {
-        console.log('hit')
         this.setState({
             showModal: true,
             modalInfo: stop
         })
-        console.log('----state',this.state)
     }
 
     hideModal = () => {
