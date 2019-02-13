@@ -30,6 +30,7 @@ create table stops (
 );
 
 create table line_item (
+    user_id integer references users(id)
     trip_id integer,
     stop_id integer,
     foreign key (trip_id) references trips(id),

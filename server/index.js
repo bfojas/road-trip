@@ -40,6 +40,8 @@ app.post('/api/start-trip', mapController.start);
 app.post('/api/add-stop', mapController.add);
 app.delete('/api/new-trip', mapController.newTrip);
 app.post('/api/stopOrder', mapController.setOrder);
+app.get('/api/retrieve-trip/:id', mapController.retrieveTrip);
+app.get('/api/home-trips', mapController.getHomeTrips)
 
 
 

@@ -1,3 +1,4 @@
+/*global google*/
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -18,11 +19,13 @@ class Header extends Component {
         this.getTripsFromServer = this.getTripsFromServer.bind(this);
         this.logout = this.logout.bind(this);
         this.startNewTrip = this.startNewTrip.bind(this);
+        this.getHomePageTripsFromServer = this.getHomePageTripsFromServer.bind(this)
     }
 
     componentDidMount() {
         this.getUserFromServer();
         this.getTripsFromServer();
+        this.getHomePageTripsFromServer()
     }
 
     componentWillReceiveProps(nextProps) {
@@ -47,6 +50,12 @@ class Header extends Component {
         axios.get("/api/trips").then(response => {
             const { updateUserTrips } = this.props;
             updateUserTrips(response.data);
+        })
+    }
+
+    getHomePageTripsFromServer() {
+        axios.get("/api/home-trips").then(response => {
+            console.log('response', response)
         })
     }
 

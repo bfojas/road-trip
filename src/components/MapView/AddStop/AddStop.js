@@ -71,6 +71,7 @@ class AddStop extends Component {
         //------ places stop into array
                 if (newList.length){
                     let insertIndex = insertInOrder(0);
+
                     newList.splice(insertIndex, 0 , newStop);
                 }
                     else{
@@ -126,6 +127,7 @@ class AddStop extends Component {
                     style={{width: '75%'}}
                     onPlaceSelected={this.pickStop}
                     types={['geocode']}
+                    componentRestrictions={{country: ["us", "ca"]}}
                 />
                 <button 
                     onClick={this.addStop} 

@@ -1,4 +1,4 @@
-
+/*global google*/
 import React, { Component } from 'react';
 import axios from 'axios';
 import AutoComplete from 'react-google-autocomplete';
@@ -95,7 +95,6 @@ class StartTripModal extends Component {
             timeStamp: Date.now()})
             // Sends newly created trip ID to Redux.
             .then(response => {
-                console.log('tripId', response);
                 this.props.updateUserTrips([...this.props.trips, response.data[0]]);
                 this.props.updateTripId(response.data[0].id);
             })
@@ -127,6 +126,7 @@ class StartTripModal extends Component {
                                     style={{width: "65%"}}
                                     onPlaceSelected={this.originPicker}
                                     types={["geocode"]}
+                                    componentRestrictions={{country: ["us", "ca"]}}
                                 />
                             </div>
                         </div>
@@ -140,6 +140,8 @@ class StartTripModal extends Component {
                                     style={{width: "65%"}}
                                     onPlaceSelected={this.destinationPicker}
                                     types={["geocode"]}
+                                    componentRestrictions={{country: ["us", "ca"]}}
+
                                 />
                             </div>
                         </div>
