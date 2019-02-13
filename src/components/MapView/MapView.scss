@@ -21,14 +21,11 @@
     // }
 }
 
-.route-holder {
-    // border-radius: 15px;
-    // position: fixed;
+.route-container {
     z-index: 30;
-    // height: calc(100vh - 100px);
     width: 100%;
     top: 85px;
-    left: calc(100vw - 360px);
+    // left: calc(100vw - 360px);
     background-color: rgb(245, 245, 245);
 
     .route-tab {

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { DragDropContainer, DropTarget } from "react-drag-drop-container";
 import { slide as Menu } from "react-burger-menu";
 import AddStop from "../AddStop/AddStop";
+import StopModal from './StopModal'
 import { updateTripInfo } from "../../../ducks/reducer";
 import "./RouteContainer.scss";
 import axios from "axios";
@@ -31,53 +32,50 @@ class RouteContainer extends Component {
 
     showModal = (stop) => {
         console.log('hit')
-        this.setState=({
+        this.setState({
             showModal: true,
             modalInfo: stop
         })
+        console.log('----state',this.state)
     }
 
     hideModal = () => {
-        this.setState=({
+        this.setState({
             showModal: false
         })
-
     }
+
+    
 
     render() {
         const {tripWaypoints, tripOrigin, tripDestination} = this.props.currentTrip
         const {showModal, modalInfo} = this.state
         let mappedWaypoints = tripWaypoints.map((val,i) =>{
             return(
-                <div className="stop">
-                    <DragDropContainer dragData={{drag:i}} onClick={this.showModal(val)}>
-                        <DropTarget onHit={e=>this.drop(e.dragData.drag, e.target.id)}>
-                            <div className="stop-drag" id={i}>
-                                Drag Me
-                            </div>
-                        </DropTarget>
-                    </DragDropContainer>
-                    <div key={val.name} className="stop-info" onClick={() => this.showModal(val)}>
-                        <h3>{val.name}</h3>
-                        <div className="image-div" style={{backgroundImage: `url(${val.image})`}}></div>
-                    </div>
-                </div>
+                <DragDropContainer dragData={{drag:i}}>
+                    <DropTarget onHit={e=>this.drop(e.dragData.drag, e.target.id)}>
+                        <div key={val.name} className="stop" id={i} onClick={()=>this.showModal(val)}>
+                            <h3>{val.name}</h3>
+                            <div className="image-div" style={{backgroundImage: `url(${val.image})`}}></div>
+                        </div>
+                    </DropTarget>
+                </DragDropContainer>
             )
         })
 
         return (
             tripDestination ?
-                <Menu right isOpen={show}>
-                    <div className="route-holder">
+                <Menu right isOpen >
+                    <div className="route-holder" >
                         <div className="route-tab"></div>
                         <AddStop/>
                         <div className="stop-container">
-                            <div key={tripOrigin.name} className="stop">
+                            <div key={tripOrigin.name} className="stop" onClick={()=>this.showModal(tripOrigin)}>
                                 <h3>{tripOrigin.name}</h3>
                                 <div className="image-div" style={{backgroundImage: `url(${tripOrigin.image})`}}></div>
                             </div>
                             {mappedWaypoints}
-                            <div key={tripDestination.name} className="stop">
+                            <div key={tripDestination.name} className="stop" onClick={()=>this.showModal(tripDestination)}>
                                 <h3>{tripDestination.name}</h3>
                                 <div className="image-div" style={{backgroundImage: `url(${tripDestination.image})`}}></div>
                             </div>

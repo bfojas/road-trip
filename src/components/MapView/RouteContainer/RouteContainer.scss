@@ -2,10 +2,12 @@
 
 .route-holder {
     border-radius: 15px;
+    // position: absolute;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+    z-index: 150;
 
     .stop-container {
         // display: flex;
@@ -19,7 +21,7 @@
 
             span {
                 display: flex;
-                justify-content: center;
+                justify-content: left;
                 width: 100%;
             }
 

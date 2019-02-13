@@ -45,6 +45,8 @@ class MapView extends Component {
         this.setState({ showRouteContainer: !routeContainerState });
     }
 
+    
+
 
     render() {
         const {startModal, showRouteContainer} = this.state;
@@ -64,7 +66,7 @@ class MapView extends Component {
                 <div className="map-container" style={{filter: blur}}>
                     <MapRender/>
                 </div>
-                <div className="route-holder" style={{filter: blur, display: routeDisplay}} >
+                <div className="route-container" style={{filter: blur, display: routeDisplay}} >
                     <RouteContainer 
                         show={showRouteContainer}
                         toggle={this.toggleRouteContainer}

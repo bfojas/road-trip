@@ -1,24 +1,27 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './StopModal.scss'
+import { renderComponent } from 'recompose';
 
 
-function StopModal (props) {
-    const {show, stopInfo, hide} = props
+class StopModal extends Component {
 
+    render(){
+    const {show, stopInfo, hide} = this.props
 
-    return(
-        show
-        ?
-        <div className="stop-modal">
-            <button onClick={()=>hide()}>X</button>
-            <div className="stop-info">
-            name: {stopInfo.name}
+        return(
+            show
+            ?<div className="stop-fade" onClick={()=>hide()}>
+                <div className="stop-modal">
+                    <div className="stop-info">
+                    <div className="stop-background" style={{backgroundImage: `url(${stopInfo.image})`}}/>
+                    name: {stopInfo.name}
+                    </div>
+                </div>
             </div>
-        </div>
-        :null
-    )
+            :null
+        )
 
-
+    }
 }
 
 export default StopModal
