@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { DragDropContainer, DropTarget } from "react-drag-drop-container";
 import { slide as Menu } from "react-burger-menu";
 import AddStop from "../AddStop/AddStop";
+import StopModal from "../RouteContainer/StopModal";
 import { updateTripInfo } from "../../../ducks/reducer";
 import "./RouteContainer.scss";
 import axios from "axios";
@@ -66,7 +67,7 @@ class RouteContainer extends Component {
 
         return (
             tripDestination ?
-                <Menu right isOpen={show}>
+                <Menu right isOpen>
                     <div className="route-holder">
                         <div className="route-tab"></div>
                         <AddStop/>
