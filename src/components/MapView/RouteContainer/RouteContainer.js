@@ -65,8 +65,8 @@ class RouteContainer extends Component {
 
         return (
             tripDestination ?
-                <Menu right isOpen >
-                    <div className="route-holder" >
+                <Menu right isOpen>
+                    <div className="route-holder">
                         <div className="route-tab"></div>
                         <AddStop/>
                         <div className="stop-container">

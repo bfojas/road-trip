@@ -25,6 +25,12 @@ class Header extends Component {
         this.getTripsFromServer();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.location.pathname !== nextProps.location.pathname) {
+            this.getTripsFromServer();
+        }
+    }
+
     hideNav = () => {
         this.setState({ showNav: false })
     }
