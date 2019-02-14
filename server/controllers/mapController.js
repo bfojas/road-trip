@@ -6,7 +6,6 @@ module.exports = {
         //Creates new trip and stores id, name, and destination image in tripInfo variable.
         let tripInfo = await req.app.get('db').add_trip([userId, name, [destination.image]])
             .catch(error => console.log('----tripInfo error', error))
-        console.log(tripInfo);
 
         //Looks for existing stop with address matching origin address and creates new stop if doesn't exist,
         //storing id of newly created stop in originId variable.
@@ -39,7 +38,6 @@ module.exports = {
         };
         //Connects origin stop to trip in line_item table.
 
-        console.log('------bunch of stuff', id, tripInfo[0], originId[0])
         req.app.get('db').add_line_item([id, tripInfo[0].id, originId[0].id, null]);
         //Connects destination stop to trip in line_item table.
         req.app.get('db').add_line_item([id, tripInfo[0].id, destinationId[0].id, null]);
@@ -89,12 +87,10 @@ module.exports = {
     retrieveTrip: (req, res) => {
         const {id} = req.params
 
-        console.log('--------------reqbody',req.params)
 
         const dbInstance = req.app.get("db");
         dbInstance.retrieve_trip([+id])
             .then(async trip => {
-                console.log('trip[0]', trip)
                 const {origin_id, destination_id, id: tripId, name: tripName, images} = trip[0];
                     let tripOrigin = await dbInstance.get_stop([origin_id])
                         .catch(error=> console.log('----trip origin error', error));
@@ -105,7 +101,6 @@ module.exports = {
                     let wayPointOrder = await dbInstance.get_trip_order([tripId])
                         .catch(error=> console.log('----trip order error', error))
                     let tripWaypoints = []
-                    console.log('order',wayPointOrder, 'id', tripId)
 
                     if (wayPointOrder.length && wayPointOrder[0].waypoint_order){
                         tripWaypoints = wayPointOrder[0].waypoint_order.map(val=>{

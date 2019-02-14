@@ -18,15 +18,16 @@ class RouteContainer extends Component {
         }
     }
 
-    drop = (drag, drop) => {
+    drop = async (drag, drop) => {
         const {updateTripInfo} = this.props;
         const {tripWaypoints, tripOrigin, tripDestination, tripName, tripId} = this.props.currentTrip
         let newArr = tripWaypoints.slice();
         let element = newArr.splice(drag, 1);
         newArr.splice(+drop, 0 , element[0])
-        updateTripInfo({tripWaypoints: newArr, tripOrigin, tripDestination, tripName, tripId})
-        let wayPointIndexArray = tripWaypoints.map(val=> val.id)
-        axios.post('/api/stopOrder', {wayPointIndexArray, tripId})
+        let newTrip= {tripWaypoints: newArr, tripOrigin, tripDestination, tripName, tripId}
+        updateTripInfo(newTrip)
+        let waypointIndexArray = await tripWaypoints.map(val=> val.id)
+        axios.post('/api/stopOrder', {waypointIndexArray, tripId, newTrip})
             .catch(error => console.log('--- change route error', error))
     }
 
