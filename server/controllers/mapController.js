@@ -62,8 +62,8 @@ module.exports = {
             })
             .catch(error => console.log('-----add stop', error));
         // Connects new stop to current trip in line_item table.   
-
-        req.app.get('db').add_line_item(tripId, stopId[0].id, start_distance);
+            console.log('----------added', tripId, stopId[0].id, start_distance)
+        req.app.get('db').add_line_item(id, tripId, stopId[0].id, start_distance);
         res.status(200).send(stopId[0])
     },
 
@@ -117,10 +117,6 @@ module.exports = {
                         tripId}
                     res.status(200).send({currentTrip: req.session.currentTrip });
             })
-    },
-
-    getHomeTrips: (req, res) => {
-        
     }
 
 }

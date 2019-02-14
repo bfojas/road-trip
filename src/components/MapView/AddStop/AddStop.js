@@ -20,6 +20,7 @@ class AddStop extends Component {
         }
     }
 
+
     pickStop = location => {
         // Destructure values from selected location.
         const { formatted_address } = location;
@@ -41,8 +42,7 @@ class AddStop extends Component {
     addStop = () =>{
         const {tripId, tripOrigin, tripWaypoints} = this.props.currentTrip;
         const { name, address, image, latitude, longitude} = this.state
-        
-        let start_distance = this.getDistance(tripOrigin, latitude, longitude)
+        let start_distance = Number(this.getDistance(tripOrigin, latitude, longitude).toFixed(5))
         // ------ add stop to database
         axios.post('/api/add-stop', {tripId, start_distance, stop:{
             name, address, image, latitude, longitude

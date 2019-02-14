@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import ReactS3 from "react-s3";
 import { updateUserData } from "../../ducks/reducer";
@@ -130,7 +130,7 @@ class Profile extends Component {
                 { match.path === "/profile/following" && <Following /> }
                 { match.path === "/profile/saved" && <SavedTrips /> }
             </div>
-        ) : null;
+        ) :<Redirect to="/" />
     }
 
 }

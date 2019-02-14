@@ -1,4 +1,3 @@
-/*global google*/
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -24,12 +23,11 @@ class Header extends Component {
 
     componentDidMount() {
         this.getUserFromServer();
-        this.getTripsFromServer();
         this.getHomePageTripsFromServer()
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.location.pathname !== nextProps.location.pathname) {
+        if (this.props.user && this.props.location.pathname !== nextProps.location.pathname) {
             this.getTripsFromServer();
         }
     }
@@ -43,6 +41,9 @@ class Header extends Component {
             const { updateUserData, updateTripInfo } = this.props;
             updateUserData(response.data.user);
             updateTripInfo(response.data.currentTrip);
+            if (response.data.user){
+                this.getTripsFromServer();
+            }
       });
     }
 
@@ -103,7 +104,7 @@ class Header extends Component {
         return (
             <div className="header-container" style={headerStyles}>
                 <div className="logo">
-                    <Link to="/"><img src={logoToDisplay} /></Link>
+                    <Link to="/"><img src={logoToDisplay} alt="logo" /></Link>
                 </div>
                 <div className="header-nav" style={headerNavStyles}>
                     <ul>
