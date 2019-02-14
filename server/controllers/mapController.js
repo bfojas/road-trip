@@ -33,7 +33,7 @@ module.exports = {
             tripDestination: destination,
             tripName: name,
             tripWaypoints: [],
-            featuredImage: destination.image,
+            featuredImage: tripInfo[0].featured_image,
             tripId: tripInfo[0].id,
             userId: id
         };
@@ -112,6 +112,7 @@ module.exports = {
                     req.session.currentTrip = await {
                         tripOrigin: tripOrigin[0], 
                         tripDestination: tripDestination[0],
+                        featuredImage: trip[0].featured_image,
                         tripName, 
                         tripWaypoints, 
                         tripId}

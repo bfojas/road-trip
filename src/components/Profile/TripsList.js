@@ -11,7 +11,7 @@ export function TripsList  (props) {
 
     let getTrip = (trip) =>{
         axios.get(`/api/retrieve-trip/${trip.id}`)
-            .then(res=>{
+            .then(res=> {
                 updateTripInfo(res.data.currentTrip)
                 props.history.push('/map')
             })
@@ -25,7 +25,7 @@ export function TripsList  (props) {
                     trips.length ? 
                         trips.map(trip => {
                             return (
-                                <div className="trip" onClick={()=>getTrip(trip)} style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${trip.images[0]})`}}>
+                                <div className="trip" onClick={()=>getTrip(trip)} style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${trip.featured_image})`}}>
                                     <h3>{trip.name.toUpperCase()}</h3>
                                 </div>
                             );

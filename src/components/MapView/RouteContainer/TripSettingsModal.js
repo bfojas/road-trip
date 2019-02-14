@@ -8,7 +8,8 @@ class TripSettingsModal extends Component {
     constructor(props) {
         super(props);
         this.state = {  
-            selectedTrip: null
+            name: "",
+            featuredImage: ""
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -18,7 +19,8 @@ class TripSettingsModal extends Component {
         if (this.props.currentTrip && (this.props !== prevProps)) {
             const { currentTrip } = this.props;
             this.setState({
-                
+                name: currentTrip.tripName,
+                featuredImage: currentTrip.featuredImage
             })
         }
     }
@@ -33,7 +35,7 @@ class TripSettingsModal extends Component {
 
     render() { 
 
-        const { selectedTrip } = this.state;
+        const { name, featuredImage } = this.state;
         const { show } = this.props;
         const showHideClassName = show ? "modal display-flex" : "modal display-none";
 
@@ -47,9 +49,9 @@ class TripSettingsModal extends Component {
                     <div className="modal-content-wrapper">
                         <form>
                             <label>TRIP NAME:</label>
-                            <input type="text" />
+                            <input onChange={this.handleChange} value={name} name="name" type="text" />
                             <label>FEATURED IMAGE:</label>
-                            <div className="featured-image">
+                            <div className="featured-image" style={{backgroundImage: `url(${featuredImage})`}}>
                                 <div className="featured-image-edit">
                                     <label htmlFor="profile-upload">
                                         <i className="fas fa-camera profile"></i>
@@ -68,6 +70,7 @@ class TripSettingsModal extends Component {
             </div>
         ) : null;
     }
+    
 }
 
 function mapStateToProps(reduxState) {
