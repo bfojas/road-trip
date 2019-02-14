@@ -9,11 +9,8 @@ export default function Sidebar(props) {
 
     return !hideSidebar ? (
         <Menu right isOpen={show} >
-            <Link to="/map" className="menu-item" onClick={hide}>
-                Plan your trip
-            </Link>
             <Link onClick={startNew} to="/map" className="menu-item" >
-                Start a new trip
+                New trip
             </Link>
             <Link to="/profile" className="menu-item" onClick={hide}>
                 Profile

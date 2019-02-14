@@ -4,8 +4,6 @@ import "./Homepage.scss";
 
 export default function Homepage(props) {
 
-    
-
     return (
         <div className="homepage-container">
             <section style={{backgroundColor: "#2955D9"}}>
@@ -42,5 +40,6 @@ export default function Homepage(props) {
             </div>
         </div>
     );
+    
 }
 

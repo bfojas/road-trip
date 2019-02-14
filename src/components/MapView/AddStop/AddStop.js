@@ -120,7 +120,7 @@ class AddStop extends Component {
             </div>
             :
             <div className="add-stop-container" style={{backgroundImage: imageUrl}}>
-                <i className="fas fa-cog"></i>
+                <i onClick={() => this.props.showModal("tripSettingsModal")} className="fas fa-cog"></i>
                 <h1>{displayName}</h1>
                 <div className="search-component">
                 <AutoComplete

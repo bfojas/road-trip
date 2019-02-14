@@ -103,7 +103,7 @@ class StartTripModal extends Component {
                     destination: destinationPick,
                     name: destinationPick.name,
                     featuredImage: destinationPick.image})
-                this.props.closeModal();
+                this.props.closeModal("startModal");
             })
             .catch(error => console.log('------submit trip', error));
     }

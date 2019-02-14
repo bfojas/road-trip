@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import MapRender from './mapRender/mapRender';
 import RouteContainer from './RouteContainer/RouteContainer';
 import StartTripModal from './StartTripModal/StartTripModal';
+import TripSettingsModal from './RouteContainer/TripSettingsModal';
 import './MapView.scss';
 
 class MapView extends Component {
@@ -14,6 +15,7 @@ class MapView extends Component {
         super(props);
         this.state = {
             startModal: true,
+            tripSettingsModal: false,
             showRouteContainer: true
         }
     }
@@ -37,8 +39,12 @@ class MapView extends Component {
         }
     }
 
-    closeModal = () => {
-        this.setState({ startModal: false });
+    showModal = modal => {
+        this.setState({ [modal]: true })
+    }
+ 
+    closeModal = modal => {
+        this.setState({ [modal]: false });
     }
 
     toggleRouteContainer = () => {
@@ -46,11 +52,9 @@ class MapView extends Component {
         this.setState({ showRouteContainer: !routeContainerState });
     }
 
-    
-
 
     render() {
-        const {startModal, showRouteContainer} = this.state;
+        const {startModal, tripSettingsModal, showRouteContainer} = this.state;
         if (startModal) {
             var blur = 'blur(1px)'
             var routeDisplay = 'none'
@@ -64,6 +68,10 @@ class MapView extends Component {
                     show={startModal}
                     closeModal={this.closeModal}
                 />
+                <TripSettingsModal
+                    show={tripSettingsModal}
+                    closeModal={this.closeModal}
+                />
                 <div className="map-container" style={{filter: blur}}>
                     <MapRender/>
                 </div>
@@ -71,6 +79,7 @@ class MapView extends Component {
                     <RouteContainer 
                         show={showRouteContainer}
                         toggle={this.toggleRouteContainer}
+                        showModal={this.showModal}
                     />
                 </div>
             
