@@ -4,28 +4,28 @@ module.exports = {
         const { origin, destination, name, userId, timeStamp } = req.body;
         const { id } = req.session.user;
         //Creates new trip and stores id, name, and destination image in tripInfo variable.
-        let tripInfo = await req.app.get('db').add_trip([userId, name, [destination.image]])
+        let tripInfo = await req.app.get('db').add_trip([userId, name, [origin.image, destination.image], destination.image])
             .catch(error => console.log('----tripInfo error', error))
 
         //Looks for existing stop with address matching origin address and creates new stop if doesn't exist,
         //storing id of newly created stop in originId variable.
-        let originId = await req.app.get('db').find_stop_id(origin.address)
+        let originResponse = await req.app.get('db').find_stop_id(origin.address)
             .then(res => { 
                 return res.length 
                 ? res
                 : req.app.get('db').add_stop(origin)
             })
-            .catch(error => console.log('----originId error', error))
+            .catch(error => console.log('----originResponse error', error))
 
         //Looks for existing stop with address matching destination address and creates new stop if doesn't exist,
         //storing id of newly created stop in destinationId variable.            
-        let destinationId = await req.app.get('db').find_stop_id(destination.address)
+        let destinationResponse = await req.app.get('db').find_stop_id(destination.address)
             .then(res => { 
                 return res.length 
                 ? res
                 : req.app.get('db').add_stop(destination)
             })
-            .catch(error => console.log('----destinationId error', error))
+            .catch(error => console.log('----destinationResponse error', error))
     
         //Sets current trip values to session.
         req.session.currentTrip = {
@@ -33,16 +33,17 @@ module.exports = {
             tripDestination: destination,
             tripName: name,
             tripWaypoints: [],
+            featuredImage: destination.image,
             tripId: tripInfo[0].id,
             userId: id
         };
         //Connects origin stop to trip in line_item table.
 
-        req.app.get('db').add_line_item([id, tripInfo[0].id, originId[0].id, null]);
+        req.app.get('db').add_line_item([id, tripInfo[0].id, originResponse[0].id, null]);
         //Connects destination stop to trip in line_item table.
-        req.app.get('db').add_line_item([id, tripInfo[0].id, destinationId[0].id, null]);
+        req.app.get('db').add_line_item([id, tripInfo[0].id, destinationResponse[0].id, null]);
         //Updates trip in db: inserts into orgin_id, destination_id, and active_time columns.
-        req.app.get('db').add_trip_info([originId[0].id, destinationId[0].id, tripInfo[0].id, +timeStamp])
+        req.app.get('db').add_trip_info([originResponse[0].id, destinationResponse[0].id, tripInfo[0].id, +timeStamp])
         res.status(200).send(tripInfo);
     },
 

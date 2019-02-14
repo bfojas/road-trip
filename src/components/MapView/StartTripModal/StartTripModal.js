@@ -97,16 +97,15 @@ class StartTripModal extends Component {
             .then(response => {
                 this.props.updateUserTrips([...this.props.trips, response.data[0]]);
                 this.props.updateTripId(response.data[0].id);
+                // Sends trip data to Redux.
+                this.props.updateStartEndData(
+                    {origin: originPick, 
+                    destination: destinationPick,
+                    name: destinationPick.name,
+                    featuredImage: destinationPick.image})
+                this.props.closeModal();
             })
             .catch(error => console.log('------submit trip', error));
-
-        // Sends trip data to Redux.
-        this.props.updateStartEndData(
-            {origin: originPick, 
-            destination: destinationPick,
-            name: destinationPick.name})
-
-        this.props.closeModal();
     }
 
     render() {

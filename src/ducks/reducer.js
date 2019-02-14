@@ -23,7 +23,8 @@ export default function reducer (state = initialState, action){
                 Object.assign( {}, state.currentTrip, {
                 tripOrigin: action.payload.origin,
                 tripDestination: action.payload.destination,
-                tripName: action.payload.name})})
+                tripName: action.payload.name,
+                featuredImage: action.payload.featuredImage})})
         case UPDATE_TRIP_ID:
             return Object.assign( {}, state, {currentTrip:
                 Object.assign( {}, state.currentTrip,{tripId: action.payload})})

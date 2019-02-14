@@ -105,7 +105,7 @@ class AddStop extends Component {
         let imageUrl;
         let displayName = "";
         if (this.props.currentTrip.tripDestination){
-            imageUrl = `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${this.props.currentTrip.tripDestination.image})`
+            imageUrl = `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${this.props.currentTrip.featuredImage})`
             displayName = this.props.currentTrip.tripName
         };
 

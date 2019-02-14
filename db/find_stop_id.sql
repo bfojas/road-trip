@@ -1,2 +1,2 @@
-select id from stops
+select * from stops
 where address = $1;
