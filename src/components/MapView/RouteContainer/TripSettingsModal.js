@@ -13,6 +13,15 @@ class TripSettingsModal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.currentTrip && (this.props !== prevProps)) {
+            const { currentTrip } = this.props;
+            this.setState({
+                
+            })
+        }
+    }
     
     handleChange(e) {
         this.setState({ [e.target.name] : e.target.value })
@@ -23,6 +32,7 @@ class TripSettingsModal extends Component {
     }
 
     render() { 
+
         const { selectedTrip } = this.state;
         const { show } = this.props;
         const showHideClassName = show ? "modal display-flex" : "modal display-none";
@@ -59,5 +69,10 @@ class TripSettingsModal extends Component {
         ) : null;
     }
 }
+
+function mapStateToProps(reduxState) {
+    const { currentTrip } = reduxState;
+    return { currentTrip };
+}
  
-export default TripSettingsModal;
+export default connect(mapStateToProps)(TripSettingsModal);
