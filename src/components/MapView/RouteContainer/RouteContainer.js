@@ -65,7 +65,7 @@ class RouteContainer extends Component {
                 <Menu right isOpen>
                     <div className="route-holder">
                         {/* <div className="route-tab"></div> */}
-                        <AddStop/>
+                        <AddStop showModal={this.props.showModal} />
                         <div className="stop-container">
                             <div key={tripOrigin.name} className="stop" onClick={()=>this.showModal(tripOrigin)}>
                                 <h3><i className="far fa-circle"></i> {tripOrigin.name}</h3>

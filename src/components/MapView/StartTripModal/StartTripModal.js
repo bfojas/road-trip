@@ -106,7 +106,7 @@ class StartTripModal extends Component {
             destination: destinationPick,
             name: destinationPick.name})
 
-        this.props.closeModal();
+        this.props.closeModal("startModal");
     }
 
     render() {
