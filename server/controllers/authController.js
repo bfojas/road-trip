@@ -81,7 +81,7 @@ module.exports = {
                             dbInstance.get_recent_trip([user.id])
                             .then(async trip => {
                                 if (trip.length) {
-                                    const {origin_id, destination_id, id: tripId, name: tripName, user_id} = trip[0];
+                                    const {origin_id, destination_id, id: tripId, name: tripName, featured_image: featuredImage, user_id} = trip[0];
                                     let tripOrigin = await dbInstance.get_stop([origin_id])
                                         .catch(error=> console.log('----trip origin error', error));
                                     let tripDestination = await dbInstance.get_stop([destination_id])
@@ -104,6 +104,7 @@ module.exports = {
                                         tripName, 
                                         tripWaypoints, 
                                         tripId,
+                                        featuredImage,
                                         userId: user_id}
                                     res.status(200).send({user: req.session.user,
                                         currentTrip: req.session.currentTrip });}

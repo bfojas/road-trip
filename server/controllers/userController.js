@@ -26,6 +26,21 @@ module.exports = {
             res.status(500).send({errorMessage: "Error in getUserTrips method"});
             console.log(error);
         })
+    }, 
+
+    updateTrip: (req, res) => {
+        const { id } = req.session.user;
+        const { name, featuredImage, tripId } = req.body;
+        const dbInstance = req.app.get("db");
+        dbInstance.update_trip([ name, featuredImage, tripId, id ]).then(trips => {
+            const { name, featured_image } = trips[0];
+            req.session.currentTrip = { ...req.session.currentTrip, tripName: name, featuredImage: featured_image };
+            res.status(200).send(req.session.currentTrip);
+        })
+        .catch(error => {
+            res.status(500).send({errorMessage: "Error in updateTrip method"});
+            console.log(error);
+        })
     }
 
 }
