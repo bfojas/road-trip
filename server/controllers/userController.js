@@ -41,6 +41,16 @@ module.exports = {
             res.status(500).send({errorMessage: "Error in updateTrip method"});
             console.log(error);
         })
+    },
+
+    deleteTrip: (req, res) => {
+        const tripId = req.params.id;
+        const userId = req.session.user.id;
+        const dbInstance = req.app.get("db");
+        dbInstance.delete_trip([ tripId, userId ]).then(trips => {
+            req.session.currentTrip = null;
+            res.status(200).send(trips);
+        })
     }
 
 }

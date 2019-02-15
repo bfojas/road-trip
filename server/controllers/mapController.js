@@ -37,8 +37,8 @@ module.exports = {
             tripId: tripInfo[0].id,
             tripUser: id
         };
+        
         //Connects origin stop to trip in line_item table.
-
         req.app.get('db').add_line_item([id, tripInfo[0].id, originResponse[0].id, null]);
         //Connects destination stop to trip in line_item table.
         req.app.get('db').add_line_item([id, tripInfo[0].id, destinationResponse[0].id, null]);

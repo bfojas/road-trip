@@ -6,10 +6,10 @@ import { updateTripInfo } from "../../ducks/reducer";
 import "./Profile.scss";
 
 
-export function TripsList  (props) {
-    const { trips , updateTripInfo } = props;
+export function TripsList (props) {
+    const { trips, updateTripInfo } = props;
 
-    let getTrip = (trip) =>{
+    let getTrip = (trip) => {
         axios.get(`/api/retrieve-trip/${trip.id}`)
             .then(res=> {
                 updateTripInfo(res.data.currentTrip)
@@ -42,10 +42,10 @@ export function TripsList  (props) {
 
 }
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = state =>{
     return {
         currentTrip: state.currentTrip
     }
 }
 
-export default withRouter(connect(mapStateToProps, { updateTripInfo})(TripsList))
+export default withRouter(connect(mapStateToProps, { updateTripInfo })(TripsList))
