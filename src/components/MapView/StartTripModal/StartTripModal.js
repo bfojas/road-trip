@@ -1,4 +1,3 @@
-/*global google*/
 import React, { Component } from 'react';
 import axios from 'axios';
 import AutoComplete from 'react-google-autocomplete';
@@ -103,6 +102,13 @@ class StartTripModal extends Component {
                     destination: destinationPick,
                     name: destinationPick.name,
                     featuredImage: destinationPick.image})
+                this.setState({
+                    originImage:"",
+                    originName: "Where do we start?",
+                    destinationImage:"",
+                    destinationName: "Where are we going?",
+                    submitDisable: true
+                })
                 this.props.closeModal("startModal");
             })
             .catch(error => console.log('------submit trip', error));

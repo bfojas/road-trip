@@ -35,6 +35,13 @@ class JoinLogin extends Component {
                 alertify.error(response.data.errorMessage);
             } else {
                 updateUserData(response.data);
+                updateTripInfo({
+                    tripOrigin: null,
+                    tripDestination: null,
+                    tripName: '',
+                    tripWaypoints: [],
+                    tripId: 0
+                })
                 alertify.success("Success! Welcome to Road Trip");
                 this.setState({ redirect: true })
             }

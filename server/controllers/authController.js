@@ -77,7 +77,7 @@ module.exports = {
                                     tripId: 0,
                                     userId: user.id
                             }
-                            
+                            console.log('---------login id', user.id)
                             dbInstance.get_recent_trip([user.id])
                             .then(async trip => {
                                 if (trip.length) {
