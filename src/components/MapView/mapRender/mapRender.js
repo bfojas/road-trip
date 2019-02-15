@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 // Recompose = React utility for function components and HOCs.
 import  { compose, withProps, lifecycle } from "recompose";
-import { GoogleApiWrapper } from "google-maps-react";
 import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer } from "react-google-maps";
 import { connect } from "react-redux";
 import { withRouter} from "react-router-dom";
@@ -15,7 +14,110 @@ class MapRender extends Component {
     }
 
     render() {
-        // let mapStyle = [];      
+        let mapStyle = [    {
+			"featureType": "administrative",
+			"stylers": [
+				{
+					"visibility": "off"
+				}
+			]
+		},
+		{
+			"featureType": "poi",
+			"stylers": [
+				{
+					"visibility": "simplified"
+				}
+			]
+		},
+		{
+			"featureType": "road",
+			"elementType": "labels",
+			"stylers": [
+				{
+					"visibility": "simplified"
+				}
+			]
+		},
+		{
+			"featureType": "water",
+			"stylers": [
+				{
+					"visibility": "simplified"
+				}
+			]
+		},
+		{
+			"featureType": "transit",
+			"stylers": [
+				{
+					"visibility": "simplified"
+				}
+			]
+		},
+		{
+			"featureType": "landscape",
+			"stylers": [
+				{
+					"visibility": "simplified"
+				}
+			]
+		},
+		{
+			"featureType": "road.highway",
+			"stylers": [
+				{
+					"visibility": "off"
+				}
+			]
+		},
+		{
+			"featureType": "road.local",
+			"stylers": [
+				{
+					"visibility": "on"
+				}
+			]
+		},
+		{
+			"featureType": "road.highway",
+			"elementType": "geometry",
+			"stylers": [
+				{
+					"visibility": "on"
+				}
+			]
+		},
+		{
+			"featureType": "water",
+			"stylers": [
+				{
+					"color": "#84afa3"
+				},
+				{
+					"lightness": 52
+				}
+			]
+		},
+		{
+			"stylers": [
+				{
+					"saturation": -17
+				},
+				{
+					"gamma": 0.36
+				}
+			]
+		},
+		{
+			"featureType": "transit.line",
+			"elementType": "geometry",
+			"stylers": [
+				{
+					"color": "#3f518c"
+				}
+			]
+		}];      
         let originLongLat, destinationLongLat;
         const { tripOrigin, tripDestination } = this.props.currentTrip;
         const {tripWaypoints} = this.props;
@@ -37,7 +139,7 @@ class MapRender extends Component {
 			travelMode: google.maps.TravelMode.DRIVING
 		};
 		// Updates renderWaypoints array with Redux values + adds waypoints to renderRoute object.
-		if (tripWaypoints.length) {
+		if (tripWaypoints && tripWaypoints.length) {
 			renderWaypoints = tripWaypoints.map(val => {
 				return { location: `${val.latitude}, ${val.longitude}`, stopover: true };
 			});
@@ -84,7 +186,7 @@ class MapRender extends Component {
 			  onClick={e=>console.log('click', e)}
               // controlPosition={google.maps.ControlPosition.TOP_LEFT}
               defaultOptions={{
-                // styles : mapStyle,
+                styles : mapStyle,
                 streetViewControl: false,
                 scaleControl: false,
                 mapTypeControl: false,

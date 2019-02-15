@@ -24,6 +24,7 @@
   height: 30px;
   right: 30px;
   top: 22px;
+  
 
   button:focus {
     outline: none;
@@ -33,7 +34,9 @@
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
   height: 11% !important;
-  background: #fff;
+  // background: #fff;
+  // background: rgb(0, 0, 0);
+  // color: black;
 }
 
 /* Position and sizing of clickable cross button */

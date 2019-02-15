@@ -5,10 +5,13 @@ import "./Sidebar.scss";
 
 export default function Sidebar(props) {
     const { show, hide, startNew, logout, path } = props;
-    const hideSidebar = (!path || path === "login" || path === "register");
-
+    const hideSidebar = (path === "login" || path === "register");
+    const barColor = path === "" ? "#373a47" : "#fff"
     return !hideSidebar ? (
-        <Menu right isOpen={show} >
+        <Menu right isOpen={show} 
+            styles={{bmBurgerBars: {
+            background: barColor
+          }}}>
             <Link onClick={startNew} to="/map" className="menu-item" >
                 New trip
             </Link>

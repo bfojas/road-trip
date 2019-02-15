@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleApiWrapper } from "google-maps-react";
-import { updateStartEndData } from '../../ducks/reducer';
 import { withRouter } from 'react-router-dom';
 import MapRender from './mapRender/mapRender';
 import RouteContainer from './RouteContainer/RouteContainer';
@@ -95,8 +94,5 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = {
-    updateStartEndData
-};
 // export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MapView))
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_MAP_KEY})(MapView)));
+export default withRouter(connect(mapStateToProps)(GoogleApiWrapper({apiKey:process.env.REACT_APP_GOOGLE_MAP_KEY})(MapView)));

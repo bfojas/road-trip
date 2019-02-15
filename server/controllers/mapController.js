@@ -35,7 +35,7 @@ module.exports = {
             tripWaypoints: [],
             featuredImage: tripInfo[0].featured_image,
             tripId: tripInfo[0].id,
-            userId: id
+            tripUser: id
         };
         //Connects origin stop to trip in line_item table.
 
@@ -92,7 +92,7 @@ module.exports = {
         const dbInstance = req.app.get("db");
         dbInstance.retrieve_trip([+id])
             .then(async trip => {
-                const {origin_id, destination_id, id: tripId, name: tripName, images} = trip[0];
+                const {origin_id, destination_id, id: tripId, name: tripName, images, user_id: tripUser} = trip[0];
                     let tripOrigin = await dbInstance.get_stop([origin_id])
                         .catch(error=> console.log('----trip origin error', error));
                     let tripDestination = await dbInstance.get_stop([destination_id])
@@ -115,7 +115,9 @@ module.exports = {
                         featuredImage: trip[0].featured_image,
                         tripName, 
                         tripWaypoints, 
-                        tripId}
+                        tripId,
+                        tripUser
+                    }
                     res.status(200).send({currentTrip: req.session.currentTrip });
             })
     }

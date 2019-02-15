@@ -18,13 +18,13 @@ export default function reducer (state = initialState, action){
             return Object.assign( {}, state, {user: action.payload} );
         case UPDATE_USER_TRIPS: 
             return Object.assign( {}, state, {trips: action.payload} );
-        case UPDATE_START_END_DATA:
-            return Object.assign( {}, state, {currentTrip:
-                Object.assign( {}, state.currentTrip, {
-                tripOrigin: action.payload.origin,
-                tripDestination: action.payload.destination,
-                tripName: action.payload.name,
-                featuredImage: action.payload.featuredImage})})
+        // case UPDATE_START_END_DATA:
+        //     return Object.assign( {}, state, {currentTrip:
+        //         Object.assign( {}, state.currentTrip, {
+        //         tripOrigin: action.payload.origin,
+        //         tripDestination: action.payload.destination,
+        //         tripName: action.payload.name,
+        //         featuredImage: action.payload.featuredImage})})
         case UPDATE_TRIP_ID:
             return Object.assign( {}, state, {currentTrip:
                 Object.assign( {}, state.currentTrip, {tripId: action.payload})})
@@ -41,7 +41,7 @@ export default function reducer (state = initialState, action){
 //ACTION TYPES
 const UPDATE_USER_DATA = "UPDATE_USER_DATA";
 const UPDATE_USER_TRIPS = "UPDATE_USER_TRIPS";
-const UPDATE_START_END_DATA = "UPDATE_START_END_DATA";
+// const UPDATE_START_END_DATA = "UPDATE_START_END_DATA";
 const UPDATE_TRIP_ID = "UPDATE_TRIP_ID";
 const ADD_STOP = "ADD_STOP";
 const UPDATE_TRIP_DATA = "UPDATE_TRIP_DATA";
@@ -61,12 +61,12 @@ export function updateUserTrips(trips) {
     }
 }
 
-export function updateStartEndData(response) {
-    return {
-        type: UPDATE_START_END_DATA,
-        payload: response
-    }
-}
+// export function updateStartEndData(response) {
+//     return {
+//         type: UPDATE_START_END_DATA,
+//         payload: response
+//     }
+// }
 
 export function addStop(location) {
     return {

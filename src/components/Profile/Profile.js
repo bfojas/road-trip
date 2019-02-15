@@ -130,7 +130,8 @@ class Profile extends Component {
                 { match.path === "/profile/following" && <Following /> }
                 { match.path === "/profile/saved" && <SavedTrips /> }
             </div>
-        ) :<Redirect to="/" />
+        ) :null
+        // <Redirect to="/" />
     }
 
 }

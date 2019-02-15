@@ -109,9 +109,14 @@ class JoinLogin extends Component {
 
 }
 
+const mapStateToProps =(state) => {
+    return {
+        user: state.user
+    }
+}
 
 const mapDispatchToProps = {
     updateUserData, updateTripInfo
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(JoinLogin));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(JoinLogin));

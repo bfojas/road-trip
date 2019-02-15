@@ -16,7 +16,23 @@ class AddStop extends Component {
             latitude: "",
             longitude: "",
             wait: true,
-            buttonDisable: true
+            buttonDisable: true,
+            visitDisable: false
+
+        }
+    }
+
+    componentDidMount = () => {
+        this.userCheck()
+    }
+
+    userCheck = () => {
+        const { tripUser } = this.props.currentTrip;
+        const { id } = this.props.user;
+        if (tripUser === id){
+            this.setState({visitDisable: false})
+        } else {
+            this.setState({visitDisable: true})
         }
     }
 
@@ -36,6 +52,7 @@ class AddStop extends Component {
             latitude: latSet,
             longitude: lngSet,
             buttonDisable: false
+            
         })
     }
 
@@ -102,13 +119,13 @@ class AddStop extends Component {
     }
 
     render () {
+        const { visitDisable } = this.state
         let imageUrl;
         let displayName = "";
         if (this.props.currentTrip.tripDestination){
             imageUrl = `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${this.props.currentTrip.featuredImage})`
             displayName = this.props.currentTrip.tripName
         };
-
         return (
             // Waits to render input.
             this.state.wait ?
@@ -120,21 +137,26 @@ class AddStop extends Component {
             </div>
             :
             <div className="add-stop-container" style={{backgroundImage: imageUrl}}>
-                <i onClick={() => this.props.showModal("tripSettingsModal")} className="fas fa-cog"></i>
+                {!visitDisable ? <i onClick={() => this.props.showModal("tripSettingsModal")} className="fas fa-cog"></i> : null}
+                {
+                    !visitDisable
+                    ?
+                    <div className="search-component" >
+                    <AutoComplete
+                        style={{width: '75%'}}
+                        onPlaceSelected={this.pickStop}
+                        types={['geocode']}
+                        componentRestrictions={{country: ["us", "ca"]}}
+                    />
+                    <button 
+                        onClick={this.addStop} 
+                        disabled={this.state.buttonDisable}>
+                    Add
+                    </button>
+                    </div>
+                    :null
+                }
                 <h1>{displayName}</h1>
-                <div className="search-component">
-                <AutoComplete
-                    style={{width: '75%'}}
-                    onPlaceSelected={this.pickStop}
-                    types={['geocode']}
-                    componentRestrictions={{country: ["us", "ca"]}}
-                />
-                <button 
-                    onClick={this.addStop} 
-                    disabled={this.state.buttonDisable}>
-                Add
-                </button>
-                </div>
             </div>
         );
     }

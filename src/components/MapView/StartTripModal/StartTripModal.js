@@ -3,7 +3,7 @@ import axios from 'axios';
 import AutoComplete from 'react-google-autocomplete';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { updateStartEndData, updateTripId, updateUserTrips } from '../../../ducks/reducer';
+import { updateTripInfo, updateTripId, updateUserTrips } from '../../../ducks/reducer';
 import './StartTripModal.scss';
 
 class StartTripModal extends Component {
@@ -95,13 +95,15 @@ class StartTripModal extends Component {
             // Sends newly created trip ID to Redux.
             .then(response => {
                 this.props.updateUserTrips([...this.props.trips, response.data[0]]);
-                this.props.updateTripId(response.data[0].id);
                 // Sends trip data to Redux.
-                this.props.updateStartEndData(
-                    {origin: originPick, 
-                    destination: destinationPick,
-                    name: destinationPick.name,
-                    featuredImage: destinationPick.image})
+                this.props.updateTripInfo(
+                    {tripOrigin: originPick, 
+                    tripDestination: destinationPick,
+                    tripName: destinationPick.name,
+                    featuredImage: destinationPick.image,
+                    tripWaypoints: [],
+                    tripId: response.data[0].id,
+                    tripUser: this.props.user.id})
                 this.setState({
                     originImage:"",
                     originName: "Where do we start?",
@@ -169,7 +171,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = {
     updateUserTrips,
-    updateStartEndData,
+    updateTripInfo,
     updateTripId
 }
 

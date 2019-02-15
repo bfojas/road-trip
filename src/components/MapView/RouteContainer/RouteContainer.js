@@ -14,9 +14,24 @@ class RouteContainer extends Component {
         super(props);
         this.state = {
             showModal: false,
-            modalInfo: null
+            modalInfo: null,
+            visitDisable: false
         }
     }
+
+    // componentDidMount = () => {
+    //     this.userCheck()
+    // }
+
+    // userCheck = () => {
+    //     const { tripUser } = this.props.currentTrip;
+    //     const { id } = this.props.user;
+    //     if (tripUser === id){
+    //         this.setState({visitDisable: false})
+    //     } else {
+    //         this.setState({visitDisable: true})
+    //     }
+    // }
 
     drop = async (drag, drop) => {
         const {updateTripInfo} = this.props;
@@ -46,9 +61,10 @@ class RouteContainer extends Component {
 
     render() {
         const {tripWaypoints, tripOrigin, tripDestination} = this.props.currentTrip
-        const {showModal, modalInfo} = this.state
-        let mappedWaypoints = tripWaypoints.map((val,i) =>{
+        const {showModal, modalInfo, visitDisable} = this.state
+        let mappedWaypoints = tripWaypoints.length ? tripWaypoints.map((val,i) =>{
             return(
+                
                 <DragDropContainer dragData={{drag:i}}>
                     <DropTarget onHit={e=>this.drop(e.dragData.drag, e.target.id)}>
                         <div key={val.name} className="stop" id={i} onClick={()=>this.showModal(val)}>
@@ -58,7 +74,7 @@ class RouteContainer extends Component {
                     </DropTarget>
                 </DragDropContainer>
             )
-        })
+        }) :null
 
         return (
             tripDestination ?

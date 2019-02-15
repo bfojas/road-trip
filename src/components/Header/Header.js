@@ -97,9 +97,10 @@ class Header extends Component {
         const homePath = !path || path === "login" || path === "register";
         const headerStyles = (path === "login" || path === "register" || !path) ? 
             { backgroundColor: "transparent", position: "fixed" } : null;
-        const headerNavStyles = !path ? { display: "flex" } : { display: "none" };
+        const headerNavStyles = !path && !user ? { display: "flex" } : { display: "none" };
         const logoToDisplay = path === "login" || path === "register" ? logoDark : logo;
         const userImage = !user ? null : !user.profile_image ? "https://image.flaticon.com/icons/svg/189/189626.svg" : user.profile_image;
+        const userBorder = path === "" ? 'grey' : 'rgba(255, 255, 255, 0.7)'  
 
         return (
             <div className="header-container" style={headerStyles}>
@@ -113,22 +114,31 @@ class Header extends Component {
                     </ul>
                 </div>
                 { 
-                    user && !homePath ?
+                    user
+                    //  && !homePath 
+                     ?
+                        <div>
                         <Link to="/profile">
-                            <div className="profile-image" style={{backgroundImage: `url(${userImage})`}}>
+                            <div className="profile-image" 
+                                style={{
+                                    backgroundImage: `url(${userImage})`,
+                                    border: `3px solid ${userBorder}`
+                            }}>
                                 {/* <div className="alert-circle">4</div> */}
                             </div>
                         </Link>
-
+                        <Sidebar 
+                        className="sidebar" 
+                        path={path} 
+                        show={showNav} 
+                        startNew={this.startNewTrip} 
+                        logout={this.logout}
+                        hide={this.hideNav} 
+                        />
+                        </div>
                     : null
                 }
-                <Sidebar 
-                    className="sidebar" 
-                    path={path} 
-                    show={showNav} 
-                    startNew={this.startNewTrip} 
-                    logout={this.logout}
-                    hide={this.hideNav} />
+                
             </div>
         );
     }

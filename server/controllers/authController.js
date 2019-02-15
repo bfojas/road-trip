@@ -75,7 +75,7 @@ module.exports = {
                                     tripName: '',
                                     tripWaypoints: [],
                                     tripId: 0,
-                                    userId: user.id
+                                    tripUser: user.id
                             }
                             console.log('---------login id', user.id)
                             dbInstance.get_recent_trip([user.id])
@@ -105,7 +105,7 @@ module.exports = {
                                         tripWaypoints, 
                                         tripId,
                                         featuredImage,
-                                        userId: user_id}
+                                        tripUser: user_id}
                                     res.status(200).send({user: req.session.user,
                                         currentTrip: req.session.currentTrip });}
                                 else { 
