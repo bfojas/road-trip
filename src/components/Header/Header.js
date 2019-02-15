@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
-import { updateUserData, updateUserTrips, updateTripInfo } from "../../ducks/reducer";
+import { updateUserData, updateUserTrips, updateTripInfo, initialTrip } from "../../ducks/reducer";
 import Sidebar from "./Sidebar";
 import logo from "../../images/logo.png";
 import logoDark from "../../images/logo-dark.png";
@@ -63,13 +63,7 @@ class Header extends Component {
     }
 
     startNewTrip() {
-        this.props.updateTripInfo({
-            tripOrigin: null,
-            tripDestination: null,
-            tripName: '',
-            tripWaypoints: [],
-            tripId: 0
-        });
+        this.props.updateTripInfo(initialTrip);
         axios.delete("/api/new-trip").catch(error => console.log("New trip error", error));
         this.hideNav()
     }
@@ -79,13 +73,7 @@ class Header extends Component {
             const { updateUserData, updateTripInfo } = this.props;
             if (!response.data) { 
                 updateUserData(null);
-                updateTripInfo({
-                    tripOrigin: null,
-                    tripDestination: null,
-                    tripName: '',
-                    tripWaypoints: [],
-                    tripId: 0
-                })
+                updateTripInfo(initialTrip)
             }
         });
         this.hideNav()

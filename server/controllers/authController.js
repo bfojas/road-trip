@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const {initialTrip} = require('./userController')
 
 //Function to validate user email and pw   
 function validUser(user) {
@@ -69,14 +70,7 @@ module.exports = {
                                     bio: user.bio
                             }
                                 
-                            req.session.currentTrip =  {
-                                    tripOrigin: null,
-                                    tripDestination: null,
-                                    tripName: '',
-                                    tripWaypoints: [],
-                                    tripId: 0,
-                                    tripUser: user.id
-                            }
+                            req.session.currentTrip =  initialTrip;
                             console.log('---------login id', user.id)
                             dbInstance.get_recent_trip([user.id])
                             .then(async trip => {

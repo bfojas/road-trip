@@ -1,4 +1,14 @@
-module.exports = {
+var self = module.exports = {
+
+    initialTrip: {
+            tripOrigin: null,
+            tripDestination: null,
+            tripName: "",
+            tripWaypoints: [],
+            featuredImage: null,
+            tripUser: 0,
+            tripId: 0
+    },
 
     updateUserInfo: (req, res) => {
         const { id } = req.params;
@@ -48,7 +58,7 @@ module.exports = {
         const userId = req.session.user.id;
         const dbInstance = req.app.get("db");
         dbInstance.delete_trip([ tripId, userId ]).then(trips => {
-            req.session.currentTrip = null;
+            req.session.currentTrip = self.initialTrip;
             res.status(200).send(trips);
         })
     }

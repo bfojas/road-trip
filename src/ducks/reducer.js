@@ -1,13 +1,17 @@
 const initialState = {
     user: null,
     trips: null,
-    currentTrip: {
-        tripOrigin: null,
-        tripDestination: null,
-        tripName: "",
-        tripWaypoints: [],
-        tripId: 0
-    }
+    currentTrip: initialTrip
+}
+
+export const initialTrip = {
+    tripOrigin: null,
+    tripDestination: null,
+    tripName: "",
+    tripWaypoints: [],
+    featuredImage: null,
+    tripUser: 0,
+    tripId: 0
 }
 
 

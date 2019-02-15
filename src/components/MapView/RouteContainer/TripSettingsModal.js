@@ -4,7 +4,7 @@ import ReactS3 from "react-s3";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert"; 
-import { updateTripInfo, updateUserTrips } from "../../../ducks/reducer";
+import { updateTripInfo, updateUserTrips, initialTrip } from "../../../ducks/reducer";
 import "react-confirm-alert/src/react-confirm-alert.css"; 
 import "./TripSettingsModal.scss";
 
@@ -72,7 +72,7 @@ class TripSettingsModal extends Component {
         axios.delete(`/api/trips/${tripId}`).then(response => {
             console.log(response);
             this.props.updateUserTrips(response.data);
-            this.props.updateTripInfo(null);
+            this.props.updateTripInfo(initialTrip);
             this.handleClose();
             this.props.history.push("/profile");
         })

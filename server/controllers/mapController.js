@@ -1,3 +1,5 @@
+const {initialTrip} = require('./userController')
+
 module.exports = {
     //Creates trip, finds/adds stops for origin and destination, connects stops to trip.
     start: async (req, res) => {
@@ -68,13 +70,7 @@ module.exports = {
     },
 
     newTrip: (req, res) => {
-        req.session.currentTrip = {
-            tripOrigin: null,
-            tripDestination: null,
-            tripName: '',
-            tripWaypoints: [],
-            tripId: 0
-        }
+        req.session.currentTrip = initialTrip
         res.status(200).send(req.session.currentTrip);
     },
 

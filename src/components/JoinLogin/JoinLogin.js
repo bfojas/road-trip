@@ -3,7 +3,7 @@ import axios from "axios";
 import { Redirect, withRouter, Link } from "react-router-dom";
 import alertify from "alertifyjs";
 import { connect } from "react-redux";
-import { updateUserData, updateTripInfo } from "../../ducks/reducer";
+import { updateUserData, updateTripInfo, initialTrip } from "../../ducks/reducer";
 import "./JoinLogin.scss";
 
 class JoinLogin extends Component {
@@ -35,13 +35,7 @@ class JoinLogin extends Component {
                 alertify.error(response.data.errorMessage);
             } else {
                 updateUserData(response.data);
-                updateTripInfo({
-                    tripOrigin: null,
-                    tripDestination: null,
-                    tripName: '',
-                    tripWaypoints: [],
-                    tripId: 0
-                })
+                updateTripInfo(initialTrip)
                 alertify.success("Success! Welcome to Road Trip");
                 this.setState({ redirect: true })
             }
