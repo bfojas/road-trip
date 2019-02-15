@@ -53,7 +53,7 @@ class MapView extends Component {
 
 
     render() {
-        const {startModal, tripSettingsModal, showRouteContainer} = this.state;
+        const { startModal, tripSettingsModal, showRouteContainer } = this.state;
         if (startModal) {
             var blur = 'blur(1px)'
             var routeDisplay = 'none'

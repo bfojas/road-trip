@@ -43,6 +43,8 @@ class Header extends Component {
             updateTripInfo(response.data.currentTrip);
             if (response.data.user){
                 this.getTripsFromServer();
+            } else if (!response.data.user && this.props.location.pathname === "/profile") {
+                this.props.history.push("/");
             }
       });
     }
@@ -70,7 +72,6 @@ class Header extends Component {
         });
         axios.delete("/api/new-trip").catch(error => console.log("New trip error", error));
         this.hideNav()
-        // this.props.history.push('/map')
     }
 
     logout() {

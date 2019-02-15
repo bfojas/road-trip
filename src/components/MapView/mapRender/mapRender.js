@@ -94,7 +94,7 @@ class MapRender extends Component {
                 fullscreenControl: false
               }}
             >
-				  {	props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers}/>}  
+				  {	props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers}/> }  
             </GoogleMap>
             
         );

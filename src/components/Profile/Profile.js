@@ -126,11 +126,11 @@ class Profile extends Component {
                         </NavLink>
                     </div>
                 </div>
-                { match.path === "/profile" && <TripsList trips={trips} />}
+                { match.path === "/profile" && <TripsList trips={trips} /> }
                 { match.path === "/profile/following" && <Following /> }
                 { match.path === "/profile/saved" && <SavedTrips /> }
             </div>
-        ) :<Redirect to="/" />
+        ) : null;
     }
 
 }

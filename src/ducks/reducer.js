@@ -88,10 +88,3 @@ export function updateTripInfo(tripData) {
         payload: tripData
     }
 }
-
-export function updateTripData(trip) {
-    return {
-        type: UPDATE_TRIP_DATA,
-        payload: trip
-    }
-}

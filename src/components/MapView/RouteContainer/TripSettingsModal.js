@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import ReactS3 from "react-s3";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert"; 
-import { updateTripData } from "../../../ducks/reducer";
+import { updateTripInfo, updateUserTrips } from "../../../ducks/reducer";
 import "react-confirm-alert/src/react-confirm-alert.css"; 
 import "./TripSettingsModal.scss";
 
@@ -27,7 +28,7 @@ class TripSettingsModal extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.upload = this.upload.bind(this);
         this.updateTripOnServer = this.updateTripOnServer.bind(this);
-        this.deleteTripOnServer = this.deleteTripOnServer.bind(this);
+        this.deleteTripFromServer = this.deleteTripFromServer.bind(this);
         this.confirmDelete = this.confirmDelete.bind(this);
     }
 
@@ -59,29 +60,32 @@ class TripSettingsModal extends Component {
     updateTripOnServer(e) {
         e.preventDefault();
         const { name, featuredImage } = this.state;
-        const { updateTripData } = this.props;
         const { tripId } = this.props.currentTrip;
         axios.put("/api/trips", { name, featuredImage, tripId }).then(response => {
-            updateTripData(response.data);
+            this.props.updateTripInfo(response.data);
             this.handleClose();
         })
     }
 
-    deleteTripOnServer() {
+    deleteTripFromServer() {
         const { tripId } = this.props.currentTrip;
         axios.delete(`/api/trips/${tripId}`).then(response => {
             console.log(response);
+            this.props.updateUserTrips(response.data);
+            this.props.updateTripInfo(null);
+            this.handleClose();
+            this.props.history.push("/profile");
         })
     }
 
-    confirmDelete(id) {
+    confirmDelete() {
 		confirmAlert({
 			title: "Delete Trip?",
 			message: "Are you sure you want to permenently delete this trip from your account?",
 			buttons: [
 				{
 					label: "Yes",
-					onClick: () => this.deleteTripFromServer(id)
+					onClick: () => this.deleteTripFromServer()
 				},
 				{
 					label: "No",
@@ -119,7 +123,7 @@ class TripSettingsModal extends Component {
                             </div>
                             <div className="setting-controls">
                                 <button type="submit">SAVE</button>
-                                <span className="hvr-underline-reveal">DELETE TRIP</span>
+                                <span onClick={this.confirmDelete} className="hvr-underline-reveal">DELETE TRIP</span>
                             </div>
                         </form>
                     </div>
@@ -135,4 +139,4 @@ function mapStateToProps(reduxState) {
     return { currentTrip, user };
 }
  
-export default connect(mapStateToProps, { updateTripData })(TripSettingsModal);
+export default withRouter(connect(mapStateToProps, { updateTripInfo, updateUserTrips })(TripSettingsModal));

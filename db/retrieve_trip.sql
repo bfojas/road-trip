@@ -1,1 +1,1 @@
-select * from trips where id = $1
+select * from trips where id = $1;
