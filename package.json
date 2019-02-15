@@ -21,6 +21,7 @@
     "passport-local": "^1.0.0",
     "react": "^16.7.0",
     "react-burger-menu": "^2.6.3",
+    "react-confirm-alert": "^2.1.0",
     "react-dom": "^16.7.0",
     "react-drag-drop-container": "^6.1.1",
     "react-google-autocomplete": "^1.0.18",

@@ -27,10 +27,10 @@ export default function reducer (state = initialState, action){
                 featuredImage: action.payload.featuredImage})})
         case UPDATE_TRIP_ID:
             return Object.assign( {}, state, {currentTrip:
-                Object.assign( {}, state.currentTrip,{tripId: action.payload})})
+                Object.assign( {}, state.currentTrip, {tripId: action.payload})})
         case ADD_STOP:
             return Object.assign( {}, state, {currentTrip:
-                Object.assign( {}, state.currentTrip,{tripWaypoints: action.payload})})
+                Object.assign( {}, state.currentTrip, {tripWaypoints: action.payload})})
         case UPDATE_TRIP_DATA:
             return Object.assign( {}, state, {currentTrip: action.payload})
         default: return state
@@ -82,9 +82,16 @@ export function updateTripId(id) {
     }
 }
 
-export function updateTripInfo (tripData) {
+export function updateTripInfo(tripData) {
     return {
         type: UPDATE_TRIP_DATA,
         payload: tripData
+    }
+}
+
+export function updateTripData(trip) {
+    return {
+        type: UPDATE_TRIP_DATA,
+        payload: trip
     }
 }
