@@ -23,7 +23,7 @@ class Header extends Component {
 
     componentDidMount() {
         this.getUserFromServer();
-        this.getHomePageTripsFromServer()
+        // this.getHomePageTripsFromServer()
     }
 
     componentWillReceiveProps(nextProps) {
@@ -56,11 +56,11 @@ class Header extends Component {
         })
     }
 
-    getHomePageTripsFromServer() {
-        axios.get("/api/home-trips").then(response => {
-            console.log('response', response)
-        })
-    }
+    // getHomePageTripsFromServer() {
+    //     axios.get("/api/home-trips").then(response => {
+    //         console.log('response', response)
+    //     })
+    // }
 
     startNewTrip() {
         this.props.updateTripInfo(initialTrip);
