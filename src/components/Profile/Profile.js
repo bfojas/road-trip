@@ -26,7 +26,8 @@ class Profile extends Component {
         super(props);
         this.state = {
             showCoverEdit: false,
-            showModal: false
+            showModal: false, 
+            loading: false
         }
         this.showCoverEdit = this.showCoverEdit.bind(this);
         this.hideCoverEdit = this.hideCoverEdit.bind(this);
@@ -50,6 +51,7 @@ class Profile extends Component {
 
     upload(e) {
         const target = e.target.name;
+        this.setState({ loading: target, lockHovers: true });
         ReactS3.uploadFile(e.target.files[0], config).then(data => {
             this.updateUserPhotoOnServer(target, data.location);
         }).catch(error => console.log(error));
@@ -60,16 +62,20 @@ class Profile extends Component {
         const updatedUser = Object.assign({}, user, { [type]: url });
         axios.put(`/api/user/${user.id}`, updatedUser).then(response => {
             updateUserData(response.data.users[0]);
+            this.setState({ loading: false, lockHovers: false })
         })
     }
 
     render() {
-        const { showCoverEdit, showModal } = this.state;
+        const { showCoverEdit, showModal, loading } = this.state;
         const { match, user, trips } = this.props;
         const profileImage = user ? user.profile_image || avatar : avatar;
         const coverImage = user ? user.cover_image || defaultCover : defaultCover;
         const coverEditStyle = showCoverEdit ? { display: "flex" } : { display: "none" };
         const coverIconStyle = showCoverEdit ? { fontSize: "18px"} : { fontSize: "24px"};
+        const profileLoadingStyle = loading === "profile_image" ? { display: "flex" } : { display: "none" };
+        const coverLoadingStyle = loading === "cover_image" ? { display: "flex", margin: "0 auto"} : { display: "none" };
+        const lockHover = loading ? { display: "none" } : null;
 
         return user ? (
             <div className="profile-container">
@@ -86,7 +92,8 @@ class Profile extends Component {
                 >
                     <i className="fas fa-camera cover-edit-icon" style={coverIconStyle}></i>
                     <div className="cover-edit-box" style={coverEditStyle}>
-                        <label htmlFor="cover-upload">EDIT COVER PHOTO</label>
+                        <label htmlFor="cover-upload" style={lockHover}>EDIT COVER PHOTO</label>
+                        <label style={coverLoadingStyle}>UPLOADING...</label>
                         <input type="file" name="cover_image" onChange={this.upload} id="cover-upload" accept="image/*" style={{display:'none'}} />
                     </div>
                     <div className="update-info" 
@@ -99,6 +106,7 @@ class Profile extends Component {
                     <div className="profile-info">
                         <div className="profile-image" style={{backgroundImage: `url(${profileImage})`}}>
                             <div className="profile-edit"
+                                style={lockHover}
                                 onMouseEnter={this.hideCoverEdit}
                                 onMouseLeave={this.showCoverEdit}
                             >
@@ -108,6 +116,7 @@ class Profile extends Component {
                                 </label>
                                 <input type="file" name="profile_image" onChange={this.upload} id="profile-upload" accept="image/*" style={{display:"none"}} />
                             </div>
+                            <div className="loading" style={profileLoadingStyle}><span>UPLOADING...</span></div>
                         </div>
                         <h2>{user.name}</h2>
                         <div className="user-bio">{user.bio || "Short bio goes here."}</div>

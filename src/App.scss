@@ -1,3 +1,4 @@
+@import "./base";
 
 .App {
   text-align: center;
@@ -27,7 +28,23 @@
 }
 
 .react-confirm-alert-overlay {
+  background: rgba(0, 0, 0, 0.6);
   z-index: 1500;
+}
+
+.react-confirm-alert-body {
+  width: 250px;
+  font-family: $heading-font;
+  color: $dark;
+  font-size: 15px;
+}
+
+.react-confirm-alert-button-group > button {
+  font-family: $heading-font;
+}
+
+.react-confirm-alert-button-group > button:first-child {
+  background-color: #de493fe0;
 }
 
 @keyframes App-logo-spin {

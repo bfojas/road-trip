@@ -123,7 +123,7 @@ class TripSettingsModal extends Component {
                             </div>
                             <div className="setting-controls">
                                 <button type="submit">SAVE</button>
-                                <span onClick={this.confirmDelete} className="hvr-underline-reveal">DELETE TRIP</span>
+                                <span onClick={this.confirmDelete} className="hvr-underline-reveal">DELETE</span>
                             </div>
                         </form>
                     </div>

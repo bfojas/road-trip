@@ -59,8 +59,10 @@ class EditProfileModal extends Component {
             <div className={showHideClassName}>
                 <section className="modal-main">
                     <i className="fas fa-times-circle" onClick={this.handleClose}></i>
+                    <div className="modal-header">
+                        <h3>EDIT PROFILE</h3>
+                    </div>
                     <div className="modal-content-wrapper">
-                        <h3>EDIT YOUR PROFILE</h3>
                         <form onSubmit={this.updateUserOnServer}>
                             <div>
                                 <label>NAME:</label><input onChange={this.handleChange} name="name" value={name} placeholder="Full Name" required />
