@@ -18,7 +18,7 @@ class Header extends Component {
         this.getTripsFromServer = this.getTripsFromServer.bind(this);
         this.logout = this.logout.bind(this);
         this.startNewTrip = this.startNewTrip.bind(this);
-        this.getHomePageTripsFromServer = this.getHomePageTripsFromServer.bind(this)
+        // this.getHomePageTripsFromServer = this.getHomePageTripsFromServer.bind(this)
     }
 
     componentDidMount() {
