@@ -31,6 +31,19 @@
         cursor: pointer;
     }
 
+    .creator-image {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.7);
+        // background-image: url("../../images/profile-image.jpg");
+        background-size: cover;
+        box-sizing: border-box;
+    }
+
     .search-component {
         transform: translate(0, 50%);
         width: 90%;

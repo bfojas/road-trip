@@ -30,7 +30,8 @@ class MapView extends Component {
 
     tripCheck = () => {
         //Hide StartTripModal if current trip exists, otherwise show.
-        if (this.props.currentTrip.tripId) {
+        const {currentTrip} = this.props
+        if (currentTrip && currentTrip.tripId) {
             this.setState({ startModal: false });
         } else {
             this.setState({ startModal: true });

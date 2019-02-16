@@ -17,7 +17,8 @@ class AddStop extends Component {
             longitude: "",
             wait: true,
             buttonDisable: true,
-            visitDisable: false
+            viewDisable: false,
+            viewCreator: null
 
         }
     }
@@ -30,9 +31,16 @@ class AddStop extends Component {
         const { tripUser } = this.props.currentTrip;
         const { id } = this.props.user;
         if (tripUser === id){
-            this.setState({visitDisable: false})
+            this.setState({viewDisable: false})
         } else {
-            this.setState({visitDisable: true})
+            axios.get(`/api/creator/${tripUser}`)
+            .then(creatorResponse => {
+                console.log('-----response',creatorResponse)
+                this.setState({
+                    viewDisable: true,
+                    viewCreator: creatorResponse.data
+                })
+            })
         }
     }
 
@@ -58,7 +66,7 @@ class AddStop extends Component {
 
     addStop = () =>{
         const {tripId, tripOrigin, tripWaypoints} = this.props.currentTrip;
-        const { name, address, image, latitude, longitude} = this.state
+        const { name, address, image, latitude, longitude} = this.state;
         let start_distance = Number(this.getDistance(tripOrigin, latitude, longitude).toFixed(5))
         // ------ add stop to database
         axios.post('/api/add-stop', {tripId, start_distance, stop:{
@@ -107,7 +115,6 @@ class AddStop extends Component {
             
 //------ send stop order array to session/db
                 axios.post('/api/stopOrder', {waypointIndexArray, tripId, newTrip: currentTrip})
-            
             })
     }
 
@@ -119,7 +126,10 @@ class AddStop extends Component {
     }
 
     render () {
-        const { visitDisable } = this.state
+        const { viewDisable, viewCreator } = this.state
+        const creatorImage = !viewCreator ? null : !viewCreator.profile_image ? "https://image.flaticon.com/icons/svg/189/189626.svg" : viewCreator.profile_image;
+        console.log('----creator', viewCreator)
+        const { tripUser } = this.props.currentTrip
         let imageUrl;
         let displayName = "";
         if (this.props.currentTrip.tripDestination){
@@ -137,9 +147,13 @@ class AddStop extends Component {
             </div>
             :
             <div className="add-stop-container" style={{backgroundImage: imageUrl}}>
-                {!visitDisable ? <i onClick={() => this.props.showModal("tripSettingsModal")} className="fas fa-cog"></i> : null}
+                {!viewDisable 
+                    ? <i onClick={() => this.props.showModal("tripSettingsModal")} className="fas fa-cog"></i> 
+                    : <div className="creator-image" 
+                    style={{backgroundImage: `url(${creatorImage})`}}
+                    ></div>}
                 {
-                    !visitDisable
+                    !viewDisable
                     ?
                     <div className="search-component" >
                     <AutoComplete

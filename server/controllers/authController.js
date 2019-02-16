@@ -29,6 +29,7 @@ module.exports = {
                                 email: newUser.email,
                                 profile_image: newUser.profile_image,
                                 cover_image: newUser.cover_image,
+                                likedTrips: [],
                                 bio: newUser.bio
                             };
                             res.send(req.session.user);
@@ -67,7 +68,8 @@ module.exports = {
                                     email: user.email,
                                     profile_image: user.profile_image,
                                     cover_image: user.cover_image,
-                                    bio: user.bio
+                                    bio: user.bio,
+                                    likedTrips: user.liked_trips
                             }
                                 
                             req.session.currentTrip =  initialTrip;

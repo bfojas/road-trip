@@ -5,6 +5,7 @@ create table users (
     profile_image text,
     cover_image text,
     bio text,
+    liked_trips numeric[],
     password varchar
 );
 

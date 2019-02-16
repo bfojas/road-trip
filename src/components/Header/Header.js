@@ -38,7 +38,7 @@ class Header extends Component {
 
     getUserFromServer() {
         axios.get("/auth/user-data").then(response => {
-            const { updateUserData, updateTripInfo } = this.props;
+            const { updateUserData, updateTripInfo, initialTrip } = this.props;
             updateUserData(response.data.user);
             updateTripInfo(response.data.currentTrip);
             if (response.data.user){

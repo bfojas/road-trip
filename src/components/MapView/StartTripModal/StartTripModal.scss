@@ -111,9 +111,11 @@
             height: 50px;
             position: absolute;
             // font-size: 24px;
-            bottom: 20%;
+            top: 80%;
+            // bottom: 20%;
+            left: 50%;
             
-            // transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
             color: white;
 
             button {
@@ -175,8 +177,9 @@
                 .submitButton {
                     // background: black;
                     display: flex;
-                    bottom: 20px;
-                    right: 20px;
+                    top: calc(100% - 40px);
+                    left: calc(100% - 50px);
+                    transform: translate(50,50)
                     // bottom:2000px;
                 }
                 .submitButton button {

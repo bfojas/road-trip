@@ -19,19 +19,26 @@ class RouteContainer extends Component {
         }
     }
 
-    // componentDidMount = () => {
-    //     this.userCheck()
-    // }
+    componentDidMount = () => {
+        this.userCheck()
+    }
 
-    // userCheck = () => {
-    //     const { tripUser } = this.props.currentTrip;
-    //     const { id } = this.props.user;
-    //     if (tripUser === id){
-    //         this.setState({visitDisable: false})
-    //     } else {
-    //         this.setState({visitDisable: true})
-    //     }
-    // }
+    userCheck = () => {
+        const { tripUser } = this.props.currentTrip;
+        const { id } = this.props.user;
+        if (tripUser === id){
+            this.setState({viewDisable: false})
+        } else {
+            axios.get(`/api/creator/${tripUser}`)
+            .then(creatorResponse => {
+                console.log('-----response',creatorResponse)
+                this.setState({
+                    viewDisable: true,
+                    viewCreator: creatorResponse.data
+                })
+            })
+        }
+    }
 
     drop = async (drag, drop) => {
         const {updateTripInfo} = this.props;
@@ -47,10 +54,10 @@ class RouteContainer extends Component {
     }
 
     showModal = (stop) => {
-        this.setState({
-            showModal: true,
-            modalInfo: stop
-        })
+        // this.setState({
+        //     showModal: true,
+        //     modalInfo: stop
+        // })
     }
 
     hideModal = () => {
@@ -60,11 +67,14 @@ class RouteContainer extends Component {
     }
 
     render() {
-        const {tripWaypoints, tripOrigin, tripDestination} = this.props.currentTrip
+        const {tripOrigin, tripDestination, tripUser} = this.props.currentTrip
+        const {tripWaypoints} = this.props
         const {showModal, modalInfo, visitDisable} = this.state
+        console.log('------route compare', )
         let mappedWaypoints = tripWaypoints.length ? tripWaypoints.map((val,i) =>{
             return(
-                
+                visitDisable
+                ?
                 <DragDropContainer dragData={{drag:i}}>
                     <DropTarget onHit={e=>this.drop(e.dragData.drag, e.target.id)}>
                         <div key={val.name} className="stop" id={i} onClick={()=>this.showModal(val)}>
@@ -73,6 +83,11 @@ class RouteContainer extends Component {
                         </div>
                     </DropTarget>
                 </DragDropContainer>
+                :
+                <div key={val.name} className="stop" id={i} onClick={()=>this.showModal(val)}>
+                    <h3><i className="far fa-circle"></i> {val.name}</h3>
+                    <div className="image-div" style={{backgroundImage: `url(${val.image})`}}></div>
+                </div>
             )
         }) :null
 
@@ -106,7 +121,7 @@ const mapStateToProps = state => {
     return {
         user: state.user,
         currentTrip: state.currentTrip,
-        tripWaypoints: state.currentTrip.tripWaypoints
+        tripWaypoints: state.currentTrip && state.currentTrip.tripWaypoints
     }
 }
 
