@@ -119,13 +119,12 @@ class MapRender extends Component {
 			]
 		}];      
         let originLongLat, destinationLongLat;
-        const { tripOrigin, tripDestination } = this.props.currentTrip;
-        const {tripWaypoints} = this.props;
+        const {tripWaypoints, currentTrip} = this.props;
 		// If destination exists for trip, sets map origin and destination coordinates based 
 		// off current trip values in Redux, otherwise sets default coordinate values.
-		if (tripDestination) {
-			originLongLat = `${tripOrigin.latitude}, ${tripOrigin.longitude}`;
-			destinationLongLat = `${tripDestination.latitude}, ${tripDestination.longitude}`;
+		if (currentTrip && currentTrip.tripDestination) {
+			originLongLat = `${currentTrip.tripOrigin.latitude}, ${currentTrip.tripOrigin.longitude}`;
+			destinationLongLat = `${currentTrip.tripDestination.latitude}, ${currentTrip.tripDestination.longitude}`;
 		} else {
 			originLongLat = '42.123123, -80.123123';
 			destinationLongLat = '33.448377, -112.074037';
@@ -211,7 +210,7 @@ const mapStateToProps = (state) => {
   return{
 	user: state.user,
     currentTrip: state.currentTrip,
-    tripWaypoints: state.currentTrip.tripWaypoints
+    tripWaypoints: state.currentTrip && state.currentTrip.tripWaypoints
   }
 }
 

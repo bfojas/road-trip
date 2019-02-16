@@ -42,8 +42,8 @@ class EditProfileModal extends Component {
     updateUserOnServer(e) {
         e.preventDefault();
         const { name, email, bio } = this.state;
-        const { id, profile_image, cover_image } = this.props.user;
-        const updatedUser = { name, email, bio, profile_image, cover_image };
+        const { id, profile_image, cover_image, likedTrips } = this.props.user;
+        const updatedUser = { name, email, bio, profile_image, cover_image, likedTrips };
         axios.put(`/api/user/${id}`, updatedUser).then(response => {
             this.props.updateUserData(response.data.users[0]);
             this.props.hide();

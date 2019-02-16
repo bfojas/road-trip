@@ -1,7 +1,14 @@
 const initialState = {
-    user: null,
+    user: {id: null},
     trips: null,
-    currentTrip: initialTrip
+    currentTrip: {
+        tripOrigin: null,
+        tripDestination: null,
+        tripName: "",
+        tripWaypoints: [],
+        featuredImage: null,
+        tripUser: 0,
+        tripId: 0}
 }
 
 export const initialTrip = {

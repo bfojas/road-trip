@@ -12,17 +12,17 @@ var self = module.exports = {
 
     updateUserInfo: (req, res) => {
         const { id } = req.params;
-        const { name, email, bio, profile_image, cover_image } = req.body;
+        const { name, email, bio, profile_image, cover_image, likedTrips } = req.body;
         const dbInstance = req.app.get("db");
-        dbInstance.update_user_info([ id, name, email, bio, profile_image, cover_image ])
+        dbInstance.update_user_info([ id, name, email, bio, profile_image, cover_image, likedTrips ])
             .then(users => {               
-                const { id, name, email, bio, profile_image, cover_image } = users[0];
-                req.session.user = { id, name, email, bio, profile_image, cover_image };
+                const { id, name, email, bio, profile_image, cover_image, liked_trips: likedTrips } = users[0];
+                req.session.user = { id, name, email, bio, profile_image, cover_image, likedTrips };
                 res.status(200).send({users});
             })
             .catch(error => {
                 res.status(500).send({errorMessage: "Error in updateUser method"});
-                console.log(error);
+                console.log('update user error', error);
             })
     },
 
@@ -34,7 +34,7 @@ var self = module.exports = {
         })
         .catch(error => {
             res.status(500).send({errorMessage: "Error in getUserTrips method"});
-            console.log(error);
+            console.log('get user trip error', error);
         })
     }, 
 
@@ -49,7 +49,7 @@ var self = module.exports = {
         })
         .catch(error => {
             res.status(500).send({errorMessage: "Error in updateTrip method"});
-            console.log(error);
+            console.log('update trip error', error);
         })
     },
 
@@ -60,6 +60,25 @@ var self = module.exports = {
         dbInstance.delete_trip([ tripId, userId ]).then(trips => {
             req.session.currentTrip = self.initialTrip;
             res.status(200).send(trips);
+        })
+        .catch(error => {
+            res.status(500).send({errorMessage: "Error in deleteTrip method"});
+            console.log('delete trip error', error)
+        })
+    },
+
+    getCreator:  (req, res) => {
+        const {id} = req.params
+        console.log('=-=-=-=--=-=req.params', id)
+
+        const dbInstance = req.app.get('db');
+        dbInstance.find_user_by_id([id]).then(user =>{
+            console.log('---------user', user)
+            res.status(200).send(user[0])
+        })
+        .catch(error =>{
+            res.status(500).send({errorMessage: "Error in getCreator method"});
+            console.log('get creator error', error)
         })
     }
 
