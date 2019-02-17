@@ -27,6 +27,7 @@ class StartTripModal extends Component {
         //Destructure property values off passed location object.
         const { name } = location;
         const { formatted_address } = location;
+        console.log('----image function', location.photos[0].getUrl())
         const imageSet = location.photos
         ? location.photos[0].getUrl()
         : null;

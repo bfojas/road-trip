@@ -1,0 +1,1 @@
+select * from trips where id = any(array[$1]);

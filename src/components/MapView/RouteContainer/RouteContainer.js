@@ -20,20 +20,19 @@ class RouteContainer extends Component {
     }
 
     componentDidMount = () => {
-        this.userCheck()
+        setTimeout(()=>this.userCheck(),200)
     }
 
     userCheck = () => {
         const { tripUser } = this.props.currentTrip;
         const { id } = this.props.user;
         if (tripUser === id){
-            this.setState({viewDisable: false})
+            this.setState({visitDisable: false})
         } else {
+            this.setState({visitDisable: true})
             axios.get(`/api/creator/${tripUser}`)
             .then(creatorResponse => {
-                console.log('-----response',creatorResponse)
                 this.setState({
-                    viewDisable: true,
                     viewCreator: creatorResponse.data
                 })
             })
@@ -70,12 +69,11 @@ class RouteContainer extends Component {
         const {tripOrigin, tripDestination, tripUser} = this.props.currentTrip
         const {tripWaypoints} = this.props
         const {showModal, modalInfo, visitDisable} = this.state
-        console.log('------route compare', )
         let mappedWaypoints = tripWaypoints.length ? tripWaypoints.map((val,i) =>{
             return(
-                visitDisable
+                !visitDisable
                 ?
-                <DragDropContainer dragData={{drag:i}}>
+                <DragDropContainer dragData={{drag:i}} key={val.name}>
                     <DropTarget onHit={e=>this.drop(e.dragData.drag, e.target.id)}>
                         <div key={val.name} className="stop" id={i} onClick={()=>this.showModal(val)}>
                             <h3><i className="far fa-circle"></i> {val.name}</h3>

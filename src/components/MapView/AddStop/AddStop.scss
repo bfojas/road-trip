@@ -24,11 +24,26 @@
         margin: 15px;
     }
 
-    i {
+    .fas, .far {
         position: absolute;
-        right: 18px;
-        top: 15px;
         cursor: pointer;
+        right: 18px;
+    }
+    
+    .fa-cog {
+        // position: absolute;
+        // right: 18px;
+        top: 15px;
+        // cursor: pointer;
+    }
+
+    .fa-heart {
+        font-size: 23px;
+        bottom: 15px;
+    }
+
+    .liked {
+        color: red;
     }
 
     .creator-image {

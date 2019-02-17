@@ -52,7 +52,6 @@ class TripSettingsModal extends Component {
 
     upload(e) {
         ReactS3.uploadFile(e.target.files[0], config).then(data => {
-            console.log(data);
             this.setState({ featuredImage: data.location })
         }).catch(error => console.log(error));
     }
