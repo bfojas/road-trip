@@ -69,16 +69,41 @@ var self = module.exports = {
 
     getCreator:  (req, res) => {
         const {id} = req.params
-        console.log('=-=-=-=--=-=req.params', id)
-
         const dbInstance = req.app.get('db');
         dbInstance.find_user_by_id([id]).then(user =>{
-            console.log('---------user', user)
             res.status(200).send(user[0])
         })
         .catch(error =>{
             res.status(500).send({errorMessage: "Error in getCreator method"});
             console.log('get creator error', error)
+        })
+    },
+
+    likeTrip: (req, res) => {
+        console.log('req.body', req.body)
+        const {id, likedTrips} = req.body
+        req.session.user = req.body;
+        const dbInstance = req.app.get('db');
+        dbInstance.like_trip([likedTrips, id])
+        .then(user => {
+            res.status(200).send(user[0])
+        })
+        .catch(error => {
+            res.status(500).send({errorMessage: "Error in likedTrip method"});
+            console.log('like trip error', error)
+        })
+    },
+
+    getLikedTrips: (req, res) => {
+        const {user} = req.session;
+        const dbInstance = req.app.get('db');
+        dbInstance.get_liked_trips([user.likedTrips])
+        .then(trips => {
+            res.status(200).send(trips)
+        })
+        .catch(error => {
+            res.status(500).send({errorMessage: "Error in getLikedTrips method"});
+            console.log('get liked trips error', error)
         })
     }
 

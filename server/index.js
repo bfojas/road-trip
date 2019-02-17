@@ -37,13 +37,15 @@ app.put("/api/user/:id", userController.updateUserInfo);
 app.get("/api/trips", userController.getUserTrips);
 app.put("/api/trips", userController.updateTrip);
 app.delete("/api/trips/:id", userController.deleteTrip);
-app.get("/api/creator/:id", userController.getCreator)
+app.get("/api/creator/:id", userController.getCreator);
+app.put("/api/like-trip/:id", userController.likeTrip);
+app.get("/api/get-liked/:id", userController.getLikedTrips)
 //Map endpoints
-app.post('/api/start-trip', mapController.start);
-app.post('/api/add-stop', mapController.add);
-app.delete('/api/new-trip', mapController.newTrip);
-app.post('/api/stopOrder', mapController.setOrder);
-app.get('/api/retrieve-trip/:id', mapController.retrieveTrip);
+app.post("/api/start-trip", mapController.start);
+app.post("/api/add-stop", mapController.add);
+app.delete("/api/new-trip", mapController.newTrip);
+app.post("/api/stopOrder", mapController.setOrder);
+app.get("/api/retrieve-trip/:id", mapController.retrieveTrip);
 
 
 

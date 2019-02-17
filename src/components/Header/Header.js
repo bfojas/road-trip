@@ -39,9 +39,9 @@ class Header extends Component {
     getUserFromServer() {
         axios.get("/auth/user-data").then(response => {
             const { updateUserData, updateTripInfo, initialTrip } = this.props;
-            updateUserData(response.data.user);
             updateTripInfo(response.data.currentTrip);
             if (response.data.user){
+                updateUserData(response.data.user);
                 this.getTripsFromServer();
             } else if (!response.data.user && this.props.location.pathname === "/profile") {
                 this.props.history.push("/");
@@ -72,7 +72,7 @@ class Header extends Component {
         axios.post("/auth/logout").then(response => {
             const { updateUserData, updateTripInfo } = this.props;
             if (!response.data) { 
-                updateUserData(null);
+                updateUserData({id: null, likedTrips: []});
                 updateTripInfo(initialTrip)
             }
         });
@@ -86,10 +86,11 @@ class Header extends Component {
         const homePath = !path || path === "login" || path === "register";
         const headerStyles = (path === "login" || path === "register" || !path) ? 
             { backgroundColor: "transparent", position: "fixed" } : null;
-        const headerNavStyles = !path && !user ? { display: "flex" } : { display: "none" };
+        const headerNavStyles = user && !user.id ? { display: "flex" } : { display: "none" };
         const logoToDisplay = path === "login" || path === "register" ? logoDark : logo;
         const userImage = !user ? null : !user.profile_image ? "https://image.flaticon.com/icons/svg/189/189626.svg" : user.profile_image;
         const userBorder = path === "" ? 'grey' : 'rgba(255, 255, 255, 0.7)'  
+        const userCircle = !path ? {display: "none"} : {display: "flex"}
 
         return (
             <div className="header-container" style={headerStyles}>
@@ -103,11 +104,11 @@ class Header extends Component {
                     </ul>
                 </div>
                 { 
-                    user
+                    user && user.id
                     //  && !homePath 
                      ?
                         <div>
-                        <Link to="/profile">
+                        <Link to="/profile" style={userCircle}>
                             <div className="profile-image" 
                                 style={{
                                     backgroundImage: `url(${userImage})`,

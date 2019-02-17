@@ -3,7 +3,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import AutoComplete from "react-google-autocomplete";
-import { addStop, updateTripInfo } from "../../../ducks/reducer";
+import { addStop, updateTripInfo, updateUserData } from "../../../ducks/reducer";
 import './AddStop.scss';
 
 class AddStop extends Component {
@@ -18,13 +18,22 @@ class AddStop extends Component {
             wait: true,
             buttonDisable: true,
             viewDisable: false,
-            viewCreator: null
+            viewCreator: null,
+            liked: false
 
         }
     }
 
     componentDidMount = () => {
-        this.userCheck()
+            this.userCheck();
+            this.likeCheck();
+    }
+
+    componentDidUpdate =(prevProps) => {
+        if (prevProps !== this.props && this.props.user) {
+            this.userCheck();
+            this.likeCheck();
+        }
     }
 
     userCheck = () => {
@@ -33,15 +42,55 @@ class AddStop extends Component {
         if (tripUser === id){
             this.setState({viewDisable: false})
         } else {
+            this.setState({viewDisable: true})
             axios.get(`/api/creator/${tripUser}`)
             .then(creatorResponse => {
-                console.log('-----response',creatorResponse)
                 this.setState({
-                    viewDisable: true,
                     viewCreator: creatorResponse.data
                 })
             })
         }
+        
+    }
+
+    likeCheck = () => {
+        const {likedTrips} = this.props.user;
+        const {tripId} = this.props.currentTrip;
+        if (likedTrips.includes(tripId)) {
+            this.setState({
+                liked: true
+            })
+        }
+    }
+
+    likeTrip = () =>{
+        const {liked} = this.state;
+        const {user, currentTrip} = this.props
+        if (!user || !user.id) {
+            this.props.history.push("/login")
+        } else {
+            let newLikeList;
+            if (!liked) {
+                newLikeList = user.likedTrips ? user.likedTrips.slice() : [];
+                newLikeList.push(currentTrip.tripId);
+            } else {
+                newLikeList = user.likedTrips.filter(val => {
+                    return val !== currentTrip.tripId
+                });
+                user.likedTrips = newLikeList;
+            }
+            user.likedTrips = newLikeList;
+            axios.put(`/api/like-trip/${currentTrip.tripId}`, user)
+                .then(response => {
+                    updateUserData(user);
+                })
+        }
+            
+
+        
+        this.setState({
+            liked: !liked
+        })
     }
 
 
@@ -59,7 +108,8 @@ class AddStop extends Component {
             image: imageSet,
             latitude: latSet,
             longitude: lngSet,
-            buttonDisable: false
+            buttonDisable: false,
+            liked: "far fa-heart"
             
         })
     }
@@ -126,9 +176,8 @@ class AddStop extends Component {
     }
 
     render () {
-        const { viewDisable, viewCreator } = this.state
+        const { viewDisable, viewCreator, liked } = this.state
         const creatorImage = !viewCreator ? null : !viewCreator.profile_image ? "https://image.flaticon.com/icons/svg/189/189626.svg" : viewCreator.profile_image;
-        console.log('----creator', viewCreator)
         const { tripUser } = this.props.currentTrip
         let imageUrl;
         let displayName = "";
@@ -168,7 +217,7 @@ class AddStop extends Component {
                     Add
                     </button>
                     </div>
-                    :null
+                    :<i onClick={() => this.likeTrip()} className={liked ? "fas fa-heart liked" : "far fa-heart"}></i>
                 }
                 <h1>{displayName}</h1>
             </div>
