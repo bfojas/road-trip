@@ -45,6 +45,7 @@ app.post("/api/start-trip", mapController.start);
 app.post("/api/add-stop", mapController.add);
 app.delete("/api/new-trip", mapController.newTrip);
 app.post("/api/stopOrder", mapController.setOrder);
+app.put("/api/delete-stop/:id", mapController.deleteStop)
 app.get("/api/retrieve-trip/:id", mapController.retrieveTrip);
 
 

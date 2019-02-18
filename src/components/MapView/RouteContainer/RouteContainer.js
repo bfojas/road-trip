@@ -15,7 +15,9 @@ class RouteContainer extends Component {
         this.state = {
             showModal: false,
             modalInfo: null,
-            visitDisable: false
+            visitDisable: false,
+            dragging: false,
+            deleteStyle: "blur(0px)"
         }
     }
 
@@ -39,15 +41,44 @@ class RouteContainer extends Component {
         }
     }
 
+    dragStart = () => {
+        this.setState({
+            dragging: true,
+            deleteStyle: "blur(5px)"
+        })
+    }
+
+    dragEnd = () => {
+        this.setState({
+            dragging: false,
+            deleteStyle: "blur(0px)"
+        })
+    }
+
+    deleteStop = async (drag) => {
+        console.log('-----drag', drag)
+        const {tripWaypoints, currentTrip, updateTripInfo} = this.props;
+        let newWaypointArray = await tripWaypoints.filter(val => {
+            return val.id !== drag
+        })
+        console.log('----new array', newWaypointArray)
+        currentTrip.tripWaypoints = newWaypointArray;
+        console.log('-----------current', currentTrip)
+        axios.put(`/api/delete-stop/${drag}`, {newWaypointArray})
+        
+        updateTripInfo(currentTrip)
+
+    }
+
     drop = async (drag, drop) => {
         const {updateTripInfo} = this.props;
-        const {tripWaypoints, tripOrigin, tripDestination, tripName, tripId} = this.props.currentTrip
+        const {tripWaypoints, tripOrigin, tripDestination, tripName, tripId, featuredImage, tripUser} = this.props.currentTrip
         let newArr = tripWaypoints.slice();
         let element = newArr.splice(drag, 1);
         newArr.splice(+drop, 0 , element[0])
-        let newTrip= {tripWaypoints: newArr, tripOrigin, tripDestination, tripName, tripId}
+        let newTrip= {tripWaypoints: newArr, tripOrigin, tripDestination, tripName, tripId, featuredImage, tripUser}
         updateTripInfo(newTrip)
-        let waypointIndexArray = await tripWaypoints.map(val=> val.id)
+        let waypointIndexArray = await newArr.map(val=> val.id)
         axios.post('/api/stopOrder', {waypointIndexArray, tripId, newTrip})
             .catch(error => console.log('--- change route error', error))
     }
@@ -66,14 +97,25 @@ class RouteContainer extends Component {
     }
 
     render() {
-        const {tripOrigin, tripDestination, tripUser} = this.props.currentTrip
-        const {tripWaypoints} = this.props
-        const {showModal, modalInfo, visitDisable} = this.state
+        const {dragging} = this.state;
+        const {tripOrigin, tripDestination, tripUser} = this.props.currentTrip;
+        const {tripWaypoints} = this.props;
+        const {showModal, modalInfo, visitDisable} = this.state;
+        const deleteStyle = dragging ? {display: "flex"} : {display: "none"}
+        // const deleteStyle = {display: "flex"}
         let mappedWaypoints = tripWaypoints.length ? tripWaypoints.map((val,i) =>{
             return(
                 !visitDisable
                 ?
-                <DragDropContainer dragData={{drag:i}} key={val.name}>
+                <DragDropContainer 
+                    dragHandleClassName="far fa-circle" 
+                    dragData={{
+                        drag:i,
+                        stop: val.id
+                    }} 
+                    onDrag={this.dragStart}
+                    onDragEnd={this.dragEnd}
+                    key={val.name}>
                     <DropTarget onHit={e=>this.drop(e.dragData.drag, e.target.id)}>
                         <div key={val.name} className="stop" id={i} onClick={()=>this.showModal(val)}>
                             <h3><i className="far fa-circle"></i> {val.name}</h3>
@@ -94,7 +136,13 @@ class RouteContainer extends Component {
                 <Menu right isOpen>
                     <div className="route-holder">
                         {/* <div className="route-tab"></div> */}
-                        <AddStop showModal={this.props.showModal} />
+                        <DropTarget onHit={e=>this.deleteStop(e.dragData.stop)}>
+                            <div className="delete-stop-box" style={deleteStyle}>
+                                <i className="fas fa-trash-alt"></i>
+                                <h2>DRAG HERE<br/>TO DELETE</h2>
+                            </div>
+                            <AddStop deleteStyle={this.state.deleteStyle} showModal={this.props.showModal} />
+                        </DropTarget>
                         <div className="stop-container">
                             <div key={tripOrigin.name} className="stop" onClick={()=>this.showModal(tripOrigin)}>
                                 <h3><i className="far fa-circle"></i> {tripOrigin.name}</h3>
