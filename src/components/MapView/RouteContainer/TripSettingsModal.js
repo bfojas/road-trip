@@ -68,12 +68,13 @@ class TripSettingsModal extends Component {
 
     deleteTripFromServer() {
         const { tripId } = this.props.currentTrip;
+        const { id } = this.props.user
         axios.delete(`/api/trips/${tripId}`).then(response => {
             console.log(response);
             this.props.updateUserTrips(response.data);
             this.props.updateTripInfo(initialTrip);
             this.handleClose();
-            this.props.history.push("/profile");
+            this.props.history.push(`/profile/${id}`);
         })
     }
 

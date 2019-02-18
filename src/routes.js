@@ -11,8 +11,8 @@ export default (
         <Route path="/register" component={JoinLogin} />
         <Route path="/login" component={JoinLogin} />
         <Route path="/map" component={MapView} />
-        <Route path="/profile" component={Profile} exact />
-        <Route path="/profile/following" component={Profile} />
-        <Route path="/profile/saved" component={Profile} />
+        <Route path="/profile/:id" component={Profile} exact />
+        <Route path="/profile/:id/following" component={Profile} />
+        <Route path="/profile/:id/saved" component={Profile} />
     </Switch>
 );

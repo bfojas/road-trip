@@ -108,7 +108,7 @@ class Header extends Component {
                     //  && !homePath 
                      ?
                         <div>
-                        <Link to="/profile" style={userCircle}>
+                        <Link to={`/profile/${user.id}`} style={userCircle}>
                             <div className="profile-image" 
                                 style={{
                                     backgroundImage: `url(${userImage})`,
@@ -124,6 +124,7 @@ class Header extends Component {
                         startNew={this.startNewTrip} 
                         logout={this.logout}
                         hide={this.hideNav} 
+                        user={user}
                         />
                         </div>
                     : null

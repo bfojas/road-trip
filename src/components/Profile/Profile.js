@@ -27,7 +27,8 @@ class Profile extends Component {
         this.state = {
             showCoverEdit: false,
             showModal: false, 
-            loading: false
+            loading: false,
+            profile: 0
         }
         this.showCoverEdit = this.showCoverEdit.bind(this);
         this.hideCoverEdit = this.hideCoverEdit.bind(this);
@@ -124,13 +125,13 @@ class Profile extends Component {
                 </div>
                 <div className="profile-menu-bar">
                     <div className="profile-menu">
-                        <NavLink to="/profile" activeClassName="selected" exact>
+                        <NavLink to={`/profile/${user.id}`} activeClassName="selected" exact>
                             <div>My Trips</div>
                         </NavLink>
-                        <NavLink to="/profile/following" activeClassName="selected">
+                        <NavLink to={`/profile/${user.id}/following`} activeClassName="selected">
                             <div>Following</div>
                         </NavLink>
-                        <NavLink to="/profile/saved" activeClassName="selected">
+                        <NavLink to={`/profile/${user.id}/saved`} activeClassName="selected">
                             <div>Saved</div>
                         </NavLink>
                     </div>

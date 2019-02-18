@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./Sidebar.scss";
 
 export default function Sidebar(props) {
-    const { show, hide, startNew, logout, path } = props;
+    const { show, hide, startNew, logout, path, user } = props;
     const hideSidebar = (path === "login" || path === "register");
     const barColor = path === "" ? "#373a47" : "#fff"
     return !hideSidebar ? (
@@ -15,7 +15,7 @@ export default function Sidebar(props) {
             <Link onClick={startNew} to="/map" className="menu-item" >
                 New trip
             </Link>
-            <Link to="/profile" className="menu-item" onClick={hide}>
+            <Link to={`/profile/${user.id}`} className="menu-item" onClick={hide}>
                 Profile
             </Link>
             <Link to="/" className="menu-item" onClick={hide}>
