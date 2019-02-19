@@ -41,7 +41,7 @@ export function TripsList (props) {
         <div className="profile-tab-container">
             <div className="trips-container">
                 { 
-                    tripList.length ? 
+                    tripList && tripList.length ? 
                         tripList.map(trip => {
                             return (
                                 <div className="trip" onClick={()=>getTrip(trip)} style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${trip.featured_image})`}}>
