@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { GoogleApiWrapper } from "google-maps-react";
 import { connect } from "react-redux";
 import { DragDropContainer, DropTarget } from "react-drag-drop-container";
