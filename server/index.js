@@ -34,12 +34,13 @@ app.get("/auth/user-data", authController.getUser);
 app.post("/auth/logout", authController.logout);
 //User endpoints
 app.put("/api/user/:id", userController.updateUserInfo);
-app.get("/api/trips", userController.getUserTrips);
+app.get("/api/trips/:id", userController.getTrips);
 app.put("/api/trips", userController.updateTrip);
 app.delete("/api/trips/:id", userController.deleteTrip);
 app.get("/api/creator/:id", userController.getCreator);
 app.put("/api/like-trip/:id", userController.likeTrip);
-app.get("/api/get-liked/:id", userController.getLikedTrips)
+app.get("/api/get-liked/:id", userController.getLikedTrips);
+app.get("/user/get-profile/:id", userController.getProfile)
 //Map endpoints
 app.post("/api/start-trip", mapController.start);
 app.post("/api/add-stop", mapController.add);

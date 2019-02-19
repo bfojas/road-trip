@@ -203,7 +203,7 @@ class AddStop extends Component {
             >
                 {!viewDisable 
                     ? <i onClick={() => this.props.showModal("tripSettingsModal")} className="fas fa-cog"></i> 
-                    : <div className="creator-image" 
+                    : <div onClick={()=> this.props.history.push(`/profile/${viewCreator.id}`)} className="creator-image" 
                     style={{backgroundImage: `url(${creatorImage})`}}
                     ></div>}
                 {

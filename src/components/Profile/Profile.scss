@@ -67,13 +67,17 @@
             }
         }
 
-        .update-info {
+        .update-info, .fa-user-plus {
             display: flex;
             align-items: center;
             justify-content: center;
             position: absolute;
             right: 20px;
             bottom: 18px;
+            cursor: pointer;
+        }
+
+        .update-info {
             height: 30px;
             width: 120px;
             border-radius: 15px;
@@ -81,7 +85,10 @@
             font-size: 13px;
             font-weight: 700;
             color: $dark;
-            cursor: pointer;
+        }
+
+        .fa-user-plus {
+            font-size: 30px;
         }
 
         .update-info:hover {

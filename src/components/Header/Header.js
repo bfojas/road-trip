@@ -42,15 +42,15 @@ class Header extends Component {
             updateTripInfo(response.data.currentTrip);
             if (response.data.user){
                 updateUserData(response.data.user);
-                this.getTripsFromServer();
+                this.getTripsFromServer(response.data.user.id);
             } else if (!response.data.user && this.props.location.pathname === "/profile") {
                 this.props.history.push("/");
             }
       });
     }
 
-    getTripsFromServer() {
-        axios.get("/api/trips").then(response => {
+    getTripsFromServer(id) {
+        axios.get(`/api/trips/${id}`).then(response => {
             const { updateUserTrips } = this.props;
             updateUserTrips(response.data);
         })
