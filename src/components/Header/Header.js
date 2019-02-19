@@ -42,15 +42,15 @@ class Header extends Component {
             updateTripInfo(response.data.currentTrip);
             if (response.data.user){
                 updateUserData(response.data.user);
-                this.getTripsFromServer();
+                this.getTripsFromServer(response.data.user.id);
             } else if (!response.data.user && this.props.location.pathname === "/profile") {
                 this.props.history.push("/");
             }
       });
     }
 
-    getTripsFromServer() {
-        axios.get("/api/trips").then(response => {
+    getTripsFromServer(id) {
+        axios.get(`/api/trips/${id}`).then(response => {
             const { updateUserTrips } = this.props;
             updateUserTrips(response.data);
         })
@@ -108,7 +108,7 @@ class Header extends Component {
                     //  && !homePath 
                      ?
                         <div>
-                        <Link to="/profile" style={userCircle}>
+                        <Link to={`/profile/${user.id}`} style={userCircle}>
                             <div className="profile-image" 
                                 style={{
                                     backgroundImage: `url(${userImage})`,
@@ -124,6 +124,7 @@ class Header extends Component {
                         startNew={this.startNewTrip} 
                         logout={this.logout}
                         hide={this.hideNav} 
+                        user={user}
                         />
                         </div>
                     : null

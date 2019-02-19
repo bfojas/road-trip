@@ -18,7 +18,7 @@ create table trips (
     active_time bigint,
     origin_id integer,
     destination_id integer,
-    waypoint_order text[]
+    waypoint_order numeric[]
 );
 
 create table stops (

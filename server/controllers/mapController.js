@@ -64,7 +64,6 @@ module.exports = {
             })
             .catch(error => console.log('-----add stop', error));
         // Connects new stop to current trip in line_item table.   
-            console.log('----------added', tripId, stopId[0].id, start_distance)
         req.app.get('db').add_line_item(id, tripId, stopId[0].id, start_distance);
         res.status(200).send(stopId[0])
     },
@@ -98,10 +97,10 @@ module.exports = {
                     let wayPointOrder = await dbInstance.get_trip_order([tripId])
                         .catch(error=> console.log('----trip order error', error))
                     let tripWaypoints = []
-
                     if (wayPointOrder.length && wayPointOrder[0].waypoint_order){
                         tripWaypoints = wayPointOrder[0].waypoint_order.map(val=>{
                             return waypoints.filter(stop =>{
+                                console.log('----wp compare', val, stop.id)
                                 return +val === stop.id
                             })[0]
                         })}
@@ -116,6 +115,22 @@ module.exports = {
                     }
                     res.status(200).send({currentTrip: req.session.currentTrip });
             })
+    },
+
+    deleteStop: (req, res) => {
+        console.log('-----delete hit', req.body)
+        const dbInstance = req.app.get('db');
+        const {newWaypointArray} = req.body
+        const {id} = req.params
+        const newIndexArray = newWaypointArray.map(val => val.id)
+        dbInstance.delete_stop([req.session.currentTrip.tripId, id, newIndexArray])
+        .then(() =>{
+            req.session.currentTrip.tripWaypoints = newWaypointArray;
+            res.status(200).send(req.session.currentTrip)})
+        .catch(error => {
+            res.status(500).send({errorMessage: "Error in deleteStop method"})
+            console.log('delete stop error', error)
+        })
     }
 
 }

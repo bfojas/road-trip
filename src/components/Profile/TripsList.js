@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import axios from 'axios'
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -7,8 +7,13 @@ import "./Profile.scss";
 
 
 export function TripsList (props) {
-    const { trips, updateTripInfo } = props;
+    const [tripList, setTripList] = useState([])
 
+    console.log('----props profile', props.profile)
+    const { trips, updateTripInfo, user, profile } = props;
+
+    useEffect(()=>getTripList(), [props.profile])
+    
     let getTrip = (trip) => {
         axios.get(`/api/retrieve-trip/${trip.id}`)
             .then(res=> {
@@ -17,6 +22,25 @@ export function TripsList (props) {
             })
             .catch(error => console.log('error getting trip', error))
     }
+
+    let getTripsFromServer =(id) =>{
+        axios.get(`/api/trips/${id}`).then(response => {
+            setTripList(response.data)
+        console.log('=-=-=-=-=-hooks!!!', tripList)
+            
+        })
+    }
+
+    let getTripList = () => {
+        if (user.id !== profile.id){
+        console.log('=-=-=-=-=-hooks!!!', tripList)
+        
+            setTripList(trips)
+        } else {
+            getTripsFromServer(profile.id)
+        }
+    }
+
 
     return trips ? (
         <div className="profile-tab-container">
@@ -44,6 +68,7 @@ export function TripsList (props) {
 
 const mapStateToProps = state =>{
     return {
+        user: state.user,
         currentTrip: state.currentTrip
     }
 }

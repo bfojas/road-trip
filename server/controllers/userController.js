@@ -26,8 +26,8 @@ var self = module.exports = {
             })
     },
 
-    getUserTrips: (req, res) => {
-        const { id } = req.session.user;
+    getTrips: (req, res) => {
+        const { id } = req.params;
         const dbInstance = req.app.get("db");
         dbInstance.get_user_trips([ id ]).then(trips => {
             res.status(200).send(trips);
@@ -104,6 +104,19 @@ var self = module.exports = {
         .catch(error => {
             res.status(500).send({errorMessage: "Error in getLikedTrips method"});
             console.log('get liked trips error', error)
+        })
+    },
+
+    getProfile: (req, res) => {
+        const { id } = req.params;
+        const dbInstance = req.app.get('db');
+        dbInstance.get_profile([+id])
+        .then(profile => {
+            res.status(200).send(profile[0])
+        })
+        .catch(error => {
+            res.status(500).send({errorMessage: "Error in getProfile method"});
+            console.log('get profile error', error)
         })
     }
 

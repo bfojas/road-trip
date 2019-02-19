@@ -179,6 +179,7 @@ class AddStop extends Component {
         const { viewDisable, viewCreator, liked } = this.state
         const creatorImage = !viewCreator ? null : !viewCreator.profile_image ? "https://image.flaticon.com/icons/svg/189/189626.svg" : viewCreator.profile_image;
         const { tripUser } = this.props.currentTrip
+        const { deleteStyle } = this.props
         let imageUrl;
         let displayName = "";
         if (this.props.currentTrip.tripDestination){
@@ -195,10 +196,14 @@ class AddStop extends Component {
                 }, 500)}
             </div>
             :
-            <div className="add-stop-container" style={{backgroundImage: imageUrl}}>
+            <div className="add-stop-container" 
+                style={{
+                    backgroundImage: imageUrl,
+                    filter: deleteStyle}}
+            >
                 {!viewDisable 
                     ? <i onClick={() => this.props.showModal("tripSettingsModal")} className="fas fa-cog"></i> 
-                    : <div className="creator-image" 
+                    : <div onClick={()=> this.props.history.push(`/profile/${viewCreator.id}`)} className="creator-image" 
                     style={{backgroundImage: `url(${creatorImage})`}}
                     ></div>}
                 {

@@ -27,13 +27,40 @@ class Profile extends Component {
         this.state = {
             showCoverEdit: false,
             showModal: false, 
-            loading: false
+            loading: false,
+            profile: 0
         }
         this.showCoverEdit = this.showCoverEdit.bind(this);
         this.hideCoverEdit = this.hideCoverEdit.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.upload = this.upload.bind(this);
         this.updateUserPhotoOnServer = this.updateUserPhotoOnServer.bind(this);
+        this.getProfile = this.getProfile.bind(this)
+    }
+
+    componentDidMount() {
+        this.getProfile()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.match.params !== this.props.match.params) {
+            this.getProfile()
+        }
+    }
+
+    getProfile(){
+        console.log('----get profile hit')
+        const { user } = this.props;
+        const { id } = this.props.match.params;
+        if(user.id !== +id) {
+            axios.get(`/user/get-profile/${id}`)
+                .then(profile => {
+                    this.setState({profile: profile.data})
+                    console.log('=-=-=-state', this.state.profile)
+                })
+        } else {
+            this.setState({profile: user})
+        }
     }
 
     showCoverEdit() {
@@ -67,16 +94,15 @@ class Profile extends Component {
     }
 
     render() {
-        const { showCoverEdit, showModal, loading } = this.state;
+        const { showCoverEdit, showModal, loading, profile } = this.state;
         const { match, user, trips } = this.props;
-        const profileImage = user ? user.profile_image || avatar : avatar;
-        const coverImage = user ? user.cover_image || defaultCover : defaultCover;
-        const coverEditStyle = showCoverEdit ? { display: "flex" } : { display: "none" };
+        const profileImage = profile ? profile.profile_image || avatar : avatar;
+        const coverImage = profile ? profile.cover_image || defaultCover : defaultCover;
+        const coverEditStyle = profile.id === user.id && showCoverEdit ? { display: "flex" } : { display: "none" };
         const coverIconStyle = showCoverEdit ? { fontSize: "18px"} : { fontSize: "24px"};
         const profileLoadingStyle = loading === "profile_image" ? { display: "flex" } : { display: "none" };
         const coverLoadingStyle = loading === "cover_image" ? { display: "flex", margin: "0 auto"} : { display: "none" };
         const lockHover = loading ? { display: "none" } : null;
-
         return user ? (
             <div className="profile-container">
                 <EditProfileModal
@@ -89,23 +115,27 @@ class Profile extends Component {
                     style={{backgroundImage: `url(${coverImage})`}}
                     onMouseEnter={this.showCoverEdit}
                     onMouseLeave={this.hideCoverEdit}
-                >
-                    <i className="fas fa-camera cover-edit-icon" style={coverIconStyle}></i>
+                >   {profile.id === user.id 
+                    ? <i className="fas fa-camera cover-edit-icon" style={coverIconStyle}></i>
+                    : null}
                     <div className="cover-edit-box" style={coverEditStyle}>
                         <label htmlFor="cover-upload" style={lockHover}>EDIT COVER PHOTO</label>
                         <label style={coverLoadingStyle}>UPLOADING...</label>
                         <input type="file" name="cover_image" onChange={this.upload} id="cover-upload" accept="image/*" style={{display:'none'}} />
                     </div>
-                    <div className="update-info" 
+                    {profile.id === user.id
+                    ? <div className="update-info" 
                         onClick={this.toggleModal}
                         onMouseEnter={this.hideCoverEdit}
                         onMouseLeave={this.showCoverEdit}
                     >
                         <span>UPDATE INFO</span>
                     </div>
+                    : <i class="fas fa-user-plus"></i>}
                     <div className="profile-info">
                         <div className="profile-image" style={{backgroundImage: `url(${profileImage})`}}>
-                            <div className="profile-edit"
+                            {profile.id === user.id
+                            ? <div className="profile-edit"
                                 style={lockHover}
                                 onMouseEnter={this.hideCoverEdit}
                                 onMouseLeave={this.showCoverEdit}
@@ -116,28 +146,29 @@ class Profile extends Component {
                                 </label>
                                 <input type="file" name="profile_image" onChange={this.upload} id="profile-upload" accept="image/*" style={{display:"none"}} />
                             </div>
+                            : null}
                             <div className="loading" style={profileLoadingStyle}><span>UPLOADING...</span></div>
                         </div>
-                        <h2>{user.name}</h2>
-                        <div className="user-bio">{user.bio || "Short bio goes here."}</div>
+                        <h2>{profile.name}</h2>
+                        <div className="user-bio">{profile.bio || "Short bio goes here."}</div>
                     </div>
                 </div>
                 <div className="profile-menu-bar">
                     <div className="profile-menu">
-                        <NavLink to="/profile" activeClassName="selected" exact>
+                        <NavLink to={`/profile/${profile.id}`} activeClassName="selected" exact>
                             <div>My Trips</div>
                         </NavLink>
-                        <NavLink to="/profile/following" activeClassName="selected">
+                        <NavLink to={`/profile/${profile.id}/following`} activeClassName="selected">
                             <div>Following</div>
                         </NavLink>
-                        <NavLink to="/profile/saved" activeClassName="selected">
+                        <NavLink to={`/profile/${profile.id}/saved`} activeClassName="selected">
                             <div>Saved</div>
                         </NavLink>
                     </div>
                 </div>
-                { match.path === "/profile" && <TripsList trips={trips} /> }
-                { match.path === "/profile/following" && <Following /> }
-                { match.path === "/profile/saved" && <SavedTrips /> }
+                { match.path === "/profile/:id" && <TripsList trips={trips} profile={profile}/> }
+                { match.path === "/profile/:id/following" && <Following profile={profile} /> }
+                { match.path === "/profile/:id/saved" && <SavedTrips profile={profile} /> }
             </div>
         ) : null;
     }
