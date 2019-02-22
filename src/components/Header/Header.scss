@@ -45,7 +45,7 @@ $backgroundColor: #2955D9;
             a {
                 letter-spacing: 0.03em;
                 text-decoration: none;
-                color: $text-light;
+                color: #fff;
             }
 
             li {
@@ -85,7 +85,7 @@ $backgroundColor: #2955D9;
         height: 45px;
         border-radius: 50%;
         // border: 3px solid rgba(255, 255, 255, 0.7);
-        background-image: url("../../images/profile-image.jpg");
+        background-image: url("https://image.flaticon.com/icons/svg/189/189626.svg");
         background-size: cover;
         box-sizing: border-box;
 

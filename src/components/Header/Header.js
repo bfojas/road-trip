@@ -90,10 +90,12 @@ class Header extends Component {
         const headerStyles = (path === "login" || path === "register" || !path) ? 
             { backgroundColor: "transparent", position: "fixed" } : null;
         const headerNavStyles = user && !user.id ? { display: "flex" } : { display: "none" };
+        const headerLinkStyles = !path ? { color: "#818181" } : null;
         const logoToDisplay = path === "login" || path === "register" ? logoDark : logo;
         const userImage = !user ? null : !user.profile_image ? "https://image.flaticon.com/icons/svg/189/189626.svg" : user.profile_image;
         const userBorder = path === "" ? 'grey' : 'rgba(255, 255, 255, 0.7)'  
         const userCircle = !path ? {display: "none"} : {display: "flex"}
+        console.log("USER IMAGE", userImage);
 
         return (
             <div className="header-container" style={headerStyles}>
@@ -102,8 +104,8 @@ class Header extends Component {
                 </div>
                 <div className="header-nav" style={headerNavStyles}>
                     <ul>
-                        <Link to="/register"><li>Sign Up</li></Link>
-                        <Link to="/login"><li>Login <i className="fas fa-sign-in-alt"></i></li></Link>
+                        <Link to="/register" style={headerLinkStyles}><li>Sign Up</li></Link>
+                        <Link to="/login" style={headerLinkStyles}><li>Login <i className="fas fa-sign-in-alt"></i></li></Link>
                     </ul>
                 </div>
                 { 
@@ -111,24 +113,24 @@ class Header extends Component {
                     //  && !homePath 
                      ?
                         <div>
-                        <Link to={`/profile/${user.id}`} style={userCircle}>
-                            <div className="profile-image" 
-                                style={{
-                                    backgroundImage: `url(${userImage})`,
-                                    border: `3px solid ${userBorder}`
-                            }}>
-                                {/* <div className="alert-circle">4</div> */}
-                            </div>
-                        </Link>
-                        <Sidebar 
-                        className="sidebar" 
-                        path={path} 
-                        show={showNav} 
-                        startNew={this.startNewTrip} 
-                        logout={this.logout}
-                        hide={this.hideNav} 
-                        user={user}
-                        />
+                            <Link to={`/profile/${user.id}`} style={userCircle}>
+                                <div className="profile-image" 
+                                    style={{
+                                        backgroundImage: `url(${userImage})`,
+                                        border: `3px solid ${userBorder}`
+                                }}>
+                                    {/* <div className="alert-circle">4</div> */}
+                                </div>
+                            </Link>
+                            <Sidebar 
+                            className="sidebar" 
+                            path={path} 
+                            show={showNav} 
+                            startNew={this.startNewTrip} 
+                            logout={this.logout}
+                            hide={this.hideNav} 
+                            user={user}
+                            />
                         </div>
                     : null
                 }
