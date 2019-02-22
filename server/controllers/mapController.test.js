@@ -10,7 +10,7 @@ describe('unit tests', () => {
     })
 
     describe('get trips', () => {
-        it('should get trips from server', () => {
+        it('should delete trips from server', () => {
             axios.delete('/api/trips')
         })
     })
@@ -29,7 +29,7 @@ describe('integration test', () => {
     })
 
     describe('get trips', () => {
-        it('should get trips from server', () => {
+        it('should delete trips from server', () => {
             axios.delete('/api/trips')
             .then(res => {
                 res.data = expect.any(Object)

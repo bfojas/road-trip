@@ -56,7 +56,7 @@ class AddStop extends Component {
     likeCheck = () => {
         const {likedTrips} = this.props.user;
         const {tripId} = this.props.currentTrip;
-        if (likedTrips.includes(tripId)) {
+        if (likedTrips && likedTrips.includes(tripId)) {
             this.setState({
                 liked: true
             })

@@ -185,7 +185,7 @@ class MapRender extends Component {
 			  onClick={e=>console.log('click', e)}
               // controlPosition={google.maps.ControlPosition.TOP_LEFT}
               defaultOptions={{
-                styles : mapStyle,
+                // styles : mapStyle,
                 streetViewControl: false,
                 scaleControl: false,
                 mapTypeControl: false,
