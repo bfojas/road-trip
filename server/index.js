@@ -50,6 +50,5 @@ app.put("/api/delete-stop/:id", mapController.deleteStop)
 app.get("/api/retrieve-trip/:id", mapController.retrieveTrip);
 
 
-
 const PORT = 4000;
 app.listen(PORT, console.log(`Server listening on port ${PORT}`));
