@@ -27,8 +27,9 @@ class Header extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        const {user} = this.props
         if (this.props.user && this.props.location.pathname !== nextProps.location.pathname) {
-            this.getTripsFromServer();
+            this.getTripsFromServer(user.id);
         }
     }
 
@@ -50,10 +51,12 @@ class Header extends Component {
     }
 
     getTripsFromServer(id) {
-        axios.get(`/api/trips/${id}`).then(response => {
-            const { updateUserTrips } = this.props;
-            updateUserTrips(response.data);
-        })
+        if (id) {
+            axios.get(`/api/trips/${id}`).then(response => {
+                const { updateUserTrips } = this.props;
+                updateUserTrips(response.data);
+            })
+        }
     }
 
     // getHomePageTripsFromServer() {

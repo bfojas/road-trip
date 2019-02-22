@@ -1,5 +1,5 @@
 const initialState = {
-    user: {id: null, likedTrips: []},
+    user: {id: 0, likedTrips: []},
     trips: null,
     currentTrip: {
         tripOrigin: null,

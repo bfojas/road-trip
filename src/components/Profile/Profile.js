@@ -58,10 +58,12 @@ class Profile extends Component {
         if(user.id !== +id) {
             axios.get(`/user/get-profile/${id}`)
                 .then(profile => {
+                    console.log('---prefile',profile.data)
                     this.setState({profile: profile.data})
                 })
         } else {
             this.setState({profile: user})
+            console.log('----state', this.state.profile)
         }
     }
 
