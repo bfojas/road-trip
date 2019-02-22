@@ -8,6 +8,7 @@ import "./Profile.scss";
 
 export function TripsList (props) {
     const [tripList, setTripList] = useState([])
+
     const { trips, updateTripInfo, user, profile } = props;
 
     useEffect(()=>getTripList(), [props.profile, props.trips])
@@ -22,10 +23,11 @@ export function TripsList (props) {
     }
 
     let getTripsFromServer =(id) =>{
+        if (id){
         axios.get(`/api/trips/${id}`).then(response => {
             setTripList(response.data)
             
-        })
+        })}
     }
 
     let getTripList = () => {
@@ -44,7 +46,7 @@ export function TripsList (props) {
                     tripList && tripList.length ? 
                         tripList.map(trip => {
                             return (
-                                <div className="trip" onClick={()=>getTrip(trip)} style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${trip.featured_image})`}}>
+                                <div key={trip.id} className="trip" onClick={()=>getTrip(trip)} style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${trip.featured_image})`}}>
                                     <h3>{trip.name.toUpperCase()}</h3>
                                 </div>
                             );

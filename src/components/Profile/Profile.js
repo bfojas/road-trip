@@ -46,17 +46,19 @@ class Profile extends Component {
         if (prevProps.match.params !== this.props.match.params) {
             this.getProfile()
         }
+        if (prevProps.user !== this.props.user) {
+            this.getProfile()
+        }
     }
 
     getProfile(){
-        console.log('----get profile hit')
+        console.log('-------profile hit')
         const { user } = this.props;
         const { id } = this.props.match.params;
         if(user.id !== +id) {
             axios.get(`/user/get-profile/${id}`)
                 .then(profile => {
                     this.setState({profile: profile.data})
-                    console.log('=-=-=-state', this.state.profile)
                 })
         } else {
             this.setState({profile: user})
@@ -131,7 +133,7 @@ class Profile extends Component {
                     >
                         <span>UPDATE INFO</span>
                     </div>
-                    : <i class="fas fa-user-plus"></i>}
+                    : <i className="fas fa-user-plus"></i>}
                     <div className="profile-info">
                         <div className="profile-image" style={{backgroundImage: `url(${profileImage})`}}>
                             {profile.id === user.id
