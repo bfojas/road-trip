@@ -95,7 +95,6 @@ class Header extends Component {
         const userImage = !user ? null : !user.profile_image ? "https://image.flaticon.com/icons/svg/189/189626.svg" : user.profile_image;
         const userBorder = path === "" ? 'grey' : 'rgba(255, 255, 255, 0.7)'  
         const userCircle = !path ? {display: "none"} : {display: "flex"}
-        console.log("USER IMAGE", userImage);
 
         return (
             <div className="header-container" style={headerStyles}>

@@ -36,21 +36,21 @@ export function Homepage(props) {
             <section></section>
             <div className="homepage-banner"></div>
             <div className="featured-trips-container">
-                <div className="featured-trip" onClick={()=>getTrip(93)} style={{backgroundImage: "linear-gradient(rgba(225, 225, 225, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.pexels.com/photos/41004/alaska-wilderness-sky-aurora-borealis-41004.jpeg')"}}>
+                <div className="featured-trip" onClick={()=>getTrip(6)} style={{backgroundImage: "linear-gradient(rgba(225, 225, 225, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.pexels.com/photos/41004/alaska-wilderness-sky-aurora-borealis-41004.jpeg')"}}>
                     <i className="fas fa-bookmark"></i>
                     <div>
                         <h3>ALASKA</h3>
                         <p>Featured trip</p>
                     </div>
                 </div>
-                <div className="featured-trip" onClick={()=>getTrip(95)} style={{backgroundImage: "linear-gradient(rgba(225, 225, 225, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg')"}}>
+                <div className="featured-trip" onClick={()=>getTrip(7)} style={{backgroundImage: "linear-gradient(rgba(225, 225, 225, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.pexels.com/photos/459028/pexels-photo-459028.jpeg')"}}>
                     <i className="fas fa-bookmark"></i>
                     <div>
                         <h3>YOSEMITE</h3>
                         <p>Featured trip</p>
                     </div>
                 </div>
-                <div className="featured-trip" onClick={()=>getTrip(94)} style={{backgroundImage: "linear-gradient(rgba(225, 225, 225, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.pexels.com/photos/723496/pexels-photo-723496.jpeg')"}}>
+                <div className="featured-trip" onClick={()=>getTrip(100)} style={{backgroundImage: "linear-gradient(rgba(225, 225, 225, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.pexels.com/photos/723496/pexels-photo-723496.jpeg')"}}>
                     <i className="fas fa-bookmark"></i>
                     <div>
                         <h3>CANADA</h3>

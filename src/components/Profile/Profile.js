@@ -160,7 +160,7 @@ class Profile extends Component {
                 <div className="profile-menu-bar">
                     <div className="profile-menu">
                         <NavLink to={`/profile/${profile.id}`} activeClassName="selected" exact>
-                            <div>My Trips</div>
+                            <div>Trips</div>
                         </NavLink>
                         <NavLink to={`/profile/${profile.id}/following`} activeClassName="selected">
                             <div>Following</div>

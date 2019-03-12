@@ -6,6 +6,9 @@ import  { compose, withProps, lifecycle } from "recompose";
 import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer } from "react-google-maps";
 import { connect } from "react-redux";
 import { withRouter} from "react-router-dom";
+import axios from 'axios'
+import {initialTrip, updateTripInfo} from "../../../ducks/reducer"
+import alertify from "alertifyjs";
 
 class MapRender extends Component {
 
@@ -119,7 +122,7 @@ class MapRender extends Component {
 			]
 		}];      
         let originLongLat, destinationLongLat;
-        const {tripWaypoints, currentTrip} = this.props;
+        const {tripWaypoints, currentTrip, updateTripInfo} = this.props;
 		// If destination exists for trip, sets map origin and destination coordinates based 
 		// off current trip values in Redux, otherwise sets default coordinate values.
 		if (currentTrip && currentTrip.tripDestination) {
@@ -172,7 +175,12 @@ class MapRender extends Component {
 									directions: {...result},
 									markers: true
 								})
-							} else {this.props.history.push('/')
+							} else {
+								alertify.error("Oops. That route is not possible.")
+								updateTripInfo(initialTrip);
+								axios.delete(`/api/trips/${currentTrip.tripId}`).catch(error=> console.log("Delete trip error", error))
+        				axios.delete("/api/new-trip").catch(error => console.log("New trip error", error));
+								// this.props.history.push('/')
 								// console.error(`error fetching directions ${result}`);
 							}
 						})
@@ -214,4 +222,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(MapRender));
+export default withRouter(connect(mapStateToProps, {updateTripInfo})(MapRender));

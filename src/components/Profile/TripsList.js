@@ -8,7 +8,7 @@ import "./Profile.scss";
 
 export function TripsList (props) {
     const [tripList, setTripList] = useState([])
-
+    const [loading, setLoading] = useState(true)
     const { trips, updateTripInfo, user, profile } = props;
 
     useEffect(()=>getTripList(), [props.profile, props.trips])
@@ -24,9 +24,12 @@ export function TripsList (props) {
 
     let getTripsFromServer =(id) =>{
         if (id){
-        axios.get(`/api/trips/${id}`).then(response => {
+            // setLoading(true)
+            axios.get(`/api/trips/${id}`).then(response => {
             setTripList(response.data)
-            
+            setLoading(false);
+            console.log('load hit', loading)
+
         })}
     }
 
@@ -35,12 +38,14 @@ export function TripsList (props) {
             getTripsFromServer(profile.id)
         } else {
             setTripList(trips)
+            setLoading(false)
         }
     }
 
 
     return trips ? (
         <div className="profile-tab-container">
+            {!loading ?
             <div className="trips-container">
                 { 
                     tripList && tripList.length ? 
@@ -58,6 +63,7 @@ export function TripsList (props) {
                     </div>
                 }
             </div>
+            : <div className="trips-container">Loading...</div>}
         </div>
     ) : null;
 

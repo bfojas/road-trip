@@ -1,4 +1,5 @@
-const {initialTrip} = require('./userController')
+const {initialTrip} = require('./userController');
+const axios =  require('axios');
 
 module.exports = {
     //Creates trip, finds/adds stops for origin and destination, connects stops to trip.
@@ -131,6 +132,18 @@ module.exports = {
             res.status(500).send({errorMessage: "Error in deleteStop method"})
             console.log('delete stop error', error)
         })
+    },
+
+    getGoogle: (req, res) => {
+        axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${req.params.id}&fields=photo&key=${process.env.REACT_APP_GOOGLE_MAP_KEY}`)
+        .then(response=> {
+            if (response.data.result.photos && response.data.result.photos.length) {
+                res.status(200).send(response.data.result.photos[0].photo_reference)
+            } else {
+                res.status(200).send(null)
+            }
+        })
+        .catch(error=> console.log('google error', error))
     }
 
 }

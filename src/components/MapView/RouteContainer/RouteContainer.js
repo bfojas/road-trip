@@ -41,6 +41,10 @@ class RouteContainer extends Component {
         }
     }
 
+    getImage = (place) => {
+
+    }
+
     dragStart = () => {
         this.setState({
             dragging: true,
@@ -104,6 +108,7 @@ class RouteContainer extends Component {
         const deleteStyle = dragging ? {display: "flex"} : {display: "none"}
         // const deleteStyle = {display: "flex"}
         let mappedWaypoints = tripWaypoints.length ? tripWaypoints.map((val,i) =>{
+
             return(
                 !visitDisable
                 ?
@@ -116,6 +121,9 @@ class RouteContainer extends Component {
                     onDrag={this.dragStart}
                     onDragEnd={this.dragEnd}
                     key={val.name}>
+                    {
+                        // axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/output?parameters`)
+                    }
                     <DropTarget onHit={e=>this.drop(e.dragData.drag, e.target.id)}>
                         <div key={val.name} className="stop" id={i} onClick={()=>this.showModal(val)}>
                             <h3><i className="far fa-circle"></i> {val.name}</h3>

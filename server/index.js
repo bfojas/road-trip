@@ -48,6 +48,7 @@ app.delete("/api/new-trip", mapController.newTrip);
 app.post("/api/stopOrder", mapController.setOrder);
 app.put("/api/delete-stop/:id", mapController.deleteStop)
 app.get("/api/retrieve-trip/:id", mapController.retrieveTrip);
+app.get("/api/get-google/:id", mapController.getGoogle)
 
 
 const PORT = 4000;
