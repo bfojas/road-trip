@@ -73,7 +73,6 @@ module.exports = {
                             }
                                 
                             req.session.currentTrip =  initialTrip;
-                            console.log('---------login id', user.id)
                             dbInstance.get_recent_trip([user.id])
                             .then(async trip => {
                                 if (trip.length) {
